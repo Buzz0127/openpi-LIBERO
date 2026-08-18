@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+
+# Local secrets and machine-specific environment files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Codex/server orchestration that contains local thread and network details
+/AGENTS.md
+
+# Ephemeral process and runtime files
+*.pid
+*.exit_code
+*.log
+*.stop
+
+# Raw control telemetry remains local; reports and structured outcomes are kept
+/artifacts/**/control/
+/artifacts/**/calibration/
+/artifacts/**/evaluation/gpu_samples.jsonl
+/artifacts/**/evaluation/run_config.json
+/artifacts/**/evaluation/*_actions.json
+/artifacts/**/manifest.json
+

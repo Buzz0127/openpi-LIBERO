@@ -1,0 +1,30 @@
+{
+  "completed_at_utc": "2026-08-15T03:34:04.798739+00:00",
+  "completed_initial_states": [
+    1
+  ],
+  "episodes_completed": 1,
+  "failures": 0,
+  "gpu": {
+    "errors": [],
+    "memory_total_mib": 97887.0,
+    "peak_memory_used_mib_sampled": 52208.0,
+    "peak_power_w": 471.76,
+    "peak_temperature_c": 84.0,
+    "peak_utilization_percent_sampled": 93.0,
+    "physical_gpu": 1,
+    "pressure_threshold_fraction": 0.9,
+    "pressure_triggered": false,
+    "sample_count": 29
+  },
+  "requested_initial_states": [
+    1
+  ],
+  "schema_version": 1,
+  "success_rate": 1.0,
+  "successes": 1,
+  "suite": "libero_spatial",
+  "task_id": 0,
+  "total_control_steps": 75,
+  "total_policy_requests": 15
+}
