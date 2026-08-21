@@ -10,13 +10,34 @@ physical_gpu=$1
 output_dir=$2
 control_dir=$3
 
-openpi_root="$HOME/projects/openpi"
+openpi_root="${OPENPI_ROOT:-$HOME/projects/openpi}"
 model_python="$openpi_root/.venv/bin/python"
 libero_python="$openpi_root/examples/libero/.venv/bin/python"
-evaluator="$HOME/projects/openpi-eval-tools/eval_libero_bounded.py"
-checkpoint="$HOME/.cache/openpi/openpi-assets/checkpoints/pi0_libero"
-egl_vendor="$HOME/tmp/openpi-setup/egl-vendor/10_nvidia.json"
-libero_config="$HOME/tmp/openpi-setup/libero-config-test.sJJtfa"
+evaluator="${EVALUATOR_PATH:-$HOME/projects/openpi-eval-tools/eval_libero_bounded.py}"
+checkpoint="${CHECKPOINT_DIR:-$HOME/.cache/openpi/openpi-assets/checkpoints/pi0_libero}"
+egl_vendor="${EGL_VENDOR_FILE:-$HOME/tmp/openpi-setup/egl-vendor/10_nvidia.json}"
+libero_config="${LIBERO_CONFIG_PATH:-$HOME/projects/openpi-eval-tools/config/libero}"
+
+# Evaluation scope defaults to the already validated 10-state run. Override
+# these variables to stage a smaller smoke run before expanding the scope.
+suite="${LIBERO_SUITE:-libero_spatial}"
+task_id="${LIBERO_TASK_ID:-0}"
+initial_states="${LIBERO_INITIAL_STATES:-0:10}"
+max_episodes="${LIBERO_MAX_EPISODES:-10}"
+seed="${LIBERO_SEED:-7}"
+replan_steps="${LIBERO_REPLAN_STEPS:-5}"
+max_control_steps="${LIBERO_MAX_CONTROL_STEPS:-220}"
+max_output_bytes="${LIBERO_MAX_OUTPUT_BYTES:-1073741824}"
+resume="${LIBERO_RESUME:-0}"
+
+if [[ $resume != 0 && $resume != 1 ]]; then
+  echo "LIBERO_RESUME must be 0 or 1" >&2
+  exit 3
+fi
+resume_args=()
+if [[ $resume == 1 ]]; then
+  resume_args=(--resume)
+fi
 
 mkdir -p "$control_dir"
 server_log="$control_dir/server.log"
@@ -33,9 +54,13 @@ if [[ ! -f "$control_dir/workload.start" ]]; then
   echo "workload start gate timeout" >&2
   exit 12
 fi
-if [[ -e "$output_dir" ]]; then
+if [[ -e "$output_dir" && $resume != 1 ]]; then
   echo "output directory already exists: $output_dir" >&2
   exit 13
+fi
+if [[ ! -e "$output_dir" && $resume == 1 ]]; then
+  echo "resume output directory does not exist: $output_dir" >&2
+  exit 14
 fi
 
 stop_server() {
@@ -71,6 +96,15 @@ export LIBERO_CONFIG_PATH="$libero_config"
   echo "CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
   echo "XLA_PYTHON_CLIENT_PREALLOCATE=$XLA_PYTHON_CLIENT_PREALLOCATE"
   echo "MUJOCO_EGL_DEVICE_ID=$MUJOCO_EGL_DEVICE_ID"
+  echo "suite=$suite"
+  echo "task_id=$task_id"
+  echo "initial_states=$initial_states"
+  echo "max_episodes=$max_episodes"
+  echo "seed=$seed"
+  echo "replan_steps=$replan_steps"
+  echo "max_control_steps=$max_control_steps"
+  echo "max_output_bytes=$max_output_bytes"
+  echo "resume=$resume"
   echo "workload_pid=$$"
   echo "workload_pgid=$(ps -o pgid= -p $$ | tr -d ' ')"
 } > "$control_dir/workload_identity.txt"
@@ -105,16 +139,16 @@ fi
 
 set +e
 "$libero_python" "$evaluator" \
-  --suite libero_spatial \
-  --task-id 0 \
-  --initial-states 0:10 \
-  --max-episodes 10 \
-  --seed 7 \
+  --suite "$suite" \
+  --task-id "$task_id" \
+  --initial-states "$initial_states" \
+  --max-episodes "$max_episodes" \
+  --seed "$seed" \
   --host 127.0.0.1 \
   --port 8000 \
   --server-wait-seconds 30 \
-  --replan-steps 5 \
-  --max-control-steps 220 \
+  --replan-steps "$replan_steps" \
+  --max-control-steps "$max_control_steps" \
   --physical-gpu "$physical_gpu" \
   --mujoco-egl-device-id "$physical_gpu" \
   --egl-vendor-file "$egl_vendor" \
@@ -128,7 +162,8 @@ set +e
   --expected-openpi-commit 15a9616a00943ada6c20a0f158e3adb39df2ccac \
   --expected-libero-commit f78abd68ee283de9f9be3c8f7e2a9ad60246e95c \
   --output-dir "$output_dir" \
-  --max-output-bytes 1073741824 \
+  --max-output-bytes "$max_output_bytes" \
+  "${resume_args[@]}" \
   > "$evaluator_log" 2>&1
 evaluator_rc=$?
 set -e

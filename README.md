@@ -16,12 +16,13 @@ does not use the current default π0.5-LIBERO policy.
 | --- | --- | --- | --- |
 | Closed-loop smoke test | `libero_spatial`, task 0, initial state 0 | 1/1 success | Confirms that the full simulator-to-policy loop works |
 | Mapping calibration | JAX, PyTorch visibility, MuJoCo EGL | Passed | Confirms single-GPU isolation and rendering |
-| Bounded evaluation | `libero_spatial`, task 0, initial states 0-9, seed 7 | 9/10 success | A 10-state result for one task, not a full LIBERO benchmark |
+| First bounded evaluation | `libero_spatial`, task 0, initial states 0-9, seed 7 | 9/10 success | First 10-state milestone |
+| Complete task-state evaluation | `libero_spatial`, task 0, initial states 0-49, seed 7 | 48/50 success (96.0%) | All 50 fixed states for one task, not a full LIBERO benchmark |
 
-The failed episode was initial state 1, which reached the configured limit of
-220 control steps without satisfying the LIBERO goal predicate. The complete
-10-state report is available in
-[`artifacts/libero-eval/pi0_libero_spatial_task0_init0-9_seed7/run_report.md`](artifacts/libero-eval/pi0_libero_spatial_task0_init0-9_seed7/run_report.md).
+The failed episodes were initial states 1 and 35. Both reached the configured
+limit of 220 control steps without satisfying the LIBERO goal predicate. The
+combined 50-state report is available in
+[`artifacts/libero-eval/pi0_libero_spatial_task0_init0-49_seed7/run_report.md`](artifacts/libero-eval/pi0_libero_spatial_task0_init0-49_seed7/run_report.md).
 
 ## Fixed source and model identity
 
@@ -79,19 +80,34 @@ tools/
   gpu_utilization_guard.py            shared-GPU pause/resume guard
   test_gpu_utilization_guard.py       guard behavior tests
   verify_gpu_mapping.sh               JAX/PyTorch/EGL mapping check
+  probe_pi0_libero_checkpoint.sh      bounded checkpoint-load readiness probe
+  probe_pi0_libero_inference.sh       bounded one-request inference probe
   run_gpu_guarded_supervisor.sh       exact guard wrapper and PID cleanup
   run_pi0_libero_batch_workload.sh    original π0 server + 10-state workload
 config/
   10_nvidia.json                      task-scoped NVIDIA EGL vendor file
+docs/
+  algorithm_overview.md               beginner-level model and control overview
+  deployment_runbook.md               repeatable no-Docker LXC deployment guide
 artifacts/
   libero-smoke/                       one-episode functional evidence
   libero-calibration/                 mapping and capacity evidence
-  libero-eval/                        10-state structured results and videos
+  libero-eval/                        staged 10-state and 50-state task evidence
 ```
 
 Raw server logs, process IDs, machine-specific run configuration and dense
 action traces remain local and are excluded from Git. Reports, result summaries,
 per-episode outcomes and compact videos are kept as reproducible evidence.
+
+## Learning and deployment notes
+
+- [Algorithm overview](docs/algorithm_overview.md) explains the inputs,
+  checkpoint transforms, action expert, flow-matching intuition, 50-step
+  action chunk and five-step closed-loop replanning without a line-by-line
+  source walkthrough.
+- [Deployment runbook](docs/deployment_runbook.md) covers the fresh-SSH
+  preflight, pinned identities, dual Python environments, CPU-only dry run,
+  shared-GPU guard, staged single-episode launch, resume and cleanup.
 
 ## Evaluation workflow
 
@@ -104,6 +120,7 @@ per-episode outcomes and compact videos are kept as reproducible evidence.
 6. Run a one-episode smoke test.
 7. Run the bounded evaluator for 10 fixed initial states.
 8. Inspect success and failure videos before expanding to 50 states.
+9. Run only the remaining states 10-49 and merge the two non-overlapping runs.
 
 Useful CPU-only checks:
 

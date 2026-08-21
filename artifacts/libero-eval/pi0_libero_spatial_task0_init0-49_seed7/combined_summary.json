@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "suite": "libero_spatial",
+  "task_id": 0,
+  "seed": 7,
+  "policy_config": "pi0_libero",
+  "requested_initial_states": "0:50",
+  "episodes_completed": 50,
+  "successes": 48,
+  "failures": 2,
+  "success_rate": 0.96,
+  "failed_initial_states": [
+    1,
+    35
+  ],
+  "total_control_steps": 4092,
+  "total_policy_requests": 838,
+  "mean_control_steps": 81.84,
+  "source_runs": [
+    {
+      "initial_states": "0:10",
+      "result_path": "../pi0_libero_spatial_task0_init0-9_seed7/evaluation/results.jsonl"
+    },
+    {
+      "initial_states": "10:50",
+      "result_path": "../pi0_libero_spatial_task0_init10-49_seed7/evaluation/results.jsonl"
+    }
+  ]
+}

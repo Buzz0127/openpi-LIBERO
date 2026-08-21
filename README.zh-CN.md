@@ -16,11 +16,12 @@
 | --- | --- | --- | --- |
 | 闭环烟雾测试 | `libero_spatial`、task 0、initial state 0 | 1/1 成功 | 证明仿真器到策略服务器的完整闭环可以运行 |
 | 设备映射校准 | JAX、PyTorch 可见性、MuJoCo EGL | 通过 | 证明单 GPU 隔离与离屏渲染正确 |
-| 有界评测 | `libero_spatial`、task 0、initial states 0-9、seed 7 | 9/10 成功 | 单个任务的 10 状态结果，不是完整 LIBERO benchmark |
+| 首次有界评测 | `libero_spatial`、task 0、initial states 0-9、seed 7 | 9/10 成功 | 首个 10 状态里程碑 |
+| 完整 task-state 评测 | `libero_spatial`、task 0、initial states 0-49、seed 7 | 48/50 成功（96.0%） | 单个任务的全部 50 个固定状态，不是完整 LIBERO benchmark |
 
-唯一失败的是 initial state 1：episode 达到设定的 220 个控制步上限，仍未满足
-LIBERO 成功谓词。完整的 10 状态实验记录位于
-[`artifacts/libero-eval/pi0_libero_spatial_task0_init0-9_seed7/run_report.md`](artifacts/libero-eval/pi0_libero_spatial_task0_init0-9_seed7/run_report.md)。
+失败的是 initial states 1 和 35：两者都达到设定的 220 个控制步上限，仍未满足
+LIBERO 成功谓词。合并后的 50 状态实验记录位于
+[`artifacts/libero-eval/pi0_libero_spatial_task0_init0-49_seed7/run_report.md`](artifacts/libero-eval/pi0_libero_spatial_task0_init0-49_seed7/run_report.md)。
 
 ## 固定的源码与模型身份
 
@@ -75,19 +76,33 @@ tools/
   gpu_utilization_guard.py            共享 GPU 暂停/恢复保护器
   test_gpu_utilization_guard.py       保护器行为测试
   verify_gpu_mapping.sh               JAX/PyTorch/EGL 映射检查
+  probe_pi0_libero_checkpoint.sh      有界 checkpoint 加载与就绪探针
+  probe_pi0_libero_inference.sh       有界单请求推理探针
   run_gpu_guarded_supervisor.sh       保护器包装与精确 PID 清理
   run_pi0_libero_batch_workload.sh    原始 π0 服务与 10 状态任务
 config/
   10_nvidia.json                      任务级 NVIDIA EGL vendor 配置
+docs/
+  algorithm_overview.md               面向初学者的算法与闭环概览
+  deployment_runbook.md               可重复的无 Docker LXC 部署指南
 artifacts/
   libero-smoke/                       单 episode 功能证据
   libero-calibration/                 设备映射与容量校准证据
-  libero-eval/                        10 状态结构化结果与视频
+  libero-eval/                        分阶段的 10 状态与 50 状态 task 证据
 ```
 
 原始服务器日志、PID、机器相关运行配置和密集动作轨迹只保留在本机，并由
 `.gitignore` 排除。实验报告、结果摘要、逐 episode 结果和小体积视频作为
 可验证证据保留在 Git 中。
+
+## 学习与部署文档
+
+- [算法概览](docs/algorithm_overview.md)：用初学者可复述的方式解释输入、
+  checkpoint 变换、action expert、flow matching 直觉、50 步动作块，以及
+  每执行 5 步重新观察和规划的闭环过程，不逐行研读源码。
+- [部署 Runbook](docs/deployment_runbook.md)：覆盖全新 SSH 会话预检、固定
+  版本、双 Python 环境、CPU-only dry run、共享 GPU 保护、单 episode
+  分阶段启动、断点恢复和清理验收。
 
 ## 评测流程
 
@@ -99,6 +114,7 @@ artifacts/
 6. 完成一个 episode 的闭环烟雾测试。
 7. 使用有界评测器运行 10 个固定初始状态。
 8. 对比成功和失败视频，再决定是否扩展到 50 个状态。
+9. 只运行剩余的 states 10–49，再合并两段互不重叠的结果。
 
 不使用 GPU 的检查命令：
 
@@ -128,4 +144,3 @@ bash -n tools/run_pi0_libero_batch_workload.sh
   初始状态。
 - 更完整的项目结果还需要扩展任务或 suite、建立失败类型、统计延迟，并与
   官方基线进行有边界的对比。
-
