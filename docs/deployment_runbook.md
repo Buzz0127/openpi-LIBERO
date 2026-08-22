@@ -282,4 +282,15 @@ state 0、seed 7 的一个 episode，77 个控制步和16次策略请求后成�
 initial states 10–49，取得39/40；与已有 states 0–9 合并后，task 0 的50个
 固定状态为48/50（96.0%）。失败 states 1 和35 都在220步上限结束且没有系统
 异常。该结果仍只覆盖一个 task，不是完整 LIBERO Spatial benchmark。
+
+在此基础上，`run_pi0_libero_remaining_workload.sh` 以同一原始 checkpoint、seed
+和变换协议顺序完成其余39个 task。编排器只启动一个 Policy Server，对每个 task
+运行 states 0–49，并根据 `run_config.json` 与 `results.jsonl` 跳过已完成 states；
+中断后必须在相同物理 GPU 映射下恢复。39个 task 新增1,950 episodes，结合已有
+Spatial task 0 后形成2,000-episode四-suite结果：1,845/2,000（92.25%）。完整
+汇总见 [`../artifacts/libero-benchmark/pi0_libero_official4_seed7/run_report.md`](../artifacts/libero-benchmark/pi0_libero_official4_seed7/run_report.md)。
+
+长任务通过 `nohup` 与独立 session 脱离 SSH，但 GPU 工作负载本身仍由保护器创建
+和监管；Mac 断线不会让任务失去暂停、恢复或紧急停止保护。本次保护器退出码为0，
+全部进程、端口8000和GPU显存均在完成后释放。
 - 本地保护器两项模拟测试和全部 Shell 语法检查通过。

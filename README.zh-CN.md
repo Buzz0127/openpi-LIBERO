@@ -18,10 +18,18 @@
 | 设备映射校准 | JAX、PyTorch 可见性、MuJoCo EGL | 通过 | 证明单 GPU 隔离与离屏渲染正确 |
 | 首次有界评测 | `libero_spatial`、task 0、initial states 0-9、seed 7 | 9/10 成功 | 首个 10 状态里程碑 |
 | 完整 task-state 评测 | `libero_spatial`、task 0、initial states 0-49、seed 7 | 48/50 成功（96.0%） | 单个任务的全部 50 个固定状态，不是完整 LIBERO benchmark |
+| 四 suite 完整评测 | 4 suites、40 tasks、每个 task 50 states、seed 7 | 1845/2000 成功（92.25%） | 固定版本和固定 seed 下的完整四-suite结果 |
 
-失败的是 initial states 1 和 35：两者都达到设定的 220 个控制步上限，仍未满足
-LIBERO 成功谓词。合并后的 50 状态实验记录位于
-[`artifacts/libero-eval/pi0_libero_spatial_task0_init0-49_seed7/run_report.md`](artifacts/libero-eval/pi0_libero_spatial_task0_init0-49_seed7/run_report.md)。
+| Suite | 成功 / Episodes | 成功率 |
+| --- | ---: | ---: |
+| LIBERO-Spatial | 482 / 500 | 96.40% |
+| LIBERO-Object | 489 / 500 | 97.80% |
+| LIBERO-Goal | 471 / 500 | 94.20% |
+| LIBERO-10 | 403 / 500 | 80.60% |
+
+155 个失败 episode 均达到对应 suite 的控制步上限，但没有 Python、MuJoCo、
+WebSocket 或评测器系统异常。完整报告与逐 task 明细位于
+[`artifacts/libero-benchmark/pi0_libero_official4_seed7/run_report.md`](artifacts/libero-benchmark/pi0_libero_official4_seed7/run_report.md)。
 
 ## 固定的源码与模型身份
 
@@ -65,8 +73,9 @@ WebSocket Policy Server。模型返回一个 50 步动作块；客户端只执�
 - 连续 3 次监控失败时保守暂停。
 - 绝不查找、暂停或终止其他用户的进程。
 
-10 状态评测中，所选 GPU 的采样峰值利用率为 92%，最低剩余显存为
-37.10%。保护器没有发生暂停、监控错误或紧急停止。
+剩余 1,950 episode 的连续评测固定使用物理 GPU 0。保护器记录 18,103 次
+采样，峰值利用率 54%，峰值显存 9,987 MiB，最低剩余显存 89.80%；没有
+暂停、恢复、监控错误或紧急停止，任务退出码为 0。
 
 ## 仓库结构
 
@@ -80,6 +89,8 @@ tools/
   probe_pi0_libero_inference.sh       有界单请求推理探针
   run_gpu_guarded_supervisor.sh       保护器包装与精确 PID 清理
   run_pi0_libero_batch_workload.sh    原始 π0 服务与 10 状态任务
+  run_pi0_libero_remaining_workload.sh 39-task 断点续跑编排器
+  summarize_pi0_libero_benchmark.py   2,000-episode一致性检查与报告生成
 config/
   10_nvidia.json                      任务级 NVIDIA EGL vendor 配置
 docs/
@@ -89,11 +100,12 @@ artifacts/
   libero-smoke/                       单 episode 功能证据
   libero-calibration/                 设备映射与容量校准证据
   libero-eval/                        分阶段的 10 状态与 50 状态 task 证据
+  libero-benchmark/                   四-suite汇总、task表和失败清单
 ```
 
 原始服务器日志、PID、机器相关运行配置和密集动作轨迹只保留在本机，并由
-`.gitignore` 排除。实验报告、结果摘要、逐 episode 结果和小体积视频作为
-可验证证据保留在 Git 中。
+`.gitignore` 排除。四-suite完整视频与逐 episode 原始证据保留在本地 `raw/`；
+报告、结果摘要、逐 task 表、失败清单和早期代表性视频作为可验证证据保留在 Git 中。
 
 ## 学习与部署文档
 
@@ -113,8 +125,9 @@ artifacts/
 5. 选择一张 GPU，验证 CUDA/JAX/PyTorch/EGL 映射，并关闭 JAX 显存预分配。
 6. 完成一个 episode 的闭环烟雾测试。
 7. 使用有界评测器运行 10 个固定初始状态。
-8. 对比成功和失败视频，再决定是否扩展到 50 个状态。
-9. 只运行剩余的 states 10–49，再合并两段互不重叠的结果。
+8. 对比成功和失败视频，再扩展同一 task 到 50 个状态。
+9. 使用可断点续跑的顺序编排器完成其余 39 个 task，共新增 1,950 episodes。
+10. 验证 40 个 task 均覆盖且仅覆盖 states 0–49，再生成四-suite报告。
 
 不使用 GPU 的检查命令：
 
@@ -124,6 +137,8 @@ python -m py_compile tools/eval_libero_bounded.py tools/gpu_utilization_guard.py
 bash -n tools/verify_gpu_mapping.sh
 bash -n tools/run_gpu_guarded_supervisor.sh
 bash -n tools/run_pi0_libero_batch_workload.sh
+bash -n tools/run_pi0_libero_remaining_workload.sh
+python tools/summarize_pi0_libero_benchmark.py
 ```
 
 项目没有提供一条可以无条件复制执行的 GPU 快速启动命令。共享服务器的当前
@@ -133,14 +148,16 @@ bash -n tools/run_pi0_libero_batch_workload.sh
 
 - [单 episode 烟雾测试报告](artifacts/libero-smoke/pi0_libero_spatial_task0_episode0_seed7/run_report.md)
 - [10 状态评测报告](artifacts/libero-eval/pi0_libero_spatial_task0_init0-9_seed7/run_report.md)
+- [四-suite完整评测报告](artifacts/libero-benchmark/pi0_libero_official4_seed7/run_report.md)
+- [逐 task 成绩表](artifacts/libero-benchmark/pi0_libero_official4_seed7/task_results.csv)
+- [失败 episode 清单](artifacts/libero-benchmark/pi0_libero_official4_seed7/failure_cases.csv)
 - [代表性成功视频](artifacts/libero-eval/pi0_libero_spatial_task0_init0-9_seed7/evaluation/task_00_init_00_success.mp4)
 - [代表性失败视频](artifacts/libero-eval/pi0_libero_spatial_task0_init0-9_seed7/evaluation/task_00_init_01_failure.mp4)
 
 ## 局限与下一步
 
-- 当前 90% 结果只覆盖一个任务和 10 个固定初始状态。
-- 该结果不能直接与官方四个 suite 的平均成功率比较。
-- 下一评测里程碑是在分析 initial state 1 失败原因后，对同一任务评测 50 个
-  初始状态。
-- 更完整的项目结果还需要扩展任务或 suite、建立失败类型、统计延迟，并与
-  官方基线进行有边界的对比。
+- 当前结果完整覆盖四个 suite，但只使用一个固定 seed，不是多 seed 置信区间。
+- 固定源码、checkpoint 和环境版本与其他论文或仓库版本可能不同，比较时必须同时
+  报告协议身份，不能只比较单个平均数。
+- 155 个失败目前只按 `max_control_steps` 记录；下一阶段应以失败视频为证据建立
+  行为级分类，重点分析 LIBERO-10 task 8，而不是通过提高步数上限改写本次协议。

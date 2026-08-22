@@ -34,3 +34,6 @@ __pycache__/
 /artifacts/**/evaluation/*_actions.json
 /artifacts/**/manifest.json
 
+# Complete benchmark evidence is retained locally but is too large for GitHub.
+# Curated summaries and reports beside this directory remain tracked.
+/artifacts/libero-benchmark/**/raw/

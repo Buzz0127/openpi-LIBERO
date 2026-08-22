@@ -18,11 +18,19 @@ does not use the current default π0.5-LIBERO policy.
 | Mapping calibration | JAX, PyTorch visibility, MuJoCo EGL | Passed | Confirms single-GPU isolation and rendering |
 | First bounded evaluation | `libero_spatial`, task 0, initial states 0-9, seed 7 | 9/10 success | First 10-state milestone |
 | Complete task-state evaluation | `libero_spatial`, task 0, initial states 0-49, seed 7 | 48/50 success (96.0%) | All 50 fixed states for one task, not a full LIBERO benchmark |
+| Complete four-suite evaluation | 4 suites, 40 tasks, 50 states per task, seed 7 | 1845/2000 success (92.25%) | Complete four-suite result for the pinned version and seed |
 
-The failed episodes were initial states 1 and 35. Both reached the configured
-limit of 220 control steps without satisfying the LIBERO goal predicate. The
-combined 50-state report is available in
-[`artifacts/libero-eval/pi0_libero_spatial_task0_init0-49_seed7/run_report.md`](artifacts/libero-eval/pi0_libero_spatial_task0_init0-49_seed7/run_report.md).
+| Suite | Success / Episodes | Success rate |
+| --- | ---: | ---: |
+| LIBERO-Spatial | 482 / 500 | 96.40% |
+| LIBERO-Object | 489 / 500 | 97.80% |
+| LIBERO-Goal | 471 / 500 | 94.20% |
+| LIBERO-10 | 403 / 500 | 80.60% |
+
+All 155 failed episodes reached their suite-specific control-step limit, with
+no Python, MuJoCo, WebSocket or evaluator exception. The complete report and
+per-task evidence are available in
+[`artifacts/libero-benchmark/pi0_libero_official4_seed7/run_report.md`](artifacts/libero-benchmark/pi0_libero_official4_seed7/run_report.md).
 
 ## Fixed source and model identity
 
@@ -68,9 +76,10 @@ creates a new process group and signals only that group.
 - Pause conservatively after three consecutive monitoring failures.
 - Never discover, pause or terminate another user's process.
 
-For the 10-state evaluation, the selected GPU reached 92% sampled utilization
-and retained at least 37.10% free VRAM. The guard recorded no pause, monitoring
-error or emergency event.
+The remaining 1,950 episodes ran on physical GPU 0. Across 18,103 guard samples,
+peak utilization was 54%, peak memory use was 9,987 MiB, and at least 89.80%
+VRAM remained free. The guard recorded no pause, resume, monitoring error or
+emergency event, and the workload exited with code 0.
 
 ## Repository layout
 
@@ -84,6 +93,8 @@ tools/
   probe_pi0_libero_inference.sh       bounded one-request inference probe
   run_gpu_guarded_supervisor.sh       exact guard wrapper and PID cleanup
   run_pi0_libero_batch_workload.sh    original π0 server + 10-state workload
+  run_pi0_libero_remaining_workload.sh resumable 39-task orchestrator
+  summarize_pi0_libero_benchmark.py   2,000-episode validation and reporting
 config/
   10_nvidia.json                      task-scoped NVIDIA EGL vendor file
 docs/
@@ -93,11 +104,14 @@ artifacts/
   libero-smoke/                       one-episode functional evidence
   libero-calibration/                 mapping and capacity evidence
   libero-eval/                        staged 10-state and 50-state task evidence
+  libero-benchmark/                   four-suite summary, task table and failures
 ```
 
 Raw server logs, process IDs, machine-specific run configuration and dense
-action traces remain local and are excluded from Git. Reports, result summaries,
-per-episode outcomes and compact videos are kept as reproducible evidence.
+action traces remain local and are excluded from Git. Complete four-suite videos
+and per-episode raw evidence remain under the local `raw/` directory; reports,
+summaries, per-task results, failure lists and earlier representative videos are
+kept as reproducible Git evidence.
 
 ## Learning and deployment notes
 
@@ -119,8 +133,9 @@ per-episode outcomes and compact videos are kept as reproducible evidence.
    preallocation.
 6. Run a one-episode smoke test.
 7. Run the bounded evaluator for 10 fixed initial states.
-8. Inspect success and failure videos before expanding to 50 states.
-9. Run only the remaining states 10-49 and merge the two non-overlapping runs.
+8. Inspect success and failure videos before expanding the task to 50 states.
+9. Use the resumable sequential orchestrator for the other 39 tasks and 1,950 episodes.
+10. Verify that all 40 tasks contain exactly states 0-49, then generate the report.
 
 Useful CPU-only checks:
 
@@ -130,6 +145,8 @@ python -m py_compile tools/eval_libero_bounded.py tools/gpu_utilization_guard.py
 bash -n tools/verify_gpu_mapping.sh
 bash -n tools/run_gpu_guarded_supervisor.sh
 bash -n tools/run_pi0_libero_batch_workload.sh
+bash -n tools/run_pi0_libero_remaining_workload.sh
+python tools/summarize_pi0_libero_benchmark.py
 ```
 
 GPU commands are intentionally not presented as a one-line quick start: the
@@ -140,14 +157,18 @@ for the current shared server before every stage.
 
 - [One-episode smoke report](artifacts/libero-smoke/pi0_libero_spatial_task0_episode0_seed7/run_report.md)
 - [10-state evaluation report](artifacts/libero-eval/pi0_libero_spatial_task0_init0-9_seed7/run_report.md)
+- [Complete four-suite report](artifacts/libero-benchmark/pi0_libero_official4_seed7/run_report.md)
+- [Per-task results](artifacts/libero-benchmark/pi0_libero_official4_seed7/task_results.csv)
+- [Failed-episode list](artifacts/libero-benchmark/pi0_libero_official4_seed7/failure_cases.csv)
 - [Representative success video](artifacts/libero-eval/pi0_libero_spatial_task0_init0-9_seed7/evaluation/task_00_init_00_success.mp4)
 - [Representative failure video](artifacts/libero-eval/pi0_libero_spatial_task0_init0-9_seed7/evaluation/task_00_init_01_failure.mp4)
 
 ## Limitations and next steps
 
-- The 90% result covers one task and ten fixed initial states only.
-- It cannot be compared directly with the official four-suite average.
-- The next evaluation milestone is 50 initial states for the same task, after
-  analyzing the state-1 failure.
-- A full project result requires additional tasks/suites, failure taxonomy,
-  latency statistics and a documented comparison with the official baseline.
+- The evaluation covers all four suites but uses one fixed seed, not a multi-seed
+  confidence interval.
+- Source, checkpoint and environment versions must accompany any comparison;
+  an average alone does not establish protocol equivalence with another result.
+- The 155 failures are currently labeled only as `max_control_steps`. The next
+  step is video-grounded behavior classification, especially for LIBERO-10 task
+  8, without changing this run's step limits after observing the result.
