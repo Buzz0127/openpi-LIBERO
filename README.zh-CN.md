@@ -115,6 +115,8 @@ artifacts/
 - [部署 Runbook](docs/deployment_runbook.md)：覆盖全新 SSH 会话预检、固定
   版本、双 Python 环境、CPU-only dry run、共享 GPU 保护、单 episode
   分阶段启动、断点恢复和清理验收。
+- [失败分析](docs/failure_analysis.md)：从 task 8 的成功对照和分层失败视频出发，
+  区分抓取、放置、恢复与阶段转换失败，并明确观察事实、初步统计和待验证假设。
 
 ## 评测流程
 
@@ -159,5 +161,6 @@ python tools/summarize_pi0_libero_benchmark.py
 - 当前结果完整覆盖四个 suite，但只使用一个固定 seed，不是多 seed 置信区间。
 - 固定源码、checkpoint 和环境版本与其他论文或仓库版本可能不同，比较时必须同时
   报告协议身份，不能只比较单个平均数。
-- 155 个失败目前只按 `max_control_steps` 记录；下一阶段应以失败视频为证据建立
-  行为级分类，重点分析 LIBERO-10 task 8，而不是通过提高步数上限改写本次协议。
+- 155 个失败的结构化终止原因均为 `max_control_steps`；目前已对 LIBERO-10
+  task 8 的6个失败样本完成人工行为标注，但还不能代替37个失败的全量分类。
+  全量视频标注保留为可选研究支线，不是复现部署和当前 benchmark 结果的前置条件。

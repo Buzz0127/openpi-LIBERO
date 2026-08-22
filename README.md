@@ -122,6 +122,9 @@ kept as reproducible Git evidence.
 - [Deployment runbook](docs/deployment_runbook.md) covers the fresh-SSH
   preflight, pinned identities, dual Python environments, CPU-only dry run,
   shared-GPU guard, staged single-episode launch, resume and cleanup.
+- [Failure analysis](docs/failure_analysis.md) uses a success control and
+  stratified task-8 failures to separate grasp, placement, recovery and stage
+  transition evidence from hypotheses that still require validation.
 
 ## Evaluation workflow
 
@@ -169,6 +172,8 @@ for the current shared server before every stage.
   confidence interval.
 - Source, checkpoint and environment versions must accompany any comparison;
   an average alone does not establish protocol equivalence with another result.
-- The 155 failures are currently labeled only as `max_control_steps`. The next
-  step is video-grounded behavior classification, especially for LIBERO-10 task
-  8, without changing this run's step limits after observing the result.
+- All 155 structured termination labels are `max_control_steps`. Six LIBERO-10
+  task-8 failures now have manual behavior annotations, but they do not replace
+  a complete classification of all 37 task-8 failures. Full video annotation
+  remains an optional research extension; it is not required to reproduce the
+  deployment or the reported benchmark.
