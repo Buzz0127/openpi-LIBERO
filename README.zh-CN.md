@@ -109,6 +109,9 @@ artifacts/
 
 ## 学习与部署文档
 
+- [部署全景与故障定位](docs/deployment_architecture.md)：串联 Mac、SSH/LXC、
+  双环境、CUDA/EGL、WebSocket、LIBERO 闭环与产物层，并说明每条证据能证明和
+  不能证明什么。
 - [算法概览](docs/algorithm_overview.md)：用初学者可复述的方式解释输入、
   checkpoint 变换、action expert、flow matching 直觉、50 步动作块，以及
   每执行 5 步重新观察和规划的闭环过程，不逐行研读源码。

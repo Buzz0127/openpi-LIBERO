@@ -115,6 +115,9 @@ kept as reproducible Git evidence.
 
 ## Learning and deployment notes
 
+- [Deployment architecture and fault isolation](docs/deployment_architecture.md)
+  maps the Mac-to-LXC, dual-environment, CUDA/EGL, WebSocket, closed-loop and
+  artifact layers to the evidence each layer can and cannot establish.
 - [Algorithm overview](docs/algorithm_overview.md) explains the inputs,
   checkpoint transforms, action expert, flow-matching intuition, 50-step
   action chunk and five-step closed-loop replanning without a line-by-line
