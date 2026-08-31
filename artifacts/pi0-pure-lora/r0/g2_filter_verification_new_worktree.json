@@ -1,0 +1,67 @@
+{
+  "actual": {
+    "frozen_leaf_count": 50,
+    "frozen_parameter_count": 3238048528,
+    "total_leaf_count": 70,
+    "total_parameter_count": 3288036112,
+    "trainable_leaf_count": 20,
+    "trainable_parameter_count": 49987584
+  },
+  "all_non_golden_params_frozen": true,
+  "expected": {
+    "frozen_leaf_count": 50,
+    "frozen_parameter_count": 3238048528,
+    "total_leaf_count": 70,
+    "total_parameter_count": 3288036112,
+    "trainable_leaf_count": 20,
+    "trainable_parameter_count": 49987584
+  },
+  "failures": {
+    "base_terminal_trainables": [],
+    "missing_golden": [],
+    "partition_extra": [],
+    "partition_missing": [],
+    "protected_trainables": [],
+    "trainable_frozen_overlap": [],
+    "unexpected_trainable": []
+  },
+  "golden_manifest": {
+    "path": "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/manifests/golden_adapter_paths.json",
+    "sha256": "3799cf4d053b013089216be97ab0b57d08dde1dd3c4f04744088ce2e93a32029"
+  },
+  "jax_backend": "cpu",
+  "jax_devices": [
+    "TFRT_CPU_0"
+  ],
+  "model_variants": {
+    "action_expert_variant": "gemma_300m_lora",
+    "paligemma_variant": "gemma_2b_lora"
+  },
+  "openpi_commit": "15a9616a00943ada6c20a0f158e3adb39df2ccac",
+  "patch_sha256": "a58256ca93f73a0ad06c727bc4752cef77e437e9b239770c7dcb72ede0da163c",
+  "schema_version": 1,
+  "status": "g2_pure_lora_filter_verified",
+  "trainable_equals_golden": true,
+  "trainable_paths": [
+    "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_a",
+    "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_b",
+    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_a",
+    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b",
+    "PaliGemma/llm/layers/attn/kv_einsum/lora_a",
+    "PaliGemma/llm/layers/attn/kv_einsum/lora_b",
+    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_a",
+    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b",
+    "PaliGemma/llm/layers/attn/q_einsum/lora_a",
+    "PaliGemma/llm/layers/attn/q_einsum/lora_b",
+    "PaliGemma/llm/layers/attn/q_einsum_1/lora_a",
+    "PaliGemma/llm/layers/attn/q_einsum_1/lora_b",
+    "PaliGemma/llm/layers/mlp/gating_einsum_lora_a",
+    "PaliGemma/llm/layers/mlp/gating_einsum_lora_b",
+    "PaliGemma/llm/layers/mlp/linear_lora_a",
+    "PaliGemma/llm/layers/mlp/linear_lora_b",
+    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_a",
+    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b",
+    "PaliGemma/llm/layers/mlp_1/linear_lora_a",
+    "PaliGemma/llm/layers/mlp_1/linear_lora_b"
+  ]
+}

@@ -1,0 +1,8 @@
+worktree /home/wengzr/projects/openpi
+HEAD 15a9616a00943ada6c20a0f158e3adb39df2ccac
+branch refs/heads/main
+
+worktree /home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora
+HEAD 15a9616a00943ada6c20a0f158e3adb39df2ccac
+branch refs/heads/feature/pi0-libero-pure-lora
+

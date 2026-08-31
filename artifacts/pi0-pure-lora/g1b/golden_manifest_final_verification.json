@@ -1,0 +1,30 @@
+{
+  "actual_values": {
+    "adapter_leaf_count": 20,
+    "adapter_parameter_count": 49987584,
+    "non_adapter_leaf_count": 50,
+    "non_adapter_parameter_count": 3238048528,
+    "total_param_leaf_count": 70,
+    "total_parameter_count": 3288036112
+  },
+  "all_manifest_shapes_counts_types_and_dtypes_match": true,
+  "illegal_parent_matches": [],
+  "manifest": {
+    "path": "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/manifests/golden_adapter_paths.json",
+    "sha256": "3799cf4d053b013089216be97ab0b57d08dde1dd3c4f04744088ce2e93a32029"
+  },
+  "manifest_equals_independently_derived_exact_path_set": true,
+  "protected_scope_intersection": [],
+  "schema_version": 1,
+  "source_hashes": {
+    "src/openpi/models/gemma.py": "7e42ada4ae7e9995f0ef3e33a0c224758323c2015e2d9d72ec15726a8a001d2a",
+    "src/openpi/models/lora.py": "ced28716950c34d84a1a6d0b03b1d9550000732721df884818080b6e78cb3289",
+    "src/openpi/models/pi0.py": "24b32d7c6ed5e409459afa8ca5af96a4dae09c2dcdf48e828907e411f4f12342",
+    "src/openpi/models/pi0_config.py": "d321858c30b398126035ea2b6da09e1c422eeeebb5ebf8df631daf9dc77647fa"
+  },
+  "status": "verified_g1b_golden_frozen",
+  "tree": {
+    "path": "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/g1b/attempt-20260830T-G1b-finalize-VyXi2c/tree/full_param_tree.json",
+    "sha256": "7aef78c4a3506c7a43306d214e1d21c050b5a626b29705dec5a7d1619b5a0c71"
+  }
+}

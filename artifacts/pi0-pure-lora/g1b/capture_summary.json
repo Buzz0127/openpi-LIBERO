@@ -1,0 +1,15 @@
+{
+  "capture_script": {
+    "path": "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/tools/capture_real_pi0_param_tree.py",
+    "sha256": "40b13b08af5f451e1ec2d1968cc5eaf45444db978ce1b7beaf72a24448a57b40"
+  },
+  "elapsed_seconds": 3.426597833633423,
+  "finished_epoch_seconds": 1788073460.8358223,
+  "outputs": {
+    "full_param_tree": "full_param_tree.json",
+    "source_derived_candidates": "source_derived_adapter_candidates.json"
+  },
+  "schema_version": 1,
+  "started_epoch_seconds": 1788073457.4092247,
+  "status": "captured_pending_manual_golden_review"
+}

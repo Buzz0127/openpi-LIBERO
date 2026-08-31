@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "status": "g1b_golden_frozen",
+  "experiment": "pi0_base_to_libero_pure_lora",
+  "openpi_commit": "15a9616a00943ada6c20a0f158e3adb39df2ccac",
+  "model_config": {
+    "paligemma_variant": "gemma_2b_lora",
+    "action_expert_variant": "gemma_300m_lora"
+  },
+  "source_identity": {
+    "src/openpi/models/lora.py": "ced28716950c34d84a1a6d0b03b1d9550000732721df884818080b6e78cb3289",
+    "src/openpi/models/gemma.py": "7e42ada4ae7e9995f0ef3e33a0c224758323c2015e2d9d72ec15726a8a001d2a",
+    "src/openpi/models/pi0_config.py": "d321858c30b398126035ea2b6da09e1c422eeeebb5ebf8df631daf9dc77647fa",
+    "src/openpi/models/pi0.py": "24b32d7c6ed5e409459afa8ca5af96a4dae09c2dcdf48e828907e411f4f12342"
+  },
+  "evidence_identity": {
+    "full_param_tree_sha256": "7aef78c4a3506c7a43306d214e1d21c050b5a626b29705dec5a7d1619b5a0c71",
+    "source_derived_candidates_sha256": "f9cf2abf05b8cabdb3b7c3ae82b1a256f55cafbc94b29d71dece9c2d2b23a8b3"
+  },
+  "review_invariants": {
+    "variable_type": "flax.nnx.variablelib.Param",
+    "dtype": "float32",
+    "path_parts_type": "builtins.str",
+    "adapter_leaf_count": 20,
+    "adapter_parameter_count": 49987584,
+    "total_param_leaf_count": 70,
+    "total_parameter_count": 3288036112,
+    "non_adapter_leaf_count": 50,
+    "non_adapter_parameter_count": 3238048528,
+    "all_non_manifest_params_must_be_frozen": true
+  },
+  "independent_review": {
+    "completed_on": "2026-08-30",
+    "method": "manual full-path enumeration cross-checked against pinned LoRA declarations, Gemma module construction, and the real nnx.eval_shape tree",
+    "production_rule": "exact full path membership only",
+    "substring_or_regex_matching_allowed": false,
+    "source_declared_terminals": [
+      "lora_a",
+      "lora_b",
+      "gating_einsum_lora_a",
+      "gating_einsum_lora_b",
+      "linear_lora_a",
+      "linear_lora_b"
+    ],
+    "legal_parent_paths": [
+      "PaliGemma/llm/layers/attn/attn_vec_einsum",
+      "PaliGemma/llm/layers/attn/attn_vec_einsum_1",
+      "PaliGemma/llm/layers/attn/kv_einsum",
+      "PaliGemma/llm/layers/attn/kv_einsum_1",
+      "PaliGemma/llm/layers/attn/q_einsum",
+      "PaliGemma/llm/layers/attn/q_einsum_1",
+      "PaliGemma/llm/layers/mlp",
+      "PaliGemma/llm/layers/mlp_1"
+    ],
+    "g2_test_oracle": "entries[].path",
+    "approval_scope": "G1b manifest identity only; does not authorize G2 source changes or training"
+  },
+  "protected_non_adapter_scopes": [
+    "PaliGemma/img",
+    "PaliGemma/llm/embedder",
+    "PaliGemma/llm/final_norm",
+    "PaliGemma/llm/final_norm_1",
+    "PaliGemma/llm/layers/pre_attention_norm",
+    "PaliGemma/llm/layers/pre_attention_norm_1",
+    "PaliGemma/llm/layers/pre_ffw_norm",
+    "PaliGemma/llm/layers/pre_ffw_norm_1",
+    "action_in_proj",
+    "action_out_proj",
+    "action_time_mlp_in",
+    "action_time_mlp_out",
+    "state_proj"
+  ],
+  "entries": [
+    {
+      "path": "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_a",
+      "shape": [18, 8, 256, 16],
+      "parameter_count": 589824
+    },
+    {
+      "path": "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_b",
+      "shape": [18, 8, 16, 2048],
+      "parameter_count": 4718592
+    },
+    {
+      "path": "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_a",
+      "shape": [18, 8, 256, 32],
+      "parameter_count": 1179648
+    },
+    {
+      "path": "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b",
+      "shape": [18, 8, 32, 1024],
+      "parameter_count": 4718592
+    },
+    {
+      "path": "PaliGemma/llm/layers/attn/kv_einsum/lora_a",
+      "shape": [18, 2, 1, 2048, 16],
+      "parameter_count": 1179648
+    },
+    {
+      "path": "PaliGemma/llm/layers/attn/kv_einsum/lora_b",
+      "shape": [18, 2, 1, 16, 256],
+      "parameter_count": 147456
+    },
+    {
+      "path": "PaliGemma/llm/layers/attn/kv_einsum_1/lora_a",
+      "shape": [18, 2, 1, 1024, 32],
+      "parameter_count": 1179648
+    },
+    {
+      "path": "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b",
+      "shape": [18, 2, 1, 32, 256],
+      "parameter_count": 294912
+    },
+    {
+      "path": "PaliGemma/llm/layers/attn/q_einsum/lora_a",
+      "shape": [18, 8, 2048, 16],
+      "parameter_count": 4718592
+    },
+    {
+      "path": "PaliGemma/llm/layers/attn/q_einsum/lora_b",
+      "shape": [18, 8, 16, 256],
+      "parameter_count": 589824
+    },
+    {
+      "path": "PaliGemma/llm/layers/attn/q_einsum_1/lora_a",
+      "shape": [18, 8, 1024, 32],
+      "parameter_count": 4718592
+    },
+    {
+      "path": "PaliGemma/llm/layers/attn/q_einsum_1/lora_b",
+      "shape": [18, 8, 32, 256],
+      "parameter_count": 1179648
+    },
+    {
+      "path": "PaliGemma/llm/layers/mlp/gating_einsum_lora_a",
+      "shape": [18, 2, 2048, 16],
+      "parameter_count": 1179648
+    },
+    {
+      "path": "PaliGemma/llm/layers/mlp/gating_einsum_lora_b",
+      "shape": [18, 2, 16, 16384],
+      "parameter_count": 9437184
+    },
+    {
+      "path": "PaliGemma/llm/layers/mlp/linear_lora_a",
+      "shape": [18, 16384, 16],
+      "parameter_count": 4718592
+    },
+    {
+      "path": "PaliGemma/llm/layers/mlp/linear_lora_b",
+      "shape": [18, 16, 2048],
+      "parameter_count": 589824
+    },
+    {
+      "path": "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_a",
+      "shape": [18, 2, 1024, 32],
+      "parameter_count": 1179648
+    },
+    {
+      "path": "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b",
+      "shape": [18, 2, 32, 4096],
+      "parameter_count": 4718592
+    },
+    {
+      "path": "PaliGemma/llm/layers/mlp_1/linear_lora_a",
+      "shape": [18, 4096, 32],
+      "parameter_count": 2359296
+    },
+    {
+      "path": "PaliGemma/llm/layers/mlp_1/linear_lora_b",
+      "shape": [18, 32, 1024],
+      "parameter_count": 589824
+    }
+  ]
+}

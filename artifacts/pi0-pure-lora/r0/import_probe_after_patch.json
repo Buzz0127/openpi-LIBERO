@@ -1,0 +1,17 @@
+{
+  "executable": "/home/wengzr/projects/openpi/.venv/bin/python",
+  "modules": {
+    "openpi": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/__init__.py",
+    "pi0_config": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/models/pi0_config.py",
+    "nnx_utils": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/shared/nnx_utils.py"
+  },
+  "sys_path_head": [
+    "",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src",
+    "/home/wengzr/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python311.zip",
+    "/home/wengzr/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11",
+    "/home/wengzr/.local/share/uv/python/cpython-3.11-linux-x86_64-gnu/lib/python3.11/lib-dynload"
+  ],
+  "pure_lora_method": true,
+  "path_in_filter": true
+}

@@ -1,0 +1,4 @@
+1902779007955a3da8b6a7ee9d0660f030e1cf66c09b6751a566a0ead1066b5a  /home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/r0/attempt-20260830T-R0-OX6w4h/lora_diff_final.patch
+70eb24547f6dbba6f9355b6ec3ae090259d9b7c4499d4835d65eebfea411245e  src/openpi/shared/nnx_utils.py
+4e4291f8a77ddb68ae71fe72cb2642d0b0ecc938c75023d6a29aa10ec4a77c64  src/openpi/models/pi0_config.py
+59b8afa670fbcfdbd0fe859fa89f8e12fa7dc81fbc77f2de093d8c83d86d6c19  src/openpi/models/pi0_test.py

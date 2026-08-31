@@ -1,0 +1,16 @@
+{
+  "source-test-wrapper": {
+    "max_load1_per_cpu": 0.02041786595394737,
+    "min_mem_available_bytes": 269291708416,
+    "monitor_failure_count": 1,
+    "peak_child_rss_bytes": 748265472,
+    "sample_count": 13
+  },
+  "stage-wrapper": {
+    "max_load1_per_cpu": 0.02463892886513158,
+    "min_mem_available_bytes": 269289152512,
+    "monitor_failure_count": 0,
+    "peak_child_rss_bytes": 749367296,
+    "sample_count": 13
+  }
+}

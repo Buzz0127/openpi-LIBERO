@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-31T04:26:30Z",
+  "scope": "R0/G1/G2 versioning closeout only",
+  "mac_project": {
+    "repository": "https://github.com/Buzz0127/openpi-LIBERO.git",
+    "worktree": "/Users/buzz/MyProjects/openpi-LIBERO-lora",
+    "branch": "feature/pi0-libero-pure-lora",
+    "upstream": "origin/feature/pi0-libero-pure-lora",
+    "commit_parent_before_v0": "efccc29460535f637a6284c6c130fbbea66357cf",
+    "baseline_tag": "pi0-libero-v1.0"
+  },
+  "remote_openpi": {
+    "baseline_worktree": "/home/wengzr/projects/openpi",
+    "lora_worktree": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora",
+    "branch": "feature/pi0-libero-pure-lora",
+    "upstream": null,
+    "base_commit": "15a9616a00943ada6c20a0f158e3adb39df2ccac",
+    "pure_lora_commit": "48d1847417356fb38ecb5db45b569f12b2d148e6",
+    "pure_lora_tree": "4c8004c344e2fcd834a752078012c3fa8fb331a8",
+    "committed_files": [
+      "src/openpi/models/pi0_config.py",
+      "src/openpi/models/pi0_test.py",
+      "src/openpi/shared/nnx_utils.py"
+    ],
+    "source_file_sha256": {
+      "src/openpi/models/pi0_config.py": "4e4291f8a77ddb68ae71fe72cb2642d0b0ecc938c75023d6a29aa10ec4a77c64",
+      "src/openpi/models/pi0_test.py": "59b8afa670fbcfdbd0fe859fa89f8e12fa7dc81fbc77f2de093d8c83d86d6c19",
+      "src/openpi/shared/nnx_utils.py": "70eb24547f6dbba6f9355b6ec3ae090259d9b7c4499d4835d65eebfea411245e"
+    }
+  },
+  "pure_lora_definition": {
+    "golden_manifest": "manifests/pi0_pure_lora/golden_adapter_paths.json",
+    "golden_manifest_sha256": "3799cf4d053b013089216be97ab0b57d08dde1dd3c4f04744088ce2e93a32029",
+    "trainable_equals_golden": true,
+    "all_non_golden_params_frozen": true,
+    "trainable_leaf_count": 20,
+    "trainable_parameter_count": 49987584,
+    "frozen_leaf_count": 50,
+    "frozen_parameter_count": 3238048528
+  },
+  "patch_artifacts": {
+    "application_input": {
+      "path": "patches/openpi_pure_lora_g2.patch",
+      "sha256": "a58256ca93f73a0ad06c727bc4752cef77e437e9b239770c7dcb72ede0da163c",
+      "role": "reviewed hand-authored application artifact"
+    },
+    "actual_checkout_diff": {
+      "path": "artifacts/pi0-pure-lora/g2/final_openpi_g2.patch",
+      "sha256": "1902779007955a3da8b6a7ee9d0660f030e1cf66c09b6751a566a0ead1066b5a",
+      "role": "Git-generated canonical diff of the verified remote checkout"
+    },
+    "relationship": "The application input produced the verified source additions. Its byte hash and stable patch-id differ from the canonical checkout diff because file order, blob-index metadata, and generated hunk context differ."
+  },
+  "audit_tools_sha256": {
+    "tools/pi0_pure_lora/audit_abstract_param_tree.py": "e6da1219f9e272aae5967f33f1d4fa052dc19377b7b951ba5964b7d0d089dde8",
+    "tools/pi0_pure_lora/capture_real_pi0_param_tree.py": "40b13b08af5f451e1ec2d1968cc5eaf45444db978ce1b7beaf72a24448a57b40",
+    "tools/pi0_pure_lora/cpu_stage_wrapper.py": "3bbc05ef076a4ba0a90867b9611e975ec5bd45ef1c76e9a4bf71eb5ed9a15552",
+    "tools/pi0_pure_lora/test_audit_abstract_param_tree.py": "04d0d5cd85f222b5388d883791ea9569f308ed880b139ea06f7643c7fb4f529e",
+    "tools/pi0_pure_lora/test_cpu_stage_wrapper.py": "8a5cd45e1dde5084dbe83e5d5080391cf9eefa108b866acf8b385bd2582b5551",
+    "tools/pi0_pure_lora/test_verify_golden_adapter_manifest.py": "08b10444bf5a77fda527e8ceeb57c0e5e11a63d3aeff7062208f9a5ae94bfec4",
+    "tools/pi0_pure_lora/verify_g2_pure_lora_filter.py": "c3ca234023fe1ff2b8339eca42f24f499d96614ed06a55dce1efb4c58498375d",
+    "tools/pi0_pure_lora/verify_golden_adapter_manifest.py": "932ea03dcd69d8aa8365a832a0c34ecf1dd5556a3b4c887ae8db585ab20a9031"
+  },
+  "runtime_identity": {
+    "python": "/home/wengzr/projects/openpi/.venv/bin/python",
+    "pythonpath": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src",
+    "verified_module_root": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi",
+    "jax_backend_for_g2_verification": "cpu"
+  },
+  "evidence": {
+    "local_artifact_root": "artifacts/pi0-pure-lora",
+    "remote_r0_attempt": "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/r0/attempt-20260830T-R0-OX6w4h",
+    "remote_v0_attempt": "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/v0/attempt-20260831T-V0-ozn5xi"
+  },
+  "not_performed": [
+    "G3",
+    "dependency download",
+    "dataset access or download",
+    "checkpoint access or load",
+    "GPU work",
+    "training",
+    "evaluation",
+    "submodule initialization",
+    "environment modification"
+  ]
+}

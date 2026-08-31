@@ -1,0 +1,159 @@
+diff --git a/src/openpi/shared/nnx_utils.py b/src/openpi/shared/nnx_utils.py
+index 6d8ea18..f1512e8 100644
+--- a/src/openpi/shared/nnx_utils.py
++++ b/src/openpi/shared/nnx_utils.py
+@@ -61,6 +61,25 @@ class PathRegex:
+         return self.pattern.fullmatch(joined_path) is not None
+ 
+ 
++@dataclasses.dataclass(frozen=True)
++class PathIn:
++    """NNX filter that matches only an explicit, immutable set of full paths."""
++
++    paths: tuple[tuple[str, ...], ...]
++
++    def __post_init__(self):
++        if not self.paths:
++            raise ValueError("PathIn requires at least one path")
++        if len(self.paths) != len(set(self.paths)):
++            raise ValueError("PathIn paths must be unique")
++        if any(not path or any(not isinstance(part, str) or not part for part in path) for path in self.paths):
++            raise ValueError("PathIn paths must contain non-empty string parts")
++
++    def __call__(self, path: nnx.filterlib.PathParts, x: Any) -> bool:
++        del x
++        return tuple(str(part) for part in path) in self.paths
++
++
+ def state_map(state: nnx.State, filter: nnx.filterlib.Filter, fn: Callable[[Any], Any]) -> nnx.State:
+     """Apply a function to the leaves of the state that match the filter."""
+     filtered_keys = set(state.filter(filter).flat_state())
+diff --git a/src/openpi/models/pi0_config.py b/src/openpi/models/pi0_config.py
+index 88bd19e..2cefc9e 100644
+--- a/src/openpi/models/pi0_config.py
++++ b/src/openpi/models/pi0_config.py
+@@ -12,6 +12,30 @@ if TYPE_CHECKING:
+     from openpi.models.pi0 import Pi0
+ 
+ 
++_PURE_LORA_PARAM_PATHS = (
++    ("PaliGemma", "llm", "layers", "attn", "attn_vec_einsum", "lora_a"),
++    ("PaliGemma", "llm", "layers", "attn", "attn_vec_einsum", "lora_b"),
++    ("PaliGemma", "llm", "layers", "attn", "attn_vec_einsum_1", "lora_a"),
++    ("PaliGemma", "llm", "layers", "attn", "attn_vec_einsum_1", "lora_b"),
++    ("PaliGemma", "llm", "layers", "attn", "kv_einsum", "lora_a"),
++    ("PaliGemma", "llm", "layers", "attn", "kv_einsum", "lora_b"),
++    ("PaliGemma", "llm", "layers", "attn", "kv_einsum_1", "lora_a"),
++    ("PaliGemma", "llm", "layers", "attn", "kv_einsum_1", "lora_b"),
++    ("PaliGemma", "llm", "layers", "attn", "q_einsum", "lora_a"),
++    ("PaliGemma", "llm", "layers", "attn", "q_einsum", "lora_b"),
++    ("PaliGemma", "llm", "layers", "attn", "q_einsum_1", "lora_a"),
++    ("PaliGemma", "llm", "layers", "attn", "q_einsum_1", "lora_b"),
++    ("PaliGemma", "llm", "layers", "mlp", "gating_einsum_lora_a"),
++    ("PaliGemma", "llm", "layers", "mlp", "gating_einsum_lora_b"),
++    ("PaliGemma", "llm", "layers", "mlp", "linear_lora_a"),
++    ("PaliGemma", "llm", "layers", "mlp", "linear_lora_b"),
++    ("PaliGemma", "llm", "layers", "mlp_1", "gating_einsum_lora_a"),
++    ("PaliGemma", "llm", "layers", "mlp_1", "gating_einsum_lora_b"),
++    ("PaliGemma", "llm", "layers", "mlp_1", "linear_lora_a"),
++    ("PaliGemma", "llm", "layers", "mlp_1", "linear_lora_b"),
++)
++
++
+ @dataclasses.dataclass(frozen=True)
+ class Pi0Config(_model.BaseModelConfig):
+     dtype: str = "bfloat16"
+@@ -115,3 +139,19 @@ class Pi0Config(_model.BaseModelConfig):
+         if not filters:
+             return nnx.Nothing
+         return nnx.All(*filters)
++
++    def get_pure_lora_freeze_filter(self) -> nnx.filterlib.Filter:
++        """Freeze every parameter except the independently audited LoRA path set.
++
++        This deliberately does not reuse the broad legacy ``.*lora.*`` filter.
++        The exact paths are valid only for the two audited model variants.
++        """
++        expected_variants = ("gemma_2b_lora", "gemma_300m_lora")
++        actual_variants = (self.paligemma_variant, self.action_expert_variant)
++        if actual_variants != expected_variants:
++            raise ValueError(
++                "pure-LoRA paths are audited only for "
++                f"paligemma={expected_variants[0]!r}, action_expert={expected_variants[1]!r}; "
++                f"got paligemma={actual_variants[0]!r}, action_expert={actual_variants[1]!r}"
++            )
++        return nnx.Not(nnx_utils.PathIn(_PURE_LORA_PARAM_PATHS))
+diff --git a/src/openpi/models/pi0_test.py b/src/openpi/models/pi0_test.py
+index 2b83c55..7d0b1a9 100644
+--- a/src/openpi/models/pi0_test.py
++++ b/src/openpi/models/pi0_test.py
+@@ -1,9 +1,35 @@
++import math
++
+ import flax.nnx as nnx
+ import jax
+ 
+ import openpi.models.pi0_config as _pi0_config
+ 
+ 
++_GOLDEN_PURE_LORA_PATHS = {
++    "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_a",
++    "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_b",
++    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_a",
++    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b",
++    "PaliGemma/llm/layers/attn/kv_einsum/lora_a",
++    "PaliGemma/llm/layers/attn/kv_einsum/lora_b",
++    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_a",
++    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b",
++    "PaliGemma/llm/layers/attn/q_einsum/lora_a",
++    "PaliGemma/llm/layers/attn/q_einsum/lora_b",
++    "PaliGemma/llm/layers/attn/q_einsum_1/lora_a",
++    "PaliGemma/llm/layers/attn/q_einsum_1/lora_b",
++    "PaliGemma/llm/layers/mlp/gating_einsum_lora_a",
++    "PaliGemma/llm/layers/mlp/gating_einsum_lora_b",
++    "PaliGemma/llm/layers/mlp/linear_lora_a",
++    "PaliGemma/llm/layers/mlp/linear_lora_b",
++    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_a",
++    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b",
++    "PaliGemma/llm/layers/mlp_1/linear_lora_a",
++    "PaliGemma/llm/layers/mlp_1/linear_lora_b",
++}
++
++
+ def _get_frozen_state(config: _pi0_config.Pi0Config) -> nnx.State:
+     abstract_model = nnx.eval_shape(config.create, jax.random.key(0))
+ 
+@@ -43,4 +69,33 @@ def test_pi0_all_lora():
+     # sum of gemma_lora and action_expert_lora's frozen params.
+     assert len(state) == 17
+     assert all("lora" not in p for p in state)
+     assert all("llm" in p for p in state)
++
++
++def test_pi0_pure_lora_matches_independent_golden_paths():
++    config = _pi0_config.Pi0Config(
++        paligemma_variant="gemma_2b_lora", action_expert_variant="gemma_300m_lora"
++    )
++    abstract_model = nnx.eval_shape(config.create, jax.random.key(0))
++    freeze_filter = config.get_pure_lora_freeze_filter()
++    trainable = nnx.state(abstract_model, nnx.All(nnx.Param, nnx.Not(freeze_filter))).flat_state()
++    frozen = nnx.state(abstract_model, nnx.All(nnx.Param, freeze_filter)).flat_state()
++
++    trainable_paths = {"/".join(str(part) for part in path) for path in trainable}
++    frozen_paths = {"/".join(str(part) for part in path) for path in frozen}
++    assert trainable_paths == _GOLDEN_PURE_LORA_PATHS
++    assert trainable_paths.isdisjoint(frozen_paths)
++    assert len(trainable) == 20
++    assert sum(math.prod(variable.value.shape) for variable in trainable.values()) == 49_987_584
++    assert len(frozen) == 50
++    assert sum(math.prod(variable.value.shape) for variable in frozen.values()) == 3_238_048_528
++
++
++def test_pi0_pure_lora_rejects_unaudited_variants():
++    config = _pi0_config.Pi0Config(paligemma_variant="gemma_2b_lora")
++    try:
++        config.get_pure_lora_freeze_filter()
++    except ValueError as error:
++        assert "audited only" in str(error)
++    else:
++        raise AssertionError("pure-LoRA filter accepted an unaudited model variant")

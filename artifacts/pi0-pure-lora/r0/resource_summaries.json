@@ -1,0 +1,16 @@
+{
+  "g2-new-worktree-wrapper": {
+    "max_load1_per_cpu": 0.01632851048519737,
+    "min_mem_available_bytes": 269282414592,
+    "monitor_failure_count": 0,
+    "peak_child_rss_bytes": 752246784,
+    "sample_count": 13
+  },
+  "source-test-new-worktree-wrapper": {
+    "max_load1_per_cpu": 0.01994885896381579,
+    "min_mem_available_bytes": 269286809600,
+    "monitor_failure_count": 0,
+    "peak_child_rss_bytes": 749576192,
+    "sample_count": 12
+  }
+}

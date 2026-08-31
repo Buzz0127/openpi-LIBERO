@@ -1,0 +1,1130 @@
+{
+  "candidate_leaf_count": 20,
+  "candidate_parameter_count": 49987584,
+  "candidate_records": [
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 589824,
+      "parent_path": "PaliGemma/llm/layers/attn/attn_vec_einsum",
+      "path": "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_a",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "attn",
+        "attn_vec_einsum",
+        "lora_a"
+      ],
+      "shape": [
+        18,
+        8,
+        256,
+        16
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "lora_a",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn'",
+          "str": "attn",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn_vec_einsum'",
+          "str": "attn_vec_einsum",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'lora_a'",
+          "str": "lora_a",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 4718592,
+      "parent_path": "PaliGemma/llm/layers/attn/attn_vec_einsum",
+      "path": "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_b",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "attn",
+        "attn_vec_einsum",
+        "lora_b"
+      ],
+      "shape": [
+        18,
+        8,
+        16,
+        2048
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "lora_b",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn'",
+          "str": "attn",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn_vec_einsum'",
+          "str": "attn_vec_einsum",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'lora_b'",
+          "str": "lora_b",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 1179648,
+      "parent_path": "PaliGemma/llm/layers/attn/attn_vec_einsum_1",
+      "path": "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_a",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "attn",
+        "attn_vec_einsum_1",
+        "lora_a"
+      ],
+      "shape": [
+        18,
+        8,
+        256,
+        32
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "lora_a",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn'",
+          "str": "attn",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn_vec_einsum_1'",
+          "str": "attn_vec_einsum_1",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'lora_a'",
+          "str": "lora_a",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 4718592,
+      "parent_path": "PaliGemma/llm/layers/attn/attn_vec_einsum_1",
+      "path": "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "attn",
+        "attn_vec_einsum_1",
+        "lora_b"
+      ],
+      "shape": [
+        18,
+        8,
+        32,
+        1024
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "lora_b",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn'",
+          "str": "attn",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn_vec_einsum_1'",
+          "str": "attn_vec_einsum_1",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'lora_b'",
+          "str": "lora_b",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 1179648,
+      "parent_path": "PaliGemma/llm/layers/attn/kv_einsum",
+      "path": "PaliGemma/llm/layers/attn/kv_einsum/lora_a",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "attn",
+        "kv_einsum",
+        "lora_a"
+      ],
+      "shape": [
+        18,
+        2,
+        1,
+        2048,
+        16
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "lora_a",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn'",
+          "str": "attn",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'kv_einsum'",
+          "str": "kv_einsum",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'lora_a'",
+          "str": "lora_a",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 147456,
+      "parent_path": "PaliGemma/llm/layers/attn/kv_einsum",
+      "path": "PaliGemma/llm/layers/attn/kv_einsum/lora_b",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "attn",
+        "kv_einsum",
+        "lora_b"
+      ],
+      "shape": [
+        18,
+        2,
+        1,
+        16,
+        256
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "lora_b",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn'",
+          "str": "attn",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'kv_einsum'",
+          "str": "kv_einsum",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'lora_b'",
+          "str": "lora_b",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 1179648,
+      "parent_path": "PaliGemma/llm/layers/attn/kv_einsum_1",
+      "path": "PaliGemma/llm/layers/attn/kv_einsum_1/lora_a",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "attn",
+        "kv_einsum_1",
+        "lora_a"
+      ],
+      "shape": [
+        18,
+        2,
+        1,
+        1024,
+        32
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "lora_a",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn'",
+          "str": "attn",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'kv_einsum_1'",
+          "str": "kv_einsum_1",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'lora_a'",
+          "str": "lora_a",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 294912,
+      "parent_path": "PaliGemma/llm/layers/attn/kv_einsum_1",
+      "path": "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "attn",
+        "kv_einsum_1",
+        "lora_b"
+      ],
+      "shape": [
+        18,
+        2,
+        1,
+        32,
+        256
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "lora_b",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn'",
+          "str": "attn",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'kv_einsum_1'",
+          "str": "kv_einsum_1",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'lora_b'",
+          "str": "lora_b",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 4718592,
+      "parent_path": "PaliGemma/llm/layers/attn/q_einsum",
+      "path": "PaliGemma/llm/layers/attn/q_einsum/lora_a",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "attn",
+        "q_einsum",
+        "lora_a"
+      ],
+      "shape": [
+        18,
+        8,
+        2048,
+        16
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "lora_a",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn'",
+          "str": "attn",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'q_einsum'",
+          "str": "q_einsum",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'lora_a'",
+          "str": "lora_a",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 589824,
+      "parent_path": "PaliGemma/llm/layers/attn/q_einsum",
+      "path": "PaliGemma/llm/layers/attn/q_einsum/lora_b",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "attn",
+        "q_einsum",
+        "lora_b"
+      ],
+      "shape": [
+        18,
+        8,
+        16,
+        256
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "lora_b",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn'",
+          "str": "attn",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'q_einsum'",
+          "str": "q_einsum",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'lora_b'",
+          "str": "lora_b",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 4718592,
+      "parent_path": "PaliGemma/llm/layers/attn/q_einsum_1",
+      "path": "PaliGemma/llm/layers/attn/q_einsum_1/lora_a",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "attn",
+        "q_einsum_1",
+        "lora_a"
+      ],
+      "shape": [
+        18,
+        8,
+        1024,
+        32
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "lora_a",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn'",
+          "str": "attn",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'q_einsum_1'",
+          "str": "q_einsum_1",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'lora_a'",
+          "str": "lora_a",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 1179648,
+      "parent_path": "PaliGemma/llm/layers/attn/q_einsum_1",
+      "path": "PaliGemma/llm/layers/attn/q_einsum_1/lora_b",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "attn",
+        "q_einsum_1",
+        "lora_b"
+      ],
+      "shape": [
+        18,
+        8,
+        32,
+        256
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "lora_b",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'attn'",
+          "str": "attn",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'q_einsum_1'",
+          "str": "q_einsum_1",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'lora_b'",
+          "str": "lora_b",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 1179648,
+      "parent_path": "PaliGemma/llm/layers/mlp",
+      "path": "PaliGemma/llm/layers/mlp/gating_einsum_lora_a",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "mlp",
+        "gating_einsum_lora_a"
+      ],
+      "shape": [
+        18,
+        2,
+        2048,
+        16
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "gating_einsum_lora_a",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'mlp'",
+          "str": "mlp",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'gating_einsum_lora_a'",
+          "str": "gating_einsum_lora_a",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 9437184,
+      "parent_path": "PaliGemma/llm/layers/mlp",
+      "path": "PaliGemma/llm/layers/mlp/gating_einsum_lora_b",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "mlp",
+        "gating_einsum_lora_b"
+      ],
+      "shape": [
+        18,
+        2,
+        16,
+        16384
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "gating_einsum_lora_b",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'mlp'",
+          "str": "mlp",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'gating_einsum_lora_b'",
+          "str": "gating_einsum_lora_b",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 4718592,
+      "parent_path": "PaliGemma/llm/layers/mlp",
+      "path": "PaliGemma/llm/layers/mlp/linear_lora_a",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "mlp",
+        "linear_lora_a"
+      ],
+      "shape": [
+        18,
+        16384,
+        16
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "linear_lora_a",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'mlp'",
+          "str": "mlp",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'linear_lora_a'",
+          "str": "linear_lora_a",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 589824,
+      "parent_path": "PaliGemma/llm/layers/mlp",
+      "path": "PaliGemma/llm/layers/mlp/linear_lora_b",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "mlp",
+        "linear_lora_b"
+      ],
+      "shape": [
+        18,
+        16,
+        2048
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "linear_lora_b",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'mlp'",
+          "str": "mlp",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'linear_lora_b'",
+          "str": "linear_lora_b",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 1179648,
+      "parent_path": "PaliGemma/llm/layers/mlp_1",
+      "path": "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_a",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "mlp_1",
+        "gating_einsum_lora_a"
+      ],
+      "shape": [
+        18,
+        2,
+        1024,
+        32
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "gating_einsum_lora_a",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'mlp_1'",
+          "str": "mlp_1",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'gating_einsum_lora_a'",
+          "str": "gating_einsum_lora_a",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 4718592,
+      "parent_path": "PaliGemma/llm/layers/mlp_1",
+      "path": "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "mlp_1",
+        "gating_einsum_lora_b"
+      ],
+      "shape": [
+        18,
+        2,
+        32,
+        4096
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "gating_einsum_lora_b",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'mlp_1'",
+          "str": "mlp_1",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'gating_einsum_lora_b'",
+          "str": "gating_einsum_lora_b",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 2359296,
+      "parent_path": "PaliGemma/llm/layers/mlp_1",
+      "path": "PaliGemma/llm/layers/mlp_1/linear_lora_a",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "mlp_1",
+        "linear_lora_a"
+      ],
+      "shape": [
+        18,
+        4096,
+        32
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "linear_lora_a",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'mlp_1'",
+          "str": "mlp_1",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'linear_lora_a'",
+          "str": "linear_lora_a",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    },
+    {
+      "abstract_value_type": "jax._src.api.ShapeDtypeStruct",
+      "contains_lora_substring": true,
+      "dtype": "float32",
+      "parameter_count": 589824,
+      "parent_path": "PaliGemma/llm/layers/mlp_1",
+      "path": "PaliGemma/llm/layers/mlp_1/linear_lora_b",
+      "path_parts": [
+        "PaliGemma",
+        "llm",
+        "layers",
+        "mlp_1",
+        "linear_lora_b"
+      ],
+      "shape": [
+        18,
+        32,
+        1024
+      ],
+      "source_declared_lora_terminal": true,
+      "terminal": "linear_lora_b",
+      "typed_path_parts": [
+        {
+          "repr": "'PaliGemma'",
+          "str": "PaliGemma",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'llm'",
+          "str": "llm",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'layers'",
+          "str": "layers",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'mlp_1'",
+          "str": "mlp_1",
+          "type": "builtins.str"
+        },
+        {
+          "repr": "'linear_lora_b'",
+          "str": "linear_lora_b",
+          "type": "builtins.str"
+        }
+      ],
+      "variable_state_type": "flax.nnx.variablelib.VariableState",
+      "variable_type": "flax.nnx.variablelib.Param"
+    }
+  ],
+  "lora_substring_only_leaf_count": 0,
+  "lora_substring_only_records": [],
+  "schema_version": 1,
+  "source_declared_lora_terminals": [
+    "gating_einsum_lora_a",
+    "gating_einsum_lora_b",
+    "linear_lora_a",
+    "linear_lora_b",
+    "lora_a",
+    "lora_b"
+  ],
+  "status": "source_derived_candidates_not_yet_golden"
+}

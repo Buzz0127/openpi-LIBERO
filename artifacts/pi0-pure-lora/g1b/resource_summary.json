@@ -1,0 +1,7 @@
+{
+  "max_load1_per_cpu": 0.018284847861842105,
+  "min_mem_available_bytes": 269288169472,
+  "monitor_failure_count": 0,
+  "peak_child_rss_bytes": 752689152,
+  "sample_count": 43
+}

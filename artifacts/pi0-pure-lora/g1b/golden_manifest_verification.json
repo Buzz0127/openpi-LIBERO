@@ -1,0 +1,23 @@
+{
+  "actual_values": {
+    "adapter_leaf_count": 20,
+    "adapter_parameter_count": 49987584,
+    "non_adapter_leaf_count": 50,
+    "non_adapter_parameter_count": 3238048528,
+    "total_param_leaf_count": 70,
+    "total_parameter_count": 3288036112
+  },
+  "all_manifest_shapes_counts_types_and_dtypes_match": true,
+  "manifest": {
+    "path": "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/manifests/golden_adapter_paths.proposed.json",
+    "sha256": "9d40da24f1df526315d4fdd6e8701fb61ab89788e5598809049a5fed46f62c58"
+  },
+  "manifest_equals_source_candidate_set": true,
+  "protected_scope_intersection": [],
+  "schema_version": 1,
+  "status": "verified_proposed_manifest_pending_independent_approval",
+  "tree": {
+    "path": "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/g1b/attempt-20260830T-G1b-yNkF7P/tree/full_param_tree.json",
+    "sha256": "7aef78c4a3506c7a43306d214e1d21c050b5a626b29705dec5a7d1619b5a0c71"
+  }
+}

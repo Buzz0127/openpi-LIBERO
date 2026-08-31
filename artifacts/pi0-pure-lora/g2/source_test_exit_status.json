@@ -1,0 +1,15 @@
+{
+  "child_pid": 1442597,
+  "child_returncode": 0,
+  "elapsed_seconds": 13.070444812998176,
+  "end_time_epoch_seconds": 1788077894.4232101,
+  "expected_child_pgid": 1442597,
+  "external_signal": null,
+  "kill_sent": false,
+  "ownership_verified": false,
+  "reason_code": "completed",
+  "schema_version": 1,
+  "start_time_epoch_seconds": 1788077881.352768,
+  "term_sent": false,
+  "wait_reaped": true
+}
