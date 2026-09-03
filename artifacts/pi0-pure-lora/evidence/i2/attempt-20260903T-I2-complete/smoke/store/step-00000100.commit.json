@@ -1,0 +1,9 @@
+{
+  "async_wait_completed": true,
+  "automatic_pruning_enabled": false,
+  "final_restore_verified": true,
+  "schema_version": 1,
+  "staging_restore_verified": true,
+  "state_sha256": "4c79edee1243add469c1cc437f71ea74d6e6db0f7610ac4610488ac9fe8e6326",
+  "step": 100
+}

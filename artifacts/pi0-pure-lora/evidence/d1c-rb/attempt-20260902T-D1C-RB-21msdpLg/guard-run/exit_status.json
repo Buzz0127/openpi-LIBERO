@@ -1,0 +1,87 @@
+{
+  "child_pid": 1455247,
+  "child_returncode": 1,
+  "elapsed_seconds": 35.21810679323971,
+  "expected_child_pgid": 1455247,
+  "external_signal": null,
+  "final_billed_lora_bytes": 27648,
+  "final_sample": {
+    "billed_lora_bytes": 27648,
+    "child_rss_bytes": 858808320,
+    "hard_headroom_bytes": 999972352,
+    "load1": 87.4013671875,
+    "load1_per_cpu": 0.5750089946546053,
+    "logical_cpu_count": 152,
+    "mem_available_bytes": 269081915392,
+    "monitor_ok": true,
+    "monotonic_seconds": 2221395.355620455,
+    "positive_stage_delta_bytes": 27648,
+    "roots": [
+      {
+        "baseline_allocated_bytes": 9163752960,
+        "baseline_apparent_bytes": 13446404331,
+        "billed_delta_bytes": 0,
+        "current_allocated_bytes": 9163752960,
+        "current_apparent_bytes": 13446404331,
+        "path": "/home/wengzr/projects/openpi",
+        "positive_allocated_delta_bytes": 0,
+        "positive_apparent_delta_bytes": 0
+      },
+      {
+        "baseline_allocated_bytes": 11683840,
+        "baseline_apparent_bytes": 34423734,
+        "billed_delta_bytes": 27648,
+        "current_allocated_bytes": 11711488,
+        "current_apparent_bytes": 34448797,
+        "path": "/home/wengzr/projects/openpi-eval-tools",
+        "positive_allocated_delta_bytes": 27648,
+        "positive_apparent_delta_bytes": 25063
+      },
+      {
+        "baseline_allocated_bytes": 12025439232,
+        "baseline_apparent_bytes": 12018395968,
+        "billed_delta_bytes": 0,
+        "current_allocated_bytes": 12025439232,
+        "current_apparent_bytes": 12018395968,
+        "path": "/home/wengzr/.cache/openpi",
+        "positive_allocated_delta_bytes": 0,
+        "positive_apparent_delta_bytes": 0
+      },
+      {
+        "baseline_allocated_bytes": 3383054848,
+        "baseline_apparent_bytes": 5291778260,
+        "billed_delta_bytes": 0,
+        "current_allocated_bytes": 3383054848,
+        "current_apparent_bytes": 5291778260,
+        "path": "/home/wengzr/.cache/uv",
+        "positive_allocated_delta_bytes": 0,
+        "positive_apparent_delta_bytes": 0
+      },
+      {
+        "baseline_allocated_bytes": 80674393600,
+        "baseline_apparent_bytes": 80604467248,
+        "billed_delta_bytes": 0,
+        "current_allocated_bytes": 80674393600,
+        "current_apparent_bytes": 80604467248,
+        "path": "/home/wengzr/projects/openpi-lora-cache/huggingface",
+        "positive_allocated_delta_bytes": 0,
+        "positive_apparent_delta_bytes": 0
+      }
+    ],
+    "sample_index": 9,
+    "soft_headroom_bytes": 499972352,
+    "violation_counts": {
+      "max_load": 0,
+      "max_rss": 0,
+      "min_mem": 0
+    },
+    "wall_time_epoch_seconds": 1788312573.1709952
+  },
+  "kill_sent": false,
+  "observed_soft_limit_overshoot_bytes": 0,
+  "ownership_verified": false,
+  "reason_code": "child_exit_nonzero",
+  "sample_count": 10,
+  "term_sent": false,
+  "wait_reaped": true
+}

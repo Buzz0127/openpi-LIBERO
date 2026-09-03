@@ -1,0 +1,33 @@
+{
+  "billed_lora_increment_after_bytes": 85798232137,
+  "billed_lora_increment_before_bytes": 85798090575,
+  "c0_growth_bytes": 141562,
+  "physical_total_after_bytes": 110373073993,
+  "physical_total_before_bytes": 110372932431,
+  "policy": {
+    "excluded_v1_shared_baseline_bytes": 24574841856,
+    "hard_stop_bytes": 250000000000,
+    "minimum_uncommitted_bytes": 20000000000,
+    "review_line_bytes": 225000000000,
+    "separate_authorization_over_gib": 10,
+    "soft_stop_bytes": 240000000000
+  },
+  "remaining_to_hard_stop_bytes": 164201767863,
+  "remaining_to_review_line_bytes": 139201767863,
+  "schema_version": 1,
+  "status": "pass",
+  "top_levels_after": {
+    "/home/wengzr/.cache/openpi": 24032812110,
+    "/home/wengzr/.cache/uv": 5291730556,
+    "/home/wengzr/projects/openpi-eval-tools": 442017988,
+    "/home/wengzr/projects/openpi-lora-cache/huggingface": 80604459314,
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora": 2054025
+  },
+  "top_levels_before": {
+    "/home/wengzr/.cache/openpi": 24032812110,
+    "/home/wengzr/.cache/uv": 5291730556,
+    "/home/wengzr/projects/openpi-eval-tools": 441877028,
+    "/home/wengzr/projects/openpi-lora-cache/huggingface": 80604459314,
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora": 2053423
+  }
+}

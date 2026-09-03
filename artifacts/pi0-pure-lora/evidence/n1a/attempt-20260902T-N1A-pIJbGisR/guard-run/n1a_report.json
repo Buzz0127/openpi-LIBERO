@@ -1,0 +1,1446 @@
+{
+  "canonical_asset_created": false,
+  "canonical_asset_path": "/home/wengzr/projects/openpi-lora-assets/libero_pi0_delta_zscore_train1693_v1",
+  "checks": {
+    "action_horizon_is_50": true,
+    "all_probe_checks_pass": true,
+    "canonical_asset_path_exact": true,
+    "canonical_asset_target_absent_before_and_after": true,
+    "d1c_dataset_root_exact": true,
+    "d1c_report_pass": true,
+    "d1c_revision_exact": true,
+    "dataset_length_is_273465": true,
+    "dataset_root_exact": true,
+    "env_gpu_hidden": true,
+    "env_hf_datasets_cache_exact": true,
+    "env_hf_datasets_offline": true,
+    "env_hf_home_exact": true,
+    "env_hf_hub_offline": true,
+    "env_hf_lerobot_home_exact": true,
+    "env_proxies_unset": true,
+    "env_transformers_offline": true,
+    "episodes_are_1693": true,
+    "extra_delta_transform_enabled": true,
+    "first_and_last_episode_edges_represented": true,
+    "four_suite_blocks_represented": true,
+    "normalization_input_has_no_existing_stats": true,
+    "normalization_is_zscore": true,
+    "openpi_import_from_worktree": true,
+    "repo_id_exact": true,
+    "tasks_are_40": true
+  },
+  "config_name": "pi0_libero_pure_lora",
+  "d1c_report": {
+    "path": "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/d1c-rb/attempt-20260902T-D1C-RB-R2-jTceNxLJ/guard-run/reuse_report.json",
+    "sha256": "787b117385dd4f02ccb6440b7052117d74f1ed8566d1397c183ca7c4d9d3df8a"
+  },
+  "dataset_length": 273465,
+  "dataset_root": "/home/wengzr/projects/openpi-lora-cache/huggingface/lerobot/physical-intelligence/libero",
+  "elapsed_seconds": 18.586187321227044,
+  "expected_revision": "a4336d589d589045d1c56423ffdf3b88a0e19b1f",
+  "openpi_import": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/__init__.py",
+  "openpi_worktree": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora",
+  "package_versions": {
+    "datasets": "3.6.0",
+    "huggingface-hub": "0.32.3",
+    "lerobot": "0.1.0",
+    "numpy": "1.26.4",
+    "pyarrow": "20.0.0"
+  },
+  "phase": "n1a_norm_input_smoke",
+  "probe_count": 12,
+  "probes": [
+    {
+      "checks": {
+        "actions_finite": true,
+        "episode_index_exact": true,
+        "extra_delta_transform_exact": true,
+        "image_keys_exact": true,
+        "image_shapes_256x256x3": true,
+        "images_uint8_and_finite": true,
+        "padded_actions_repeat_episode_endpoint": true,
+        "padding_exact": true,
+        "prompt_matches_task": true,
+        "query_indices_exact": true,
+        "query_indices_within_episode": true,
+        "raw_actions_match_clamped_indices": true,
+        "raw_actions_shape_50x7": true,
+        "raw_state_shape_8": true,
+        "state_finite": true,
+        "task_index_exact": true,
+        "transformed_actions_shape_50x7": true,
+        "transformed_state_shape_8": true
+      },
+      "episode_end": 214,
+      "episode_index": 0,
+      "episode_start": 0,
+      "frame_index": 0,
+      "images": {
+        "base_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 242.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "left_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 255.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "right_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 0.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        }
+      },
+      "padding_count": 0,
+      "query_first": 0,
+      "query_last": 49,
+      "raw_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 1.0,
+        "min": -1.0,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "raw_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.1407692432403564,
+        "min": -0.08994418382644653,
+        "shape": [
+          8
+        ]
+      },
+      "reasons": [
+        "first_episode:start",
+        "libero_10:representative_start"
+      ],
+      "task": "put the white mug on the left plate and put the yellow and white mug on the right plate",
+      "task_index": 0,
+      "transformed_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 1.0,
+        "min": -3.2039835453033447,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "transformed_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.1407692432403564,
+        "min": -0.08994418382644653,
+        "shape": [
+          8
+        ]
+      }
+    },
+    {
+      "checks": {
+        "actions_finite": true,
+        "episode_index_exact": true,
+        "extra_delta_transform_exact": true,
+        "image_keys_exact": true,
+        "image_shapes_256x256x3": true,
+        "images_uint8_and_finite": true,
+        "padded_actions_repeat_episode_endpoint": true,
+        "padding_exact": true,
+        "prompt_matches_task": true,
+        "query_indices_exact": true,
+        "query_indices_within_episode": true,
+        "raw_actions_match_clamped_indices": true,
+        "raw_actions_shape_50x7": true,
+        "raw_state_shape_8": true,
+        "state_finite": true,
+        "task_index_exact": true,
+        "transformed_actions_shape_50x7": true,
+        "transformed_state_shape_8": true
+      },
+      "episode_end": 214,
+      "episode_index": 0,
+      "episode_start": 0,
+      "frame_index": 106,
+      "images": {
+        "base_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 254.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "left_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 255.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "right_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 0.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        }
+      },
+      "padding_count": 0,
+      "query_first": 106,
+      "query_last": 155,
+      "raw_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 0.75,
+        "min": -1.0,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "raw_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 2.9557480812072754,
+        "min": -0.3193722665309906,
+        "shape": [
+          8
+        ]
+      },
+      "reasons": [
+        "first_episode:middle"
+      ],
+      "task": "put the white mug on the left plate and put the yellow and white mug on the right plate",
+      "task_index": 0,
+      "transformed_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 0.9898637533187866,
+        "min": -2.975033760070801,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "transformed_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 2.9557480812072754,
+        "min": -0.3193722665309906,
+        "shape": [
+          8
+        ]
+      }
+    },
+    {
+      "checks": {
+        "actions_finite": true,
+        "episode_index_exact": true,
+        "extra_delta_transform_exact": true,
+        "image_keys_exact": true,
+        "image_shapes_256x256x3": true,
+        "images_uint8_and_finite": true,
+        "padded_actions_repeat_episode_endpoint": true,
+        "padding_exact": true,
+        "prompt_matches_task": true,
+        "query_indices_exact": true,
+        "query_indices_within_episode": true,
+        "raw_actions_match_clamped_indices": true,
+        "raw_actions_shape_50x7": true,
+        "raw_state_shape_8": true,
+        "state_finite": true,
+        "task_index_exact": true,
+        "transformed_actions_shape_50x7": true,
+        "transformed_state_shape_8": true
+      },
+      "episode_end": 214,
+      "episode_index": 0,
+      "episode_start": 0,
+      "frame_index": 213,
+      "images": {
+        "base_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 247.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "left_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 255.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "right_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 0.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        }
+      },
+      "padding_count": 49,
+      "query_first": 213,
+      "query_last": 213,
+      "raw_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 0.24375000596046448,
+        "min": -1.0,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "raw_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.0610415935516357,
+        "min": -0.6186895370483398,
+        "shape": [
+          8
+        ]
+      },
+      "reasons": [
+        "first_episode:end",
+        "libero_10:representative_end"
+      ],
+      "task": "put the white mug on the left plate and put the yellow and white mug on the right plate",
+      "task_index": 0,
+      "transformed_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 0.629403829574585,
+        "min": -3.100684404373169,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "transformed_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.0610415935516357,
+        "min": -0.6186895370483398,
+        "shape": [
+          8
+        ]
+      }
+    },
+    {
+      "checks": {
+        "actions_finite": true,
+        "episode_index_exact": true,
+        "extra_delta_transform_exact": true,
+        "image_keys_exact": true,
+        "image_shapes_256x256x3": true,
+        "images_uint8_and_finite": true,
+        "padded_actions_repeat_episode_endpoint": true,
+        "padding_exact": true,
+        "prompt_matches_task": true,
+        "query_indices_exact": true,
+        "query_indices_within_episode": true,
+        "raw_actions_match_clamped_indices": true,
+        "raw_actions_shape_50x7": true,
+        "raw_state_shape_8": true,
+        "state_finite": true,
+        "task_index_exact": true,
+        "transformed_actions_shape_50x7": true,
+        "transformed_state_shape_8": true
+      },
+      "episode_end": 101581,
+      "episode_index": 379,
+      "episode_start": 101469,
+      "frame_index": 101469,
+      "images": {
+        "base_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 237.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "left_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 231.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "right_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 0.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        }
+      },
+      "padding_count": 0,
+      "query_first": 101469,
+      "query_last": 101518,
+      "raw_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 1.0,
+        "min": -1.0,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "raw_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.139838695526123,
+        "min": -0.20300905406475067,
+        "shape": [
+          8
+        ]
+      },
+      "reasons": [
+        "libero_goal:representative_start"
+      ],
+      "task": "put the bowl on the plate",
+      "task_index": 10,
+      "transformed_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 1.1056876182556152,
+        "min": -3.181624412536621,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "transformed_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.139838695526123,
+        "min": -0.20300905406475067,
+        "shape": [
+          8
+        ]
+      }
+    },
+    {
+      "checks": {
+        "actions_finite": true,
+        "episode_index_exact": true,
+        "extra_delta_transform_exact": true,
+        "image_keys_exact": true,
+        "image_shapes_256x256x3": true,
+        "images_uint8_and_finite": true,
+        "padded_actions_repeat_episode_endpoint": true,
+        "padding_exact": true,
+        "prompt_matches_task": true,
+        "query_indices_exact": true,
+        "query_indices_within_episode": true,
+        "raw_actions_match_clamped_indices": true,
+        "raw_actions_shape_50x7": true,
+        "raw_state_shape_8": true,
+        "state_finite": true,
+        "task_index_exact": true,
+        "transformed_actions_shape_50x7": true,
+        "transformed_state_shape_8": true
+      },
+      "episode_end": 101581,
+      "episode_index": 379,
+      "episode_start": 101469,
+      "frame_index": 101580,
+      "images": {
+        "base_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 255.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "left_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 244.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "right_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 0.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        }
+      },
+      "padding_count": 49,
+      "query_first": 101580,
+      "query_last": 101580,
+      "raw_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 0.3214285671710968,
+        "min": -1.0,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "raw_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.0220348834991455,
+        "min": -0.18441812694072723,
+        "shape": [
+          8
+        ]
+      },
+      "reasons": [
+        "libero_goal:representative_end"
+      ],
+      "task": "put the bowl on the plate",
+      "task_index": 10,
+      "transformed_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 0.18441812694072723,
+        "min": -3.0327491760253906,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "transformed_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.0220348834991455,
+        "min": -0.18441812694072723,
+        "shape": [
+          8
+        ]
+      }
+    },
+    {
+      "checks": {
+        "actions_finite": true,
+        "episode_index_exact": true,
+        "extra_delta_transform_exact": true,
+        "image_keys_exact": true,
+        "image_shapes_256x256x3": true,
+        "images_uint8_and_finite": true,
+        "padded_actions_repeat_episode_endpoint": true,
+        "padding_exact": true,
+        "prompt_matches_task": true,
+        "query_indices_exact": true,
+        "query_indices_within_episode": true,
+        "raw_actions_match_clamped_indices": true,
+        "raw_actions_shape_50x7": true,
+        "raw_state_shape_8": true,
+        "state_finite": true,
+        "task_index_exact": true,
+        "transformed_actions_shape_50x7": true,
+        "transformed_state_shape_8": true
+      },
+      "episode_end": 153654,
+      "episode_index": 807,
+      "episode_start": 153511,
+      "frame_index": 153511,
+      "images": {
+        "base_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 252.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "left_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 255.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "right_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 0.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        }
+      },
+      "padding_count": 0,
+      "query_first": 153511,
+      "query_last": 153560,
+      "raw_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 0.8732143044471741,
+        "min": -1.0,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "raw_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.1400837898254395,
+        "min": -0.1499742567539215,
+        "shape": [
+          8
+        ]
+      },
+      "reasons": [
+        "libero_object:representative_start"
+      ],
+      "task": "pick up the orange juice and place it in the basket",
+      "task_index": 20,
+      "transformed_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 1.023188591003418,
+        "min": -3.1925837993621826,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "transformed_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.1400837898254395,
+        "min": -0.1499742567539215,
+        "shape": [
+          8
+        ]
+      }
+    },
+    {
+      "checks": {
+        "actions_finite": true,
+        "episode_index_exact": true,
+        "extra_delta_transform_exact": true,
+        "image_keys_exact": true,
+        "image_shapes_256x256x3": true,
+        "images_uint8_and_finite": true,
+        "padded_actions_repeat_episode_endpoint": true,
+        "padding_exact": true,
+        "prompt_matches_task": true,
+        "query_indices_exact": true,
+        "query_indices_within_episode": true,
+        "raw_actions_match_clamped_indices": true,
+        "raw_actions_shape_50x7": true,
+        "raw_state_shape_8": true,
+        "state_finite": true,
+        "task_index_exact": true,
+        "transformed_actions_shape_50x7": true,
+        "transformed_state_shape_8": true
+      },
+      "episode_end": 153654,
+      "episode_index": 807,
+      "episode_start": 153511,
+      "frame_index": 153653,
+      "images": {
+        "base_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 255.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "left_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 255.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "right_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 0.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        }
+      },
+      "padding_count": 49,
+      "query_first": 153653,
+      "query_last": 153653,
+      "raw_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 0.06160714104771614,
+        "min": -1.0,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "raw_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.121326208114624,
+        "min": -0.7069131731987,
+        "shape": [
+          8
+        ]
+      },
+      "reasons": [
+        "libero_object:representative_end"
+      ],
+      "task": "pick up the orange juice and place it in the basket",
+      "task_index": 20,
+      "transformed_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 0.7069131731987,
+        "min": -3.1277546882629395,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "transformed_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.121326208114624,
+        "min": -0.7069131731987,
+        "shape": [
+          8
+        ]
+      }
+    },
+    {
+      "checks": {
+        "actions_finite": true,
+        "episode_index_exact": true,
+        "extra_delta_transform_exact": true,
+        "image_keys_exact": true,
+        "image_shapes_256x256x3": true,
+        "images_uint8_and_finite": true,
+        "padded_actions_repeat_episode_endpoint": true,
+        "padding_exact": true,
+        "prompt_matches_task": true,
+        "query_indices_exact": true,
+        "query_indices_within_episode": true,
+        "raw_actions_match_clamped_indices": true,
+        "raw_actions_shape_50x7": true,
+        "raw_state_shape_8": true,
+        "state_finite": true,
+        "task_index_exact": true,
+        "transformed_actions_shape_50x7": true,
+        "transformed_state_shape_8": true
+      },
+      "episode_end": 220605,
+      "episode_index": 1261,
+      "episode_start": 220495,
+      "frame_index": 220495,
+      "images": {
+        "base_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 247.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "left_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 249.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "right_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 0.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        }
+      },
+      "padding_count": 0,
+      "query_first": 220495,
+      "query_last": 220544,
+      "raw_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 1.0,
+        "min": -1.0,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "raw_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.1396350860595703,
+        "min": -0.20487476885318756,
+        "shape": [
+          8
+        ]
+      },
+      "reasons": [
+        "libero_spatial:representative_start"
+      ],
+      "task": "pick up the black bowl next to the cookie box and place it on the plate",
+      "task_index": 30,
+      "transformed_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 1.1423747539520264,
+        "min": -3.1739208698272705,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "transformed_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.1396350860595703,
+        "min": -0.20487476885318756,
+        "shape": [
+          8
+        ]
+      }
+    },
+    {
+      "checks": {
+        "actions_finite": true,
+        "episode_index_exact": true,
+        "extra_delta_transform_exact": true,
+        "image_keys_exact": true,
+        "image_shapes_256x256x3": true,
+        "images_uint8_and_finite": true,
+        "padded_actions_repeat_episode_endpoint": true,
+        "padding_exact": true,
+        "prompt_matches_task": true,
+        "query_indices_exact": true,
+        "query_indices_within_episode": true,
+        "raw_actions_match_clamped_indices": true,
+        "raw_actions_shape_50x7": true,
+        "raw_state_shape_8": true,
+        "state_finite": true,
+        "task_index_exact": true,
+        "transformed_actions_shape_50x7": true,
+        "transformed_state_shape_8": true
+      },
+      "episode_end": 220605,
+      "episode_index": 1261,
+      "episode_start": 220495,
+      "frame_index": 220604,
+      "images": {
+        "base_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 255.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "left_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 247.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "right_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 0.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        }
+      },
+      "padding_count": 49,
+      "query_first": 220604,
+      "query_last": 220604,
+      "raw_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 0.6401785612106323,
+        "min": -1.0,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "raw_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.017057180404663,
+        "min": -0.024464670568704605,
+        "shape": [
+          8
+        ]
+      },
+      "reasons": [
+        "libero_spatial:representative_end"
+      ],
+      "task": "pick up the black bowl next to the cookie box and place it on the plate",
+      "task_index": 30,
+      "transformed_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": -0.024192897602915764,
+        "min": -3.017057180404663,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "transformed_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.017057180404663,
+        "min": -0.024464670568704605,
+        "shape": [
+          8
+        ]
+      }
+    },
+    {
+      "checks": {
+        "actions_finite": true,
+        "episode_index_exact": true,
+        "extra_delta_transform_exact": true,
+        "image_keys_exact": true,
+        "image_shapes_256x256x3": true,
+        "images_uint8_and_finite": true,
+        "padded_actions_repeat_episode_endpoint": true,
+        "padding_exact": true,
+        "prompt_matches_task": true,
+        "query_indices_exact": true,
+        "query_indices_within_episode": true,
+        "raw_actions_match_clamped_indices": true,
+        "raw_actions_shape_50x7": true,
+        "raw_state_shape_8": true,
+        "state_finite": true,
+        "task_index_exact": true,
+        "transformed_actions_shape_50x7": true,
+        "transformed_state_shape_8": true
+      },
+      "episode_end": 273465,
+      "episode_index": 1692,
+      "episode_start": 273356,
+      "frame_index": 273356,
+      "images": {
+        "base_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 243.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "left_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 235.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "right_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 0.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        }
+      },
+      "padding_count": 0,
+      "query_first": 273356,
+      "query_last": 273405,
+      "raw_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 1.0,
+        "min": -1.0,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "raw_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.14086651802063,
+        "min": -0.2097952514886856,
+        "shape": [
+          8
+        ]
+      },
+      "reasons": [
+        "last_episode:start"
+      ],
+      "task": "pick up the black bowl on the ramekin and place it on the plate",
+      "task_index": 32,
+      "transformed_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 1.0,
+        "min": -3.1601521968841553,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "transformed_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.14086651802063,
+        "min": -0.2097952514886856,
+        "shape": [
+          8
+        ]
+      }
+    },
+    {
+      "checks": {
+        "actions_finite": true,
+        "episode_index_exact": true,
+        "extra_delta_transform_exact": true,
+        "image_keys_exact": true,
+        "image_shapes_256x256x3": true,
+        "images_uint8_and_finite": true,
+        "padded_actions_repeat_episode_endpoint": true,
+        "padding_exact": true,
+        "prompt_matches_task": true,
+        "query_indices_exact": true,
+        "query_indices_within_episode": true,
+        "raw_actions_match_clamped_indices": true,
+        "raw_actions_shape_50x7": true,
+        "raw_state_shape_8": true,
+        "state_finite": true,
+        "task_index_exact": true,
+        "transformed_actions_shape_50x7": true,
+        "transformed_state_shape_8": true
+      },
+      "episode_end": 273465,
+      "episode_index": 1692,
+      "episode_start": 273356,
+      "frame_index": 273410,
+      "images": {
+        "base_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 255.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "left_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 251.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "right_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 0.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        }
+      },
+      "padding_count": 0,
+      "query_first": 273410,
+      "query_last": 273459,
+      "raw_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 1.0,
+        "min": -1.0,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "raw_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.271836757659912,
+        "min": -0.6163526177406311,
+        "shape": [
+          8
+        ]
+      },
+      "reasons": [
+        "last_episode:middle"
+      ],
+      "task": "pick up the black bowl on the ramekin and place it on the plate",
+      "task_index": 32,
+      "transformed_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 1.1830991506576538,
+        "min": -3.3875510692596436,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "transformed_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.271836757659912,
+        "min": -0.6163526177406311,
+        "shape": [
+          8
+        ]
+      }
+    },
+    {
+      "checks": {
+        "actions_finite": true,
+        "episode_index_exact": true,
+        "extra_delta_transform_exact": true,
+        "image_keys_exact": true,
+        "image_shapes_256x256x3": true,
+        "images_uint8_and_finite": true,
+        "padded_actions_repeat_episode_endpoint": true,
+        "padding_exact": true,
+        "prompt_matches_task": true,
+        "query_indices_exact": true,
+        "query_indices_within_episode": true,
+        "raw_actions_match_clamped_indices": true,
+        "raw_actions_shape_50x7": true,
+        "raw_state_shape_8": true,
+        "state_finite": true,
+        "task_index_exact": true,
+        "transformed_actions_shape_50x7": true,
+        "transformed_state_shape_8": true
+      },
+      "episode_end": 273465,
+      "episode_index": 1692,
+      "episode_start": 273356,
+      "frame_index": 273464,
+      "images": {
+        "base_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 255.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "left_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 255.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        },
+        "right_wrist_0_rgb": {
+          "dtype": "uint8",
+          "finite": true,
+          "max": 0.0,
+          "min": 0.0,
+          "shape": [
+            256,
+            256,
+            3
+          ]
+        }
+      },
+      "padding_count": 49,
+      "query_first": 273464,
+      "query_last": 273464,
+      "raw_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 0.6669642925262451,
+        "min": -1.0,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "raw_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.0450210571289062,
+        "min": -0.9744145274162292,
+        "shape": [
+          8
+        ]
+      },
+      "reasons": [
+        "last_episode:end"
+      ],
+      "task": "pick up the black bowl on the ramekin and place it on the plate",
+      "task_index": 32,
+      "transformed_actions": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 1.0633430480957031,
+        "min": -3.0450210571289062,
+        "shape": [
+          50,
+          7
+        ]
+      },
+      "transformed_state": {
+        "dtype": "float32",
+        "finite": true,
+        "max": 3.0450210571289062,
+        "min": -0.9744145274162292,
+        "shape": [
+          8
+        ]
+      }
+    }
+  ],
+  "repo_id": "physical-intelligence/libero",
+  "small_sample_stats": {
+    "actions": {
+      "mean": [
+        0.18622978031635284,
+        -0.04644615203142166,
+        -0.7930059432983398,
+        -3.1033763885498047,
+        0.21945226192474365,
+        0.09381338953971863,
+        -0.763333261013031
+      ],
+      "q01": [
+        -0.43579477882385254,
+        -0.6555394998550415,
+        -2.1074666909575464,
+        -3.3694154235839844,
+        -0.12883077812194824,
+        -0.32024532556533813,
+        -1.0
+      ],
+      "q99": [
+        1.1827646684408188,
+        0.9736443840026856,
+        -0.11945191357433793,
+        -2.9065664449691773,
+        1.063104231223464,
+        0.7069131731987,
+        1.0
+      ],
+      "std": [
+        0.4051373600959778,
+        0.3393600881099701,
+        0.5745832920074463,
+        0.08811278641223907,
+        0.3561689555644989,
+        0.23913194239139557,
+        0.6460049152374268
+      ]
+    },
+    "state": {
+      "mean": [
+        -0.07635922729969025,
+        0.08249525725841522,
+        0.8090060353279114,
+        3.099604845046997,
+        -0.21689869463443756,
+        -0.12030984461307526,
+        0.03294370695948601,
+        -0.03315994516015053
+      ],
+      "q01": [
+        -0.245599165558815,
+        -0.239863783121109,
+        0.18065977096557617,
+        2.9557480812072754,
+        -0.9744145274162292,
+        -0.7069131731987,
+        0.005590950604528189,
+        -0.03878973424434662
+      ],
+      "q99": [
+        0.0856420809909701,
+        0.3258154401659966,
+        1.1777528310775756,
+        3.2717735399246215,
+        0.055358638669550375,
+        0.23541395022571088,
+        0.03878229371039197,
+        -0.007155225908290597
+      ],
+      "std": [
+        0.11320009082555771,
+        0.1522410660982132,
+        0.3349730372428894,
+        0.07978581637144089,
+        0.3321908116340637,
+        0.21788857877254486,
+        0.010343658737838268,
+        0.009906656108796597
+      ]
+    }
+  },
+  "small_sample_stats_are_not_canonical": true,
+  "source_identities": {
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/scripts/compute_norm_stats.py": "36a958268e9a6200587c17c4e00c4edc7fa1de3d140872c21d1a9a94ba6c6f81",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/scripts/compute_norm_stats_test.py": "f4cb32f19977504faddaaf958aa02b14548ffa5c1138f11092613d119df030bc",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/policies/libero_policy.py": "d8679d99facc3fef48da07406081b20709ed872fcefdf7de67ede99422d623fa",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/training/config.py": "ff73cf6c3bcb3c5fcfd0b51450d28c437a7c66f7762d9cd659210e094c5e0a2f",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/training/config_test.py": "76bae19ee14302613cd03fa7ecfdad1e1a251717799aef1cc6cf0d58cd82b482",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/training/data_loader.py": "4d0b055ac28527c1ab1f0ba7496057722c7c748c88564a8de2ff4fac650e97c9",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/transforms.py": "a1b94e9e72849a18834778f229c6bb389a495eb7fbe0aa800edea728b9424ff4"
+  },
+  "status": "pass",
+  "transform_identity": {
+    "groups": {
+      "data": [
+        "openpi.policies.libero_policy.LiberoInputs:LiberoInputs(model_type=<ModelType.PI0: 'pi0'>)",
+        "openpi.transforms.DeltaActions:DeltaActions(mask=(True, True, True, True, True, True, False))"
+      ],
+      "repack": [
+        "openpi.transforms.RepackTransform:RepackTransform(structure={'observation/image': 'image', 'observation/wrist_image': 'wrist_image', 'observation/state': 'state', 'actions': 'actions', 'prompt': 'prompt'})"
+      ]
+    },
+    "sha256": "9f373bd1b879a13c04cd0adc35cb6d1ff6fb281475318eaaa95cbe6a24781ecb"
+  }
+}

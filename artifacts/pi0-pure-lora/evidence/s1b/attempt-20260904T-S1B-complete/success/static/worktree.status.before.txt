@@ -1,0 +1,9 @@
+ M scripts/compute_norm_stats.py
+ M scripts/train.py
+ M src/openpi/training/checkpoints.py
+ M src/openpi/training/config.py
+?? scripts/compute_norm_stats_test.py
+?? src/openpi/training/checkpoints_i3b_test.py
+?? src/openpi/training/config_test.py
+?? src/openpi/training/pure_lora_checkpointing.py
+?? src/openpi/training/pure_lora_checkpointing_test.py

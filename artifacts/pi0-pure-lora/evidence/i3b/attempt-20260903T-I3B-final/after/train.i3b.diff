@@ -1,0 +1,43 @@
+--- /home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/i3b/attempt-20260903T-I3B-CbKyGWHD/before/train.py	2026-09-03 07:01:51.779618223 +0000
++++ scripts/train.py	2026-09-03 07:06:57.132159834 +0000
+@@ -212,6 +212,7 @@
+     checkpoint_manager, resuming = _checkpoints.initialize_checkpoint_dir(
+         config.checkpoint_dir,
+         keep_period=config.keep_period,
++        max_to_keep=config.checkpoint_max_to_keep,
+         overwrite=config.overwrite,
+         resume=config.resume,
+     )
+@@ -270,7 +271,31 @@
+         batch = next(data_iter)
+ 
+         if (step % config.save_interval == 0 and step > start_step) or step == config.num_train_steps - 1:
+-            _checkpoints.save_state(checkpoint_manager, train_state, data_loader, step)
++            save_step = int(jax.device_get(train_state.step))
++            pure_lora_paths = (
++                config.pure_lora_model_manifest,
++                config.pure_lora_golden_manifest,
++                config.pure_lora_adapter_base_dir,
++            )
++            if any(path is not None for path in pure_lora_paths):
++                if not all(path is not None for path in pure_lora_paths):
++                    raise ValueError("pure-LoRA checkpoint settings must be all set or all unset")
++                # Keep the external pure-LoRA artifact dependency isolated from
++                # all standard OpenPI training configurations.
++                import openpi.training.pure_lora_checkpointing as _pure_lora_checkpointing
++
++                _pure_lora_checkpointing.save_restore_and_export(
++                    checkpoint_manager,
++                    train_state,
++                    data_loader,
++                    save_step=save_step,
++                    model_manifest_path=epath.Path(config.pure_lora_model_manifest),
++                    golden_manifest_path=epath.Path(config.pure_lora_golden_manifest),
++                    adapter_root=epath.Path(config.pure_lora_adapter_base_dir) / config.exp_name,
++                    train_seed=config.seed,
++                )
++            else:
++                _checkpoints.save_state(checkpoint_manager, train_state, data_loader, save_step)
+ 
+     logging.info("Waiting for checkpoint manager to finish")
+     checkpoint_manager.wait_until_finished()

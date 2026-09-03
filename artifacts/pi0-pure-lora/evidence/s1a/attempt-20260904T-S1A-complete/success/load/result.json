@@ -1,0 +1,14 @@
+{
+  "checkpoint_load_completed": true,
+  "checkpoint_written": false,
+  "elapsed_seconds": 7.9259438388980925,
+  "jax_devices": [
+    "cuda:0"
+  ],
+  "loaded_leaf_count": 50,
+  "mode": "load",
+  "model_identity_sha256": "f400e61ff136ddc163436b072cc9cb32dc001251d92011d14af2996964e6830a",
+  "physical_gpu": 1,
+  "schema_version": 1,
+  "training_performed": false
+}

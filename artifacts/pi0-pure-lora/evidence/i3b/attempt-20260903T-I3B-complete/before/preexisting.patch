@@ -1,0 +1,145 @@
+diff --git a/scripts/compute_norm_stats.py b/scripts/compute_norm_stats.py
+index c8aef87..27a430d 100644
+--- a/scripts/compute_norm_stats.py
++++ b/scripts/compute_norm_stats.py
+@@ -5,6 +5,9 @@ will compute the mean and standard deviation of the data in the dataset and save
+ to the config assets directory.
+ """
+ 
++import pathlib
++import urllib.parse
++
+ import numpy as np
+ import tqdm
+ import tyro
+@@ -21,6 +24,23 @@ class RemoveStrings(transforms.DataTransformFn):
+         return {k: v for k, v in x.items() if not np.issubdtype(np.asarray(v).dtype, np.str_)}
+ 
+ 
++def resolve_output_path(config: _config.TrainConfig) -> pathlib.Path:
++    """Resolve the canonical local output path for normalization statistics."""
++    output_path = config.data.resolve_asset_path(config.assets_dirs)
++    if output_path is None:
++        raise ValueError("Data config does not define an asset identity")
++    output_path_str = str(output_path)
++    if urllib.parse.urlparse(output_path_str).scheme:
++        raise ValueError(f"Normalization statistics output must be a local path: {output_path_str}")
++    return pathlib.Path(output_path_str).resolve()
++
++
++def ensure_output_path_is_new(output_path: pathlib.Path) -> None:
++    """Refuse to replace or merge with any existing canonical asset directory."""
++    if output_path.exists():
++        raise FileExistsError(f"Normalization statistics target already exists: {output_path}")
++
++
+ def create_torch_dataloader(
+     data_config: _config.DataConfig,
+     action_horizon: int,
+@@ -88,6 +108,8 @@ def create_rlds_dataloader(
+ 
+ def main(config_name: str, max_frames: int | None = None):
+     config = _config.get_config(config_name)
++    output_path = resolve_output_path(config)
++    ensure_output_path_is_new(output_path)
+     data_config = config.data.create(config.assets_dirs, config.model)
+ 
+     if data_config.rlds_data_dir is not None:
+@@ -108,7 +130,6 @@ def main(config_name: str, max_frames: int | None = None):
+ 
+     norm_stats = {key: stats.get_statistics() for key, stats in stats.items()}
+ 
+-    output_path = config.assets_dirs / data_config.repo_id
+     print(f"Writing stats to: {output_path}")
+     normalize.save(output_path, norm_stats)
+ 
+diff --git a/src/openpi/training/config.py b/src/openpi/training/config.py
+index 4ca47e1..481dd9e 100644
+--- a/src/openpi/training/config.py
++++ b/src/openpi/training/config.py
+@@ -176,23 +176,34 @@ class DataConfigFactory(abc.ABC):
+     def create(self, assets_dirs: pathlib.Path, model_config: _model.BaseModelConfig) -> DataConfig:
+         """Create a data config."""
+ 
++    def resolve_asset_id(self) -> str | None:
++        """Resolve the asset identity used for normalization statistics."""
++        repo_id = self.repo_id if self.repo_id is not tyro.MISSING else None
++        return self.assets.asset_id or repo_id
++
++    def resolve_asset_path(self, assets_dirs: pathlib.Path) -> epath.Path | None:
++        """Resolve the exact asset directory used for both loading and generation."""
++        asset_id = self.resolve_asset_id()
++        if asset_id is None:
++            return None
++        return epath.Path(self.assets.assets_dir or assets_dirs) / asset_id
++
+     def create_base_config(self, assets_dirs: pathlib.Path, model_config: _model.BaseModelConfig) -> DataConfig:
+         repo_id = self.repo_id if self.repo_id is not tyro.MISSING else None
+-        asset_id = self.assets.asset_id or repo_id
++        asset_id = self.resolve_asset_id()
+         return dataclasses.replace(
+             self.base_config or DataConfig(),
+             repo_id=repo_id,
+             asset_id=asset_id,
+-            norm_stats=self._load_norm_stats(epath.Path(self.assets.assets_dir or assets_dirs), asset_id),
++            norm_stats=self._load_norm_stats(self.resolve_asset_path(assets_dirs)),
+             use_quantile_norm=model_config.model_type != ModelType.PI0,
+         )
+ 
+-    def _load_norm_stats(self, assets_dir: epath.Path, asset_id: str | None) -> dict[str, _transforms.NormStats] | None:
+-        if asset_id is None:
++    def _load_norm_stats(self, data_assets_dir: epath.Path | None) -> dict[str, _transforms.NormStats] | None:
++        if data_assets_dir is None:
+             return None
+         try:
+-            data_assets_dir = str(assets_dir / asset_id)
+-            norm_stats = _normalize.load(_download.maybe_download(data_assets_dir))
++            norm_stats = _normalize.load(_download.maybe_download(str(data_assets_dir)))
+             logging.info(f"Loaded norm stats from {data_assets_dir}")
+             return norm_stats
+         except FileNotFoundError:
+@@ -556,6 +567,15 @@ class TrainConfig:
+             raise ValueError("Cannot resume and overwrite at the same time.")
+ 
+ 
++_PI0_LIBERO_PURE_LORA_MODEL = pi0_config.Pi0Config(
++    paligemma_variant="gemma_2b_lora",
++    action_expert_variant="gemma_300m_lora",
++)
++_PI0_LIBERO_CANONICAL_ASSETS_ROOT = "/home/wengzr/projects/openpi-lora-assets"
++_PI0_LIBERO_CANONICAL_ASSET_ID = "libero_pi0_delta_zscore_train1693_v1"
++_PI0_LIBERO_CHECKPOINT_ROOT = "/home/wengzr/projects/openpi-lora-runs/checkpoints"
++
++
+ # Use `get_config` if you need to get a config by name in your code.
+ _CONFIGS = [
+     #
+@@ -696,6 +716,28 @@ _CONFIGS = [
+         # Turn off EMA for LoRA finetuning.
+         ema_decay=None,
+     ),
++    TrainConfig(
++        name="pi0_libero_pure_lora",
++        model=_PI0_LIBERO_PURE_LORA_MODEL,
++        data=LeRobotLiberoDataConfig(
++            repo_id="physical-intelligence/libero",
++            assets=AssetsConfig(
++                assets_dir=_PI0_LIBERO_CANONICAL_ASSETS_ROOT,
++                asset_id=_PI0_LIBERO_CANONICAL_ASSET_ID,
++            ),
++            base_config=DataConfig(prompt_from_task=True),
++            extra_delta_transform=True,
++        ),
++        weight_loader=weight_loaders.CheckpointWeightLoader(
++            "gs://openpi-assets/checkpoints/pi0_base/params"
++        ),
++        freeze_filter=_PI0_LIBERO_PURE_LORA_MODEL.get_pure_lora_freeze_filter(),
++        num_train_steps=30_000,
++        ema_decay=None,
++        keep_period=None,
++        wandb_enabled=False,
++        checkpoint_base_dir=_PI0_LIBERO_CHECKPOINT_ROOT,
++    ),
+     TrainConfig(
+         name="pi0_fast_libero",
+         # Here is an example of loading a pi0-FAST model for full finetuning.

@@ -1,0 +1,6 @@
+48d1847417356fb38ecb5db45b569f12b2d148e6
+ff73cf6c3bcb3c5fcfd0b51450d28c437a7c66f7762d9cd659210e094c5e0a2f  src/openpi/training/config.py
+4e4291f8a77ddb68ae71fe72cb2642d0b0ecc938c75023d6a29aa10ec4a77c64  src/openpi/models/pi0_config.py
+a54ac3222f81f8c6233241bc16b6f369c9416cdaa83f7058f96f7ddcfde1a3b4  src/openpi/training/weight_loaders.py
+4444a42f97833d640fffa07e1fa6c13215ab849fecf1e1bd11d0dd0cb4732551  /home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/adapter_artifact.py
+c58136f6ea07c50c308915e272b5abb3245eec12dae5904b5f4209e7d36abda8  /home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/i1/attempt-20260903T-I1-REALFIX-ADp5C5Ej/openpi_tracked.patch

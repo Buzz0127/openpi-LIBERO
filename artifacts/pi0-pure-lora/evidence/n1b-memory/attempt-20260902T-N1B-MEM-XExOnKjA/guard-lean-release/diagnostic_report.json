@@ -1,0 +1,372 @@
+{
+  "batch_size": 32,
+  "canonical_target_absent": true,
+  "completed_batches": 500,
+  "config_name": "pi0_libero_pure_lora",
+  "dataset_length": 273465,
+  "elapsed_seconds": 40.55258822441101,
+  "final_stats_shapes": {
+    "actions": {
+      "mean": [
+        7
+      ],
+      "q01": [
+        7
+      ],
+      "q99": [
+        7
+      ],
+      "std": [
+        7
+      ]
+    },
+    "state": {
+      "mean": [
+        8
+      ],
+      "q01": [
+        8
+      ],
+      "q99": [
+        8
+      ],
+      "std": [
+        8
+      ]
+    }
+  },
+  "identities": {
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/d1c-rb/attempt-20260902T-D1C-RB-R2-jTceNxLJ/guard-run/reuse_report.json": "787b117385dd4f02ccb6440b7052117d74f1ed8566d1397c183ca7c4d9d3df8a",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/n1a/attempt-20260902T-N1A-pIJbGisR/guard-run/n1a_report.json": "3026e60cfb1933a1720c1f8bd6cf8a39ae065e0b76df9788991a1d47157b7897",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/shared/normalize.py": "6c2cea4946fb07e51801530400d2b2fd94730e195cd290d6b6960114eca9739d",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/training/config.py": "ff73cf6c3bcb3c5fcfd0b51450d28c437a7c66f7762d9cd659210e094c5e0a2f",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/training/data_loader.py": "4d0b055ac28527c1ab1f0ba7496057722c7c748c88564a8de2ff4fac650e97c9",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/transforms.py": "a1b94e9e72849a18834778f229c6bb389a495eb7fbe0aa800edea728b9424ff4"
+  },
+  "mode": "state_action_only",
+  "phase": "n1b_memory_diagnostic",
+  "probe_equivalence": [
+    {
+      "actions_equal": true,
+      "frame": 0,
+      "state_equal": true
+    },
+    {
+      "actions_equal": true,
+      "frame": 106,
+      "state_equal": true
+    },
+    {
+      "actions_equal": true,
+      "frame": 213,
+      "state_equal": true
+    },
+    {
+      "actions_equal": true,
+      "frame": 101469,
+      "state_equal": true
+    },
+    {
+      "actions_equal": true,
+      "frame": 101580,
+      "state_equal": true
+    },
+    {
+      "actions_equal": true,
+      "frame": 153511,
+      "state_equal": true
+    },
+    {
+      "actions_equal": true,
+      "frame": 153653,
+      "state_equal": true
+    },
+    {
+      "actions_equal": true,
+      "frame": 220495,
+      "state_equal": true
+    },
+    {
+      "actions_equal": true,
+      "frame": 220604,
+      "state_equal": true
+    },
+    {
+      "actions_equal": true,
+      "frame": 273356,
+      "state_equal": true
+    },
+    {
+      "actions_equal": true,
+      "frame": 273410,
+      "state_equal": true
+    },
+    {
+      "actions_equal": true,
+      "frame": 273464,
+      "state_equal": true
+    }
+  ],
+  "processed_frames": 16000,
+  "release_every": 10,
+  "rss_growth_bytes": -230043648,
+  "rss_slope_bytes_per_batch": -461009.31462925853,
+  "samples": [
+    {
+      "batch": 1,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1249644544
+    },
+    {
+      "batch": 10,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019006976
+    },
+    {
+      "batch": 20,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019011072
+    },
+    {
+      "batch": 30,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019035648
+    },
+    {
+      "batch": 40,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019101184
+    },
+    {
+      "batch": 50,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019129856
+    },
+    {
+      "batch": 60,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019133952
+    },
+    {
+      "batch": 70,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019203584
+    },
+    {
+      "batch": 80,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019215872
+    },
+    {
+      "batch": 90,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019158528
+    },
+    {
+      "batch": 100,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019179008
+    },
+    {
+      "batch": 110,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019150336
+    },
+    {
+      "batch": 120,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019183104
+    },
+    {
+      "batch": 130,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019207680
+    },
+    {
+      "batch": 140,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019273216
+    },
+    {
+      "batch": 150,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019265024
+    },
+    {
+      "batch": 160,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019244544
+    },
+    {
+      "batch": 170,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019277312
+    },
+    {
+      "batch": 180,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019314176
+    },
+    {
+      "batch": 190,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019289600
+    },
+    {
+      "batch": 200,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019322368
+    },
+    {
+      "batch": 210,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019297792
+    },
+    {
+      "batch": 220,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019244544
+    },
+    {
+      "batch": 230,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019252736
+    },
+    {
+      "batch": 240,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019273216
+    },
+    {
+      "batch": 250,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019289600
+    },
+    {
+      "batch": 260,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019297792
+    },
+    {
+      "batch": 270,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019359232
+    },
+    {
+      "batch": 280,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019310080
+    },
+    {
+      "batch": 290,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019342848
+    },
+    {
+      "batch": 300,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019305984
+    },
+    {
+      "batch": 310,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019408384
+    },
+    {
+      "batch": 320,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019424768
+    },
+    {
+      "batch": 330,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019359232
+    },
+    {
+      "batch": 340,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019445248
+    },
+    {
+      "batch": 350,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019461632
+    },
+    {
+      "batch": 360,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019465728
+    },
+    {
+      "batch": 370,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019502592
+    },
+    {
+      "batch": 380,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019445248
+    },
+    {
+      "batch": 390,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019518976
+    },
+    {
+      "batch": 400,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019539456
+    },
+    {
+      "batch": 410,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019568128
+    },
+    {
+      "batch": 420,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019527168
+    },
+    {
+      "batch": 430,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019535360
+    },
+    {
+      "batch": 440,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019510784
+    },
+    {
+      "batch": 450,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019510784
+    },
+    {
+      "batch": 460,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019559936
+    },
+    {
+      "batch": 470,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019564032
+    },
+    {
+      "batch": 480,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019559936
+    },
+    {
+      "batch": 490,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019568128
+    },
+    {
+      "batch": 500,
+      "pyarrow_allocated_bytes": 0,
+      "rss_bytes": 1019600896
+    }
+  ],
+  "status": "pass"
+}

@@ -1,0 +1,16 @@
+{
+  "adapter_identity_sha256": null,
+  "artifact_purpose": "s1b_bfloat16_hash_fix_training_initialization",
+  "experiment": "pi0_base_to_libero_pure_lora",
+  "identities": {
+    "base_manifest_sha256": "0a9e72e07255dcdb09b71ebc3daac3c7ab0a8d9d3be72426c4464ca46ef8d8dd",
+    "config_patch_sha256": "bba4963e9bf40c4b8f6e1ed8c96fbc39ff185e2616649d28e3abf3151ec8f845",
+    "golden_manifest_sha256": "3799cf4d053b013089216be97ab0b57d08dde1dd3c4f04744088ce2e93a32029",
+    "norm_stats_sha256": "f68a5fafe15e1577b7bb2c6fc4837a7d1669e2e9be3752f2589c3d327c6f8ccf"
+  },
+  "model_identity_sha256": "1fd7caea8b9de0e4a71ad351671b8f67cb8fed72ab2940ffb7285025e37d34f9",
+  "model_mode": "base",
+  "openpi_commit": "48d1847417356fb38ecb5db45b569f12b2d148e6",
+  "schema_version": 1,
+  "training_seed": null
+}

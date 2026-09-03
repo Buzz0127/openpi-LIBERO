@@ -1,0 +1,18 @@
+{
+  "adapter_identity_sha256": "4ca9f6f742037fc69baea658b8aa9e049143d125e40afa508a25d53297673568",
+  "canonical_norm_stats_resolved": true,
+  "config": "pi0_libero_pure_lora",
+  "gpu_used": false,
+  "identities": {
+    "base_manifest_sha256": "0a9e72e07255dcdb09b71ebc3daac3c7ab0a8d9d3be72426c4464ca46ef8d8dd",
+    "config_patch_sha256": "9859a49cf2890af841bcae042becb30b62eb786d78e83a18b6a3e3dcb1f60451",
+    "golden_manifest_sha256": "3799cf4d053b013089216be97ab0b57d08dde1dd3c4f04744088ce2e93a32029",
+    "norm_stats_sha256": "f68a5fafe15e1577b7bb2c6fc4837a7d1669e2e9be3752f2589c3d327c6f8ccf"
+  },
+  "inference_executed": false,
+  "input_transform_count": 8,
+  "output_transform_count": 3,
+  "policy_type": "openpi.policies.policy.Policy",
+  "schema_version": 1,
+  "status": "passed"
+}

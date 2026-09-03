@@ -1,0 +1,32 @@
+--- /home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/i3b/attempt-20260903T-I3B-CbKyGWHD/before/config.py	2026-09-03 07:01:51.782618276 +0000
++++ /home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/training/config.py	2026-09-03 07:10:48.196757248 +0000
+@@ -527,6 +527,14 @@
+     save_interval: int = 1000
+     # If set, any existing checkpoints matching step % keep_period == 0 will not be deleted.
+     keep_period: int | None = 5000
++    # Maximum number of checkpoints retained automatically. None disables
++    # automatic deletion so a new checkpoint can be restored before any old
++    # known-good checkpoint is removed.
++    checkpoint_max_to_keep: int | None = 1
++    # Pure-LoRA-only checkpoint verification and adapter publication inputs.
++    pure_lora_model_manifest: str | None = None
++    pure_lora_golden_manifest: str | None = None
++    pure_lora_adapter_base_dir: str | None = None
+ 
+     # If true, will overwrite the checkpoint directory if it already exists.
+     overwrite: bool = False
+@@ -735,6 +743,14 @@
+         num_train_steps=30_000,
+         ema_decay=None,
+         keep_period=None,
++        checkpoint_max_to_keep=None,
++        pure_lora_model_manifest=(
++            "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/manifests/base_model_manifest_i3b.json"
++        ),
++        pure_lora_golden_manifest=(
++            "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/manifests/golden_adapter_paths.json"
++        ),
++        pure_lora_adapter_base_dir="/home/wengzr/projects/openpi-lora-runs/adapters",
+         wandb_enabled=False,
+         checkpoint_base_dir=_PI0_LIBERO_CHECKPOINT_ROOT,
+     ),

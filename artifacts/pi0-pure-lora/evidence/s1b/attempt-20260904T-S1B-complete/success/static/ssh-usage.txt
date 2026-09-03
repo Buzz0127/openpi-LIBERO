@@ -1,0 +1,4 @@
+ssh_alias=openpi-libero
+clear_all_forwardings=yes
+proxy_alias_used=no
+forward_created=no

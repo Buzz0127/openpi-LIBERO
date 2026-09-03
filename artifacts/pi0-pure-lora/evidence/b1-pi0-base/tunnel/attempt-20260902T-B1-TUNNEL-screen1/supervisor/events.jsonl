@@ -1,0 +1,80 @@
+{"command": ["/usr/bin/ssh", "-N", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10", "-o", "ConnectionAttempts=1", "-o", "ServerAliveInterval=10", "-o", "ServerAliveCountMax=6", "-o", "ExitOnForwardFailure=yes", "-o", "ClearAllForwardings=no", "-o", "ControlMaster=no", "-o", "ControlPath=none", "-R", "127.0.0.1:17890:127.0.0.1:7890", "openpi-libero"], "event": "supervisor_start", "pid": 84950, "time_utc": "2026-09-02T14:21:06.180514Z"}
+{"attempt": 1, "event": "tunnel_start", "time_utc": "2026-09-02T14:21:06.180858Z"}
+{"attempt": 1, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-02T14:28:17.389521Z"}
+{"attempt": 1, "delay_seconds": 5, "event": "retry_scheduled", "time_utc": "2026-09-02T14:28:17.390385Z"}
+{"attempt": 2, "event": "tunnel_start", "time_utc": "2026-09-02T14:28:22.391367Z"}
+{"attempt": 2, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-02T15:00:19.432802Z"}
+{"attempt": 2, "delay_seconds": 10, "event": "retry_scheduled", "time_utc": "2026-09-02T15:00:19.434095Z"}
+{"attempt": 3, "event": "tunnel_start", "time_utc": "2026-09-02T15:00:29.438856Z"}
+{"attempt": 3, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-02T15:17:40.620068Z"}
+{"attempt": 3, "delay_seconds": 20, "event": "retry_scheduled", "time_utc": "2026-09-02T15:17:40.621133Z"}
+{"attempt": 4, "event": "tunnel_start", "time_utc": "2026-09-02T15:23:35.340537Z"}
+{"attempt": 4, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-02T15:56:43.237054Z"}
+{"attempt": 4, "delay_seconds": 40, "event": "retry_scheduled", "time_utc": "2026-09-02T15:56:43.238597Z"}
+{"attempt": 5, "event": "tunnel_start", "time_utc": "2026-09-02T16:40:49.283349Z"}
+{"attempt": 5, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-02T16:57:21.428914Z"}
+{"attempt": 5, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-02T16:57:21.429891Z"}
+{"attempt": 6, "event": "tunnel_start", "time_utc": "2026-09-02T18:36:39.531656Z"}
+{"attempt": 6, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-02T19:11:20.104425Z"}
+{"attempt": 6, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-02T19:11:20.105417Z"}
+{"attempt": 7, "event": "tunnel_start", "time_utc": "2026-09-02T20:13:00.040636Z"}
+{"attempt": 7, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-02T20:33:11.075690Z"}
+{"attempt": 7, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-02T20:33:11.076709Z"}
+{"attempt": 8, "event": "tunnel_start", "time_utc": "2026-09-02T22:05:08.366905Z"}
+{"attempt": 8, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-02T22:21:49.505659Z"}
+{"attempt": 8, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-02T22:21:49.506531Z"}
+{"attempt": 9, "event": "tunnel_start", "time_utc": "2026-09-02T23:36:54.941284Z"}
+{"attempt": 9, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T00:12:27.047787Z"}
+{"attempt": 9, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T00:12:27.048617Z"}
+{"attempt": 10, "event": "tunnel_start", "time_utc": "2026-09-03T00:50:25.727476Z"}
+{"attempt": 10, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T01:24:51.211219Z"}
+{"attempt": 10, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T01:24:51.212205Z"}
+{"attempt": 11, "event": "tunnel_start", "time_utc": "2026-09-03T02:11:31.196300Z"}
+{"attempt": 11, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T02:28:28.375549Z"}
+{"attempt": 11, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T02:28:28.376839Z"}
+{"attempt": 12, "event": "tunnel_start", "time_utc": "2026-09-03T03:29:25.541227Z"}
+{"attempt": 12, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T03:46:03.895085Z"}
+{"attempt": 12, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T03:46:03.896343Z"}
+{"attempt": 13, "event": "tunnel_start", "time_utc": "2026-09-03T04:30:44.019422Z"}
+{"attempt": 13, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T05:05:23.511537Z"}
+{"attempt": 13, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T05:05:23.512866Z"}
+{"attempt": 14, "event": "tunnel_start", "time_utc": "2026-09-03T05:20:20.916251Z"}
+{"attempt": 14, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T06:23:47.083788Z"}
+{"attempt": 14, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T06:23:47.085476Z"}
+{"attempt": 15, "event": "tunnel_start", "time_utc": "2026-09-03T06:55:12.445553Z"}
+{"attempt": 15, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T06:55:22.457143Z"}
+{"attempt": 15, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T06:55:22.457540Z"}
+{"attempt": 16, "event": "tunnel_start", "time_utc": "2026-09-03T06:56:22.462846Z"}
+{"attempt": 16, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T08:49:39.203488Z"}
+{"attempt": 16, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T08:49:39.206164Z"}
+{"attempt": 17, "event": "tunnel_start", "time_utc": "2026-09-03T09:21:42.613679Z"}
+{"attempt": 17, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T09:21:52.646552Z"}
+{"attempt": 17, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T09:21:52.647747Z"}
+{"attempt": 18, "event": "tunnel_start", "time_utc": "2026-09-03T09:23:43.689931Z"}
+{"attempt": 18, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T09:27:25.681392Z"}
+{"attempt": 18, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T09:27:25.682500Z"}
+{"attempt": 19, "event": "tunnel_start", "time_utc": "2026-09-03T09:29:55.585806Z"}
+{"attempt": 19, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T09:30:05.608699Z"}
+{"attempt": 19, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T09:30:05.610085Z"}
+{"attempt": 20, "event": "tunnel_start", "time_utc": "2026-09-03T09:46:06.063056Z"}
+{"attempt": 20, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T10:15:40.193870Z"}
+{"attempt": 20, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T10:15:40.195460Z"}
+{"attempt": 21, "event": "tunnel_start", "time_utc": "2026-09-03T11:05:23.686234Z"}
+{"attempt": 21, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T11:16:37.264844Z"}
+{"attempt": 21, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T11:16:37.266565Z"}
+{"attempt": 22, "event": "tunnel_start", "time_utc": "2026-09-03T12:17:54.350848Z"}
+{"attempt": 22, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T12:34:18.075705Z"}
+{"attempt": 22, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T12:34:18.077031Z"}
+{"attempt": 23, "event": "tunnel_start", "time_utc": "2026-09-03T13:36:27.422245Z"}
+{"attempt": 23, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T14:09:42.537186Z"}
+{"attempt": 23, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T14:09:42.538529Z"}
+{"attempt": 24, "event": "tunnel_start", "time_utc": "2026-09-03T14:52:19.029252Z"}
+{"attempt": 24, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T15:00:29.319828Z"}
+{"attempt": 24, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T15:00:29.321126Z"}
+{"attempt": 25, "event": "tunnel_start", "time_utc": "2026-09-03T15:20:48.705553Z"}
+{"attempt": 25, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T15:37:12.282833Z"}
+{"attempt": 25, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T15:37:12.284409Z"}
+{"attempt": 26, "event": "tunnel_start", "time_utc": "2026-09-03T16:16:07.328950Z"}
+{"attempt": 26, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-03T16:16:17.350959Z"}
+{"attempt": 26, "delay_seconds": 60, "event": "retry_scheduled", "time_utc": "2026-09-03T16:16:17.352275Z"}
+{"attempt": 27, "event": "tunnel_start", "time_utc": "2026-09-03T16:17:17.358728Z"}

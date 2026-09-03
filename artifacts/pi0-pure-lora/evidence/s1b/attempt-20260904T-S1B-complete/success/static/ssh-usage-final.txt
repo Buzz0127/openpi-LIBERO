@@ -1,0 +1,4 @@
+alias=openpi-libero
+forwarding=disabled
+proxy=unused
+direct_downloads_affected=no

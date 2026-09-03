@@ -1,0 +1,196 @@
+{
+  "arrow_after": {
+    "apparent_bytes": 34941009190,
+    "arrow_file_count": 70,
+    "builder": "parquet",
+    "config": "default-f7c44f87cc5984aa",
+    "file_count": 71,
+    "fingerprint": "9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d",
+    "hardlinks": [],
+    "path_size_manifest_sha256": "44c5fbe41202cbd29cf209d2856b4e95857f89728697a994d9aa14e0f2c5d700",
+    "relative_root": "parquet/default-f7c44f87cc5984aa/0.0.0/9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d",
+    "root": "/home/wengzr/projects/openpi-lora-cache/huggingface/datasets/parquet/default-f7c44f87cc5984aa/0.0.0/9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d",
+    "symlinks": [],
+    "version": "0.0.0"
+  },
+  "arrow_before": {
+    "apparent_bytes": 34941009190,
+    "arrow_file_count": 70,
+    "builder": "parquet",
+    "config": "default-f7c44f87cc5984aa",
+    "file_count": 71,
+    "fingerprint": "9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d",
+    "hardlinks": [],
+    "path_size_manifest_sha256": "44c5fbe41202cbd29cf209d2856b4e95857f89728697a994d9aa14e0f2c5d700",
+    "relative_root": "parquet/default-f7c44f87cc5984aa/0.0.0/9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d",
+    "root": "/home/wengzr/projects/openpi-lora-cache/huggingface/datasets/parquet/default-f7c44f87cc5984aa/0.0.0/9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d",
+    "symlinks": [],
+    "version": "0.0.0"
+  },
+  "arrow_tree_roots_after": [
+    "/home/wengzr/projects/openpi-lora-cache/huggingface/datasets/parquet/default-f7c44f87cc5984aa/0.0.0/9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d"
+  ],
+  "arrow_tree_roots_before": [
+    "/home/wengzr/projects/openpi-lora-cache/huggingface/datasets/parquet/default-f7c44f87cc5984aa/0.0.0/9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d"
+  ],
+  "checks": {
+    "arrow_builder_exact": true,
+    "arrow_config_exact": true,
+    "arrow_file_count_exact": true,
+    "arrow_fingerprint_exact": true,
+    "arrow_has_no_hardlinks_before": true,
+    "arrow_has_no_symlinks_before": true,
+    "arrow_identity_stable": true,
+    "arrow_manifest_exact": true,
+    "arrow_version_exact": true,
+    "dataset_repo_id_exact": true,
+    "dataset_revision_exact": true,
+    "dataset_root_exact": true,
+    "dataset_root_is_inside_lerobot_home": true,
+    "datasets_cache_is_inside_hf_home": true,
+    "env_all_proxy_variables_unset": true,
+    "env_hf_datasets_cache_exact": true,
+    "env_hf_datasets_offline": true,
+    "env_hf_home_exact": true,
+    "env_hf_hub_offline": true,
+    "env_hf_lerobot_home_exact": true,
+    "env_transformers_offline": true,
+    "fps_is_10": true,
+    "full_hf_home_shape_and_bytes_stable": true,
+    "hf_home_has_no_hardlinks_after": true,
+    "hf_home_has_no_hardlinks_before": true,
+    "hf_home_has_no_symlinks_after": true,
+    "hf_home_has_no_symlinks_before": true,
+    "length_is_273465": true,
+    "lerobot_home_is_inside_hf_home": true,
+    "no_added_hf_home_entries": true,
+    "no_new_file_over_limit": true,
+    "no_removed_hf_home_entries": true,
+    "no_unexpected_hf_home_changes": true,
+    "raw_byte_counts_match": true,
+    "raw_dataset_root_exact": true,
+    "raw_file_counts_match": true,
+    "raw_metadata_hashes_match": true,
+    "raw_no_incomplete_cache_artifacts": true,
+    "raw_no_missing_or_unexpected": true,
+    "raw_no_size_mismatches_or_symlinks": true,
+    "raw_positive_file_and_byte_counts": true,
+    "raw_report_passes_complete_mode": true,
+    "raw_revision_exact": true,
+    "single_arrow_tree_after": true,
+    "single_arrow_tree_before": true,
+    "single_raw_repo_root_after": true,
+    "single_raw_repo_root_before": true,
+    "total_episodes_is_1693": true,
+    "total_frames_is_273465": true,
+    "total_tasks_is_40": true
+  },
+  "dataset_root": "/home/wengzr/projects/openpi-lora-cache/huggingface/lerobot/physical-intelligence/libero",
+  "hf_datasets_cache": "/home/wengzr/projects/openpi-lora-cache/huggingface/datasets",
+  "hf_home": "/home/wengzr/projects/openpi-lora-cache/huggingface",
+  "hf_home_after": {
+    "allocated_bytes": 80656182784,
+    "apparent_bytes": 80604459314,
+    "file_entry_count": 5775,
+    "metadata_manifest_sha256": "c1d9f67d0c3758c7faeddf83dedb9cdce10c1233cb4a0fd08fce9a6bd175919e",
+    "multi_link_file_count": 0,
+    "symlink_count": 0
+  },
+  "hf_home_before": {
+    "allocated_bytes": 80656182784,
+    "apparent_bytes": 80604459314,
+    "file_entry_count": 5775,
+    "metadata_manifest_sha256": "6a12c19de0c8819dc78781cbb4d9f34f491308def4b3900298738669fa2a755c",
+    "multi_link_file_count": 0,
+    "symlink_count": 0
+  },
+  "hf_home_diff": {
+    "added": [],
+    "added_allocated_bytes": 0,
+    "added_apparent_bytes": 0,
+    "allowed_zero_byte_lock_mtime_touches": [
+      "datasets/_home_wengzr_projects_openpi-lora-cache_huggingface_datasets_parquet_default-f7c44f87cc5984aa_0.0.0_9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d.lock",
+      "datasets/parquet/default-f7c44f87cc5984aa/0.0.0/9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d_builder.lock"
+    ],
+    "changed": [
+      "datasets/_home_wengzr_projects_openpi-lora-cache_huggingface_datasets_parquet_default-f7c44f87cc5984aa_0.0.0_9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d.lock",
+      "datasets/parquet/default-f7c44f87cc5984aa/0.0.0/9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d_builder.lock"
+    ],
+    "max_added_file_bytes": 0,
+    "removed": [],
+    "unexpected_changes": []
+  },
+  "hf_lerobot_home": "/home/wengzr/projects/openpi-lora-cache/huggingface/lerobot",
+  "length": 273465,
+  "max_new_file_bytes": 100000000,
+  "metadata": {
+    "fps": 10,
+    "total_episodes": 1693,
+    "total_frames": 273465,
+    "total_tasks": 40
+  },
+  "phase": "runtime",
+  "raw_repo_roots_after": [
+    "/home/wengzr/projects/openpi-lora-cache/huggingface/lerobot/physical-intelligence/libero"
+  ],
+  "raw_repo_roots_before": [
+    "/home/wengzr/projects/openpi-lora-cache/huggingface/lerobot/physical-intelligence/libero"
+  ],
+  "raw_snapshot_identity": {
+    "actual_repo_bytes": 34938927454,
+    "actual_repo_file_count": 1699,
+    "cache_artifact_count": 0,
+    "checks": {
+      "byte_counts_match": true,
+      "dataset_root_exact": true,
+      "file_counts_match": true,
+      "metadata_hashes_match": true,
+      "no_incomplete_cache_artifacts": true,
+      "no_missing_or_unexpected": true,
+      "no_size_mismatches_or_symlinks": true,
+      "positive_file_and_byte_counts": true,
+      "report_passes_complete_mode": true,
+      "revision_exact": true
+    },
+    "dataset_root": "/home/wengzr/projects/openpi-lora-cache/huggingface/lerobot/physical-intelligence/libero",
+    "expected_file_count": 1699,
+    "expected_total_bytes": 34938927454,
+    "identity_sha256": "64725f83deff33829abf93169602199ec15dbc090756dafe462c77386ef3d85e",
+    "metadata": {
+      "meta/episodes.jsonl": {
+        "expected_sha256": "0479a2ced6117700e4638a1da54dccd9f60ae5f47485ea6d91390c869befcf08",
+        "matches": true,
+        "present": true,
+        "sha256": "0479a2ced6117700e4638a1da54dccd9f60ae5f47485ea6d91390c869befcf08"
+      },
+      "meta/info.json": {
+        "expected_sha256": "77c0da93c67960bac803a8ea25dabf380d752c26c1d91c54151121dd10e7d82f",
+        "matches": true,
+        "present": true,
+        "sha256": "77c0da93c67960bac803a8ea25dabf380d752c26c1d91c54151121dd10e7d82f"
+      },
+      "meta/stats.json": {
+        "expected_sha256": "1fe6c2d548a7998394488ae68bc2be46a51c8cd3798af6ab74fff79f8b20e293",
+        "matches": true,
+        "present": true,
+        "sha256": "1fe6c2d548a7998394488ae68bc2be46a51c8cd3798af6ab74fff79f8b20e293"
+      },
+      "meta/tasks.jsonl": {
+        "expected_sha256": "e72ef3cf7ca7a3abe70b3e142a0d1acf2719d2a3f27598869092cc4f1762bb99",
+        "matches": true,
+        "present": true,
+        "sha256": "e72ef3cf7ca7a3abe70b3e142a0d1acf2719d2a3f27598869092cc4f1762bb99"
+      }
+    },
+    "missing_count": 0,
+    "mode": "complete",
+    "revision": "a4336d589d589045d1c56423ffdf3b88a0e19b1f",
+    "size_mismatches": [],
+    "status": "pass",
+    "symlinks": [],
+    "unexpected": []
+  },
+  "repo_id": "physical-intelligence/libero",
+  "revision": "a4336d589d589045d1c56423ffdf3b88a0e19b1f",
+  "status": "pass"
+}

@@ -1,0 +1,94 @@
+{
+  "child_pid": 1458436,
+  "command": [
+    "/home/wengzr/projects/openpi/.venv/bin/python",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/n1b-r3/attempt-20260902T-N1B-R3-nZfeRdmk/run_n1b_r3_lean_atomic.py",
+    "--config-name",
+    "pi0_libero_pure_lora",
+    "--expected-target",
+    "/home/wengzr/projects/openpi-lora-assets/libero_pi0_delta_zscore_train1693_v1",
+    "--expected-dataset-length",
+    "273465",
+    "--batch-size",
+    "32",
+    "--sample-every",
+    "100",
+    "--report",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/n1b-r3/attempt-20260902T-N1B-R3-nZfeRdmk/guard-run/r3_report.json",
+    "--identity",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/n1b-r3/attempt-20260902T-N1B-R3-nZfeRdmk/run_n1b_r3_lean_atomic.py=4c56f6add3d0dc026ecfe33e78319f30e2817b85bab79247b71952ffee4a099b",
+    "--identity",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/n1b-r3/attempt-20260902T-N1B-R3-nZfeRdmk/diagnose_n1b_memory.py=1d6e2931c47cb5d58f23fae2e1c44fae18130e5617b461a3b73a822a02a367cf",
+    "--identity",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/n1b-r3/attempt-20260902T-N1B-R3-nZfeRdmk/run_compute_norm_stats_atomic.py=0b16f6cef44f119432fb17bb0a254f9a3f295abc6727f1a57018bbce0e0e8b5e",
+    "--identity",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/training/config.py=ff73cf6c3bcb3c5fcfd0b51450d28c437a7c66f7762d9cd659210e094c5e0a2f",
+    "--identity",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/training/data_loader.py=4d0b055ac28527c1ab1f0ba7496057722c7c748c88564a8de2ff4fac650e97c9",
+    "--identity",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/transforms.py=a1b94e9e72849a18834778f229c6bb389a495eb7fbe0aa800edea728b9424ff4",
+    "--identity",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src/openpi/shared/normalize.py=6c2cea4946fb07e51801530400d2b2fd94730e195cd290d6b6960114eca9739d",
+    "--identity",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/d1c-rb/attempt-20260902T-D1C-RB-R2-jTceNxLJ/guard-run/reuse_report.json=787b117385dd4f02ccb6440b7052117d74f1ed8566d1397c183ca7c4d9d3df8a",
+    "--identity",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/n1a/attempt-20260902T-N1A-pIJbGisR/guard-run/n1a_report.json=3026e60cfb1933a1720c1f8bd6cf8a39ae065e0b76df9788991a1d47157b7897",
+    "--identity",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/n1b-memory/attempt-20260902T-N1B-MEM-XExOnKjA/guard-lean-release/diagnostic_report.json=5a8a5c298ca620fe71fed99c483319b8af8a90648c106ce97a4f85b029caad97",
+    "--identity",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/n1b-memory/attempt-20260902T-N1B-MEM-XExOnKjA/guard-lean-no-release/diagnostic_report.json=e0aceeb74bbfa4179185d9b80be91938e3e6e7d44778e9e18d36252b837a573f"
+  ],
+  "expected_child_pgid": 1458436,
+  "resources": {
+    "consecutive_samples": 3,
+    "max_child_rss_bytes": 6442450944,
+    "max_load1_per_cpu": 0.9,
+    "min_mem_available_bytes": 68719476736
+  },
+  "schema_version": 1,
+  "start_new_session": true,
+  "start_time_epoch_seconds": 1788336111.8634248,
+  "storage": {
+    "baselines": {
+      "/home/wengzr/.cache/openpi": {
+        "allocated_bytes": 12025439232,
+        "apparent_bytes": 12018395968
+      },
+      "/home/wengzr/.cache/uv": {
+        "allocated_bytes": 3383054848,
+        "apparent_bytes": 5291778260
+      },
+      "/home/wengzr/projects/openpi": {
+        "allocated_bytes": 9163752960,
+        "apparent_bytes": 13446404331
+      },
+      "/home/wengzr/projects/openpi-eval-tools": {
+        "allocated_bytes": 12804608,
+        "apparent_bytes": 35960957
+      },
+      "/home/wengzr/projects/openpi-lora-assets": {
+        "allocated_bytes": 0,
+        "apparent_bytes": 0
+      },
+      "/home/wengzr/projects/openpi-lora-cache/huggingface": {
+        "allocated_bytes": 80674393600,
+        "apparent_bytes": 80604467248
+      }
+    },
+    "billing_per_root": "max(positive allocated delta, positive apparent delta)",
+    "existing_billed_bytes": 0,
+    "hard_limit_bytes": 1000000000,
+    "hardlinks_deduplicated_per_sample": true,
+    "positive_per_root_deltas_prevent_decrease_masking": true,
+    "roots": [
+      "/home/wengzr/projects/openpi",
+      "/home/wengzr/projects/openpi-eval-tools",
+      "/home/wengzr/.cache/openpi",
+      "/home/wengzr/.cache/uv",
+      "/home/wengzr/projects/openpi-lora-cache/huggingface",
+      "/home/wengzr/projects/openpi-lora-assets"
+    ],
+    "soft_limit_bytes": 500000000
+  },
+  "timeout_seconds": 3600.0
+}

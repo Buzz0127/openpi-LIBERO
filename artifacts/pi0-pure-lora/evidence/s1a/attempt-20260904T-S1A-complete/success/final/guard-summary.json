@@ -1,0 +1,24 @@
+{
+  "compile": {
+    "events": [
+      "guard_started",
+      "child_started",
+      "child_exited"
+    ],
+    "min_free_memory_percent": 49.49073932187114,
+    "peak_memory_used_mib": 49442.0,
+    "peak_utilization_percent": 75.0,
+    "sample_count": 48
+  },
+  "load": {
+    "events": [
+      "guard_started",
+      "child_started",
+      "child_exited"
+    ],
+    "min_free_memory_percent": 57.86570228937448,
+    "peak_memory_used_mib": 41244.0,
+    "peak_utilization_percent": 73.0,
+    "sample_count": 21
+  }
+}

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/scripts/compute_norm_stats_test.py", line 6, in <module>
+    from scripts import compute_norm_stats
+ModuleNotFoundError: No module named 'scripts'

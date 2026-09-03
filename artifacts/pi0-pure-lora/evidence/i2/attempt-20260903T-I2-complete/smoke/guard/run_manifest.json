@@ -1,0 +1,62 @@
+{
+  "child_pid": 1461656,
+  "command": [
+    "/home/wengzr/projects/openpi/.venv/bin/python",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/run_i2_atomic_smoke.py",
+    "--output-dir",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/i2/attempt-20260903T-I2-SMOKE-BChFowvl/store"
+  ],
+  "expected_child_pgid": 1461656,
+  "resources": {
+    "consecutive_samples": 3,
+    "max_child_rss_bytes": 2000000000,
+    "max_load1_per_cpu": 0.9,
+    "min_mem_available_bytes": 100000000000
+  },
+  "schema_version": 1,
+  "start_new_session": true,
+  "start_time_epoch_seconds": 1788414015.3473847,
+  "storage": {
+    "baselines": {
+      "/home/wengzr/.cache/openpi": {
+        "allocated_bytes": 24048115712,
+        "apparent_bytes": 24032812207
+      },
+      "/home/wengzr/.cache/uv": {
+        "allocated_bytes": 3383054848,
+        "apparent_bytes": 5291778260
+      },
+      "/home/wengzr/projects/openpi": {
+        "allocated_bytes": 9163752960,
+        "apparent_bytes": 13446404331
+      },
+      "/home/wengzr/projects/openpi-eval-tools": {
+        "allocated_bytes": 14493184,
+        "apparent_bytes": 440212114
+      },
+      "/home/wengzr/projects/openpi-lora-assets": {
+        "allocated_bytes": 30208,
+        "apparent_bytes": 1957
+      },
+      "/home/wengzr/projects/openpi-lora-cache/huggingface": {
+        "allocated_bytes": 80674393600,
+        "apparent_bytes": 80604467248
+      }
+    },
+    "billing_per_root": "max(positive allocated delta, positive apparent delta)",
+    "existing_billed_bytes": 93500000000,
+    "hard_limit_bytes": 200000000000,
+    "hardlinks_deduplicated_per_sample": true,
+    "positive_per_root_deltas_prevent_decrease_masking": true,
+    "roots": [
+      "/home/wengzr/projects/openpi",
+      "/home/wengzr/projects/openpi-eval-tools",
+      "/home/wengzr/.cache/openpi",
+      "/home/wengzr/.cache/uv",
+      "/home/wengzr/projects/openpi-lora-cache/huggingface",
+      "/home/wengzr/projects/openpi-lora-assets"
+    ],
+    "soft_limit_bytes": 190000000000
+  },
+  "timeout_seconds": 600.0
+}

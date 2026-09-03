@@ -1,0 +1,16 @@
+{
+  "async_wait_completed": true,
+  "automatic_pruning_enabled": false,
+  "committed_steps": [
+    0,
+    100
+  ],
+  "deletion_performed": false,
+  "interrupted_staging_ignored": true,
+  "new_step_restore_hash_equal": true,
+  "old_step_retained_after_new_restore": true,
+  "optimizer_and_step_included_in_tree_hash": true,
+  "schema_version": 1,
+  "staging_path_count": 1,
+  "status": "passed"
+}

@@ -1,0 +1,2 @@
+previous_attempt=/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/s1a/attempt-20260903T-S1A-litpunHQ
+previous_outcome=guard_runtime_limit_no_workload_result

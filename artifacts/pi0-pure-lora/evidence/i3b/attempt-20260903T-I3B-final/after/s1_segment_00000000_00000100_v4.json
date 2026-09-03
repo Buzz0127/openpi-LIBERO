@@ -1,0 +1,34 @@
+{
+  "adapter_milestone_dir": "/home/wengzr/projects/openpi-lora-runs/adapters/pi0-libero-pure-lora-seed42/step-00000100",
+  "command": [
+    "/home/wengzr/projects/openpi/.venv/bin/python",
+    "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/scripts/train.py",
+    "pi0_libero_pure_lora",
+    "--exp-name=pi0-libero-pure-lora-seed42",
+    "--seed=42",
+    "--num-train-steps=100",
+    "--save-interval=100"
+  ],
+  "dataset_manifest_sha256": "787b117385dd4f02ccb6440b7052117d74f1ed8566d1397c183ca7c4d9d3df8a",
+  "dataset_revision": "a4336d589d589045d1c56423ffdf3b88a0e19b1f",
+  "eval_seed": 7,
+  "execution_authorized": false,
+  "full_state_dir": "/home/wengzr/projects/openpi-lora-runs/checkpoints/pi0_libero_pure_lora/pi0-libero-pure-lora-seed42",
+  "model_identity_sha256": "f400e61ff136ddc163436b072cc9cb32dc001251d92011d14af2996964e6830a",
+  "plan_identity_sha256": "e025994fc14ab21413df43ee1db7f5ce52d42dc79592fc797c2c57dd8a56fef0",
+  "required_environment": {
+    "CUDA_VISIBLE_DEVICES": "<selected physical GPU>",
+    "PYTHONPATH": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora/src:/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false"
+  },
+  "rotation_policy": {
+    "adapter_milestone_required": true,
+    "automatic_pruning_allowed": false,
+    "old_and_new_must_coexist_until_new_restore": true
+  },
+  "schema_version": 1,
+  "segment_end": 100,
+  "segment_start": 0,
+  "stage": "pure_lora_training_segment",
+  "train_seed": 42
+}

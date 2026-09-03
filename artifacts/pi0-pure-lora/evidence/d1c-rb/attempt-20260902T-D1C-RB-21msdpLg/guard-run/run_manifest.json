@@ -1,0 +1,113 @@
+{
+  "child_pid": 1455247,
+  "command": [
+    "env",
+    "-u",
+    "HTTP_PROXY",
+    "-u",
+    "HTTPS_PROXY",
+    "-u",
+    "ALL_PROXY",
+    "-u",
+    "http_proxy",
+    "-u",
+    "https_proxy",
+    "-u",
+    "all_proxy",
+    "HF_HOME=/home/wengzr/projects/openpi-lora-cache/huggingface",
+    "HF_DATASETS_CACHE=/home/wengzr/projects/openpi-lora-cache/huggingface/datasets",
+    "HF_LEROBOT_HOME=/home/wengzr/projects/openpi-lora-cache/huggingface/lerobot",
+    "HF_HUB_OFFLINE=1",
+    "HF_DATASETS_OFFLINE=1",
+    "TRANSFORMERS_OFFLINE=1",
+    "HF_HUB_DISABLE_TELEMETRY=1",
+    "DO_NOT_TRACK=1",
+    "CUDA_VISIBLE_DEVICES=",
+    "JAX_PLATFORMS=cpu",
+    "OMP_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "NUMEXPR_NUM_THREADS=1",
+    "TOKENIZERS_PARALLELISM=false",
+    "/home/wengzr/projects/openpi/.venv/bin/python",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/d1c-rb/attempt-20260902T-D1C-RB-21msdpLg/verify_lerobot_offline_reuse.py",
+    "--dataset-root",
+    "/home/wengzr/projects/openpi-lora-cache/huggingface/lerobot/physical-intelligence/libero",
+    "--hf-home",
+    "/home/wengzr/projects/openpi-lora-cache/huggingface",
+    "--hf-datasets-cache",
+    "/home/wengzr/projects/openpi-lora-cache/huggingface/datasets",
+    "--hf-lerobot-home",
+    "/home/wengzr/projects/openpi-lora-cache/huggingface/lerobot",
+    "--raw-snapshot-report",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/d1b/attempt-20260901T-D1B-AUTO-8sqRTNP8/postverify-v2-tVia3Vmg/full_snapshot_report.json",
+    "--revision",
+    "a4336d589d589045d1c56423ffdf3b88a0e19b1f",
+    "--expected-arrow-root",
+    "/home/wengzr/projects/openpi-lora-cache/huggingface/datasets/parquet/default-f7c44f87cc5984aa/0.0.0/9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d",
+    "--expected-arrow-builder",
+    "parquet",
+    "--expected-arrow-config",
+    "default-f7c44f87cc5984aa",
+    "--expected-arrow-version",
+    "0.0.0",
+    "--expected-arrow-fingerprint",
+    "9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d",
+    "--expected-arrow-file-count",
+    "70",
+    "--expected-arrow-manifest-sha256",
+    "44c5fbe41202cbd29cf209d2856b4e95857f89728697a994d9aa14e0f2c5d700",
+    "--max-new-file-bytes",
+    "100000000",
+    "--output",
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/d1c-rb/attempt-20260902T-D1C-RB-21msdpLg/guard-run/reuse_report.json"
+  ],
+  "expected_child_pgid": 1455247,
+  "resources": {
+    "consecutive_samples": 3,
+    "max_child_rss_bytes": 8589934592,
+    "max_load1_per_cpu": 0.9,
+    "min_mem_available_bytes": 68719476736
+  },
+  "schema_version": 1,
+  "start_new_session": true,
+  "start_time_epoch_seconds": 1788312538.983685,
+  "storage": {
+    "baselines": {
+      "/home/wengzr/.cache/openpi": {
+        "allocated_bytes": 12025439232,
+        "apparent_bytes": 12018395968
+      },
+      "/home/wengzr/.cache/uv": {
+        "allocated_bytes": 3383054848,
+        "apparent_bytes": 5291778260
+      },
+      "/home/wengzr/projects/openpi": {
+        "allocated_bytes": 9163752960,
+        "apparent_bytes": 13446404331
+      },
+      "/home/wengzr/projects/openpi-eval-tools": {
+        "allocated_bytes": 11683840,
+        "apparent_bytes": 34423734
+      },
+      "/home/wengzr/projects/openpi-lora-cache/huggingface": {
+        "allocated_bytes": 80674393600,
+        "apparent_bytes": 80604467248
+      }
+    },
+    "billing_per_root": "max(positive allocated delta, positive apparent delta)",
+    "existing_billed_bytes": 0,
+    "hard_limit_bytes": 1000000000,
+    "hardlinks_deduplicated_per_sample": true,
+    "positive_per_root_deltas_prevent_decrease_masking": true,
+    "roots": [
+      "/home/wengzr/projects/openpi",
+      "/home/wengzr/projects/openpi-eval-tools",
+      "/home/wengzr/.cache/openpi",
+      "/home/wengzr/.cache/uv",
+      "/home/wengzr/projects/openpi-lora-cache/huggingface"
+    ],
+    "soft_limit_bytes": 500000000
+  },
+  "timeout_seconds": 600.0
+}

@@ -1,0 +1,2 @@
+previous_attempt=/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/s1b/attempt-20260904T-S1B-PE9lKKgw
+previous_outcome=bfloat16_hash_failed_before_train_step

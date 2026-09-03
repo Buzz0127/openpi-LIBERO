@@ -1,0 +1,54 @@
+{
+  "child_exit": [
+    {
+      "child_pid": 1471250,
+      "event": "child_exited",
+      "return_code": 0,
+      "timestamp_utc": "2026-09-03T16:33:52.285085+00:00"
+    }
+  ],
+  "minimum_free_memory_percent": 49.33954457691011,
+  "other_events": [
+    {
+      "command": [
+        "/home/wengzr/projects/openpi/.venv/bin/python",
+        "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/pi0_pure_lora/run_s1b_one_step.py",
+        "--openpi-root",
+        "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora",
+        "--model-manifest",
+        "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/manifests/base_model_manifest_i3b_v2.json",
+        "--golden-manifest",
+        "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/manifests/golden_adapter_paths.json",
+        "--output",
+        "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/s1b/attempt-20260904T-S1B-RETRY-l2lhDDAH/run/result.json"
+      ],
+      "event": "guard_started",
+      "max_prelaunch_wait_seconds": 300.0,
+      "max_runtime_seconds": 1800.0,
+      "min_free_memory_percent": 15.0,
+      "pause_at": 95.0,
+      "physical_gpu": 1,
+      "resume_at": 85.0,
+      "resume_free_memory_percent": 20.0,
+      "resume_samples": 5,
+      "terminate_free_memory_percent": 10.0,
+      "timestamp_utc": "2026-09-03T16:30:51.763745+00:00"
+    },
+    {
+      "event": "prelaunch_sample",
+      "free_memory_percent": 58.45924382195797,
+      "launch_allowed": true,
+      "memory_total_mib": 97887.0,
+      "memory_used_mib": 40663.0,
+      "physical_gpu": 1,
+      "timestamp_utc": "2026-09-03T16:30:51.888960+00:00",
+      "utilization_percent": 9.0
+    }
+  ],
+  "pause_count": 0,
+  "peak_memory_used_mib": 49590.0,
+  "peak_utilization_percent": 72.0,
+  "resume_count": 0,
+  "sample_count": 161,
+  "termination_events": []
+}

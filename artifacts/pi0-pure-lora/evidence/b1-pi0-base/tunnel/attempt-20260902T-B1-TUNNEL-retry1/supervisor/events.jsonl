@@ -1,0 +1,4 @@
+{"command": ["/usr/bin/ssh", "-N", "-o", "BatchMode=yes", "-o", "ConnectTimeout=10", "-o", "ConnectionAttempts=1", "-o", "ServerAliveInterval=10", "-o", "ServerAliveCountMax=6", "-o", "ExitOnForwardFailure=yes", "-o", "ClearAllForwardings=no", "-o", "ControlMaster=no", "-o", "ControlPath=none", "-R", "127.0.0.1:17890:127.0.0.1:7890", "openpi-libero"], "event": "supervisor_start", "pid": 84844, "time_utc": "2026-09-02T14:17:35.206963Z"}
+{"attempt": 1, "event": "tunnel_start", "time_utc": "2026-09-02T14:17:35.207222Z"}
+{"attempt": 1, "event": "tunnel_exit", "returncode": 255, "time_utc": "2026-09-02T14:17:35.213107Z"}
+{"attempt": 1, "delay_seconds": 5, "event": "retry_scheduled", "time_utc": "2026-09-02T14:17:35.213267Z"}

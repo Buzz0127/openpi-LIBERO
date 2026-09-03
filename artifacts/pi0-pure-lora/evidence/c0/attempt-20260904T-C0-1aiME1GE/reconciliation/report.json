@@ -1,0 +1,51 @@
+{
+  "arrow_roots": [
+    "/home/wengzr/projects/openpi-lora-cache/huggingface/datasets/parquet/default-f7c44f87cc5984aa/0.0.0/9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d"
+  ],
+  "arrow_summary": {
+    "device": 108,
+    "du_bytes": 34941009190,
+    "file_content_bytes": 34941009190,
+    "file_count": 71,
+    "inode": 318531,
+    "path": "/home/wengzr/projects/openpi-lora-cache/huggingface/datasets/parquet/default-f7c44f87cc5984aa/0.0.0/9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d",
+    "realpath": "/home/wengzr/projects/openpi-lora-cache/huggingface/datasets/parquet/default-f7c44f87cc5984aa/0.0.0/9c460aabd2aa27d1496e5e38d2060760561f0ac2cd6a110134eefa5b3f153b8d"
+  },
+  "checks": {
+    "arrow_matches_d1c_rb": true,
+    "arrow_matches_s1b_before": true,
+    "exactly_one_arrow_root": true,
+    "exactly_one_raw_root": true,
+    "hf_du_matches_d1c_rb": true,
+    "hf_du_matches_s1b_before": true,
+    "hf_file_count_matches_d1c_rb": true,
+    "hf_file_count_matches_s1b_before": true,
+    "raw_matches_d1c_rb": true,
+    "raw_matches_s1b_before": true,
+    "s1b_after_arrow_capture_is_empty": true,
+    "s1b_after_raw_capture_is_empty": true
+  },
+  "conclusion": "S1b after-root files were empty because root collection failed; the raw and Arrow trees remain intact.",
+  "d1c_report": "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/d1c-rb/attempt-20260902T-D1C-RB-R2-jTceNxLJ/guard-run/reuse_report.json",
+  "hf_home": {
+    "du_bytes": 80604459314,
+    "file_count": 5775,
+    "path": "/home/wengzr/projects/openpi-lora-cache/huggingface",
+    "realpath": "/home/wengzr/projects/openpi-lora-cache/huggingface"
+  },
+  "raw_roots": [
+    "/home/wengzr/projects/openpi-lora-cache/huggingface/lerobot/physical-intelligence/libero"
+  ],
+  "raw_summary": {
+    "device": 108,
+    "du_bytes": 34939139239,
+    "file_content_bytes": 34939139239,
+    "file_count": 5098,
+    "inode": 310347,
+    "path": "/home/wengzr/projects/openpi-lora-cache/huggingface/lerobot/physical-intelligence/libero",
+    "realpath": "/home/wengzr/projects/openpi-lora-cache/huggingface/lerobot/physical-intelligence/libero"
+  },
+  "s1b_static": "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/s1b/attempt-20260904T-S1B-RETRY-l2lhDDAH/static",
+  "schema_version": 1,
+  "status": "pass"
+}

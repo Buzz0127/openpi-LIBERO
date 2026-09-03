@@ -1,0 +1,2 @@
+checkpoint_target_exists=no
+adapter_target_exists=no

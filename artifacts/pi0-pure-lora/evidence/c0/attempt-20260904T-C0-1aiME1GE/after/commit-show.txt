@@ -1,0 +1,11 @@
+3619c35 (HEAD -> feature/pi0-libero-pure-lora) Add pure-LoRA LIBERO training infrastructure
+ scripts/compute_norm_stats.py                      |  23 ++-
+ scripts/compute_norm_stats_test.py                 |  74 ++++++++++
+ scripts/train.py                                   |  27 +++-
+ src/openpi/training/checkpoints.py                 |   9 +-
+ src/openpi/training/checkpoints_i3b_test.py        |  37 +++++
+ src/openpi/training/config.py                      |  70 ++++++++-
+ src/openpi/training/config_test.py                 |  74 ++++++++++
+ src/openpi/training/pure_lora_checkpointing.py     | 138 ++++++++++++++++++
+ .../training/pure_lora_checkpointing_test.py       | 156 +++++++++++++++++++++
+ 9 files changed, 598 insertions(+), 10 deletions(-)

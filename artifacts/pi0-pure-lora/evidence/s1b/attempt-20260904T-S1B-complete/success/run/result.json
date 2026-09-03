@@ -1,0 +1,59 @@
+{
+  "adapter_written": false,
+  "all_metrics_finite": true,
+  "batch_size": 1,
+  "changed_golden_leaf_count": 20,
+  "changed_golden_paths": [
+    "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_a",
+    "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_b",
+    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_a",
+    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b",
+    "PaliGemma/llm/layers/attn/kv_einsum/lora_a",
+    "PaliGemma/llm/layers/attn/kv_einsum/lora_b",
+    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_a",
+    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b",
+    "PaliGemma/llm/layers/attn/q_einsum/lora_a",
+    "PaliGemma/llm/layers/attn/q_einsum/lora_b",
+    "PaliGemma/llm/layers/attn/q_einsum_1/lora_a",
+    "PaliGemma/llm/layers/attn/q_einsum_1/lora_b",
+    "PaliGemma/llm/layers/mlp/gating_einsum_lora_a",
+    "PaliGemma/llm/layers/mlp/gating_einsum_lora_b",
+    "PaliGemma/llm/layers/mlp/linear_lora_a",
+    "PaliGemma/llm/layers/mlp/linear_lora_b",
+    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_a",
+    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b",
+    "PaliGemma/llm/layers/mlp_1/linear_lora_a",
+    "PaliGemma/llm/layers/mlp_1/linear_lora_b"
+  ],
+  "changed_non_golden_leaf_count": 0,
+  "checkpoint_written": false,
+  "elapsed_seconds": 165.42415437707677,
+  "final_step": 1,
+  "golden_leaf_count": 20,
+  "initial_step": 0,
+  "jax_devices": [
+    "cuda:0"
+  ],
+  "metrics": {
+    "grad_norm": 0.5292031168937683,
+    "loss": 0.16586272418498993,
+    "param_norm": 1380.0482177734375
+  },
+  "model_identity_sha256": "1fd7caea8b9de0e4a71ad351671b8f67cb8fed72ab2940ffb7285025e37d34f9",
+  "non_golden_hashes_unchanged": true,
+  "non_golden_leaf_count": 50,
+  "num_workers": 0,
+  "optimizer_array_parameter_count": 99975170,
+  "optimizer_leaf_count": 42,
+  "physical_gpu": 1,
+  "schema_version": 1,
+  "shuffle": false,
+  "timing": {
+    "data_loader_seconds": 5.336514828260988,
+    "one_step_compile_and_execute_seconds": 73.53151635825634,
+    "post_step_hash_seconds": 39.86665454367176,
+    "pre_step_hash_seconds": 18.239927483722568,
+    "train_state_init_seconds": 27.073538545053452
+  },
+  "training_steps_executed": 1
+}
