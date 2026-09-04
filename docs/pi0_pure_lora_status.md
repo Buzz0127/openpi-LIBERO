@@ -1,6 +1,6 @@
 # pi0_base → LIBERO pure-LoRA 状态
 
-更新：2026-09-04（E0）
+更新：2026-09-04（S1c）
 
 ## 固定实验定义
 
@@ -22,6 +22,9 @@
 - E0：已用 outcome-blind SHA-256 排序预注册 40 条 development 与 200 条 main episode；每个 suite/task 的 development 1 个 state 与 main 5 个 state 严格互斥。实际 evaluator 的 split gate 接受全部 80 个 suite/task/split 分组。
 - E0 checkpoint 选择规则：候选 T1 segment-end step 必须在 T1 开始前固定；仅用 development 40 条，以成功数最高为主；并列时依次选择更早 train step、字典序更小的 adapter identity。首次 development episode 后不得追加候选，选择结果在 main 前锁定，main 不得用于重新选 checkpoint 或调参。
 - 既有 `pi0_libero` seed-7 汇总投影到相同 E0 states 后为 development 38/40、main 190/200；它继续使用 checkpoint-owned normalization，仅是端到端外部参考，不属于 Base/pure-LoRA 受控 normalization 比较。
+- S1c：真实 LIBERO batch 的 10-step 稳定性 smoke 通过。10 组 loss/grad norm 全部有限，train-state 从 step 0 到 10；20/20 Golden adapter 叶子变化，50/50 非 Golden 叶子哈希不变。
+- S1c guard：30 样本前检后固定物理 GPU 1；运行期 133 个样本，最高利用率 55%、最低空闲显存 51.78%，无 pause/resume、monitor error 或 memory emergency。child exit 0，无残留本任务进程。
+- S1c 未写 full train-state 或 adapter；共享 LIBERO cache、OpenPI cache 与 uv cache 均零增长，本阶段正向存储增量 2,006,046 B（主要为独立 JAX compile cache 与证据）。
 
 ## 失败尝试（均保留证据）
 
@@ -41,7 +44,6 @@
 
 ## 未开始
 
-- S1c 10-step 稳定性 smoke。
 - S1d 100-step、首个真实 full train-state、adapter export 与 restore 实测。
 - T1 正式分段训练。
 - E1 40-episode dev、E2 200-episode main、E3 可选 2,000-episode 评测。
@@ -58,6 +60,6 @@
 
 ## 后续路线
 
-`S1c(10-step) → S1d(100-step + 首次 full-state/adapter/restore 实测) → T1 → E1(dev 40) → E2(main 200) → E3(可选 2000)`
+`S1d(100-step + 首次 full-state/adapter/restore 实测) → T1 → E1(dev 40) → E2(main 200) → E3(可选 2000)`
 
 每个 GPU 阶段仍须重新做约 30 秒双卡与 CPU/RAM 前检、动态固定单卡、关闭 JAX 预分配，并只由已验证 guard 控制其自身进程组。

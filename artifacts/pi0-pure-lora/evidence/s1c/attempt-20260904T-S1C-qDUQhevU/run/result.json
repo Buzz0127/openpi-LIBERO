@@ -1,0 +1,130 @@
+{
+  "adapter_written": false,
+  "all_metrics_finite": true,
+  "batch_size": 1,
+  "changed_golden_leaf_count": 20,
+  "changed_golden_paths": [
+    "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_a",
+    "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_b",
+    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_a",
+    "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b",
+    "PaliGemma/llm/layers/attn/kv_einsum/lora_a",
+    "PaliGemma/llm/layers/attn/kv_einsum/lora_b",
+    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_a",
+    "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b",
+    "PaliGemma/llm/layers/attn/q_einsum/lora_a",
+    "PaliGemma/llm/layers/attn/q_einsum/lora_b",
+    "PaliGemma/llm/layers/attn/q_einsum_1/lora_a",
+    "PaliGemma/llm/layers/attn/q_einsum_1/lora_b",
+    "PaliGemma/llm/layers/mlp/gating_einsum_lora_a",
+    "PaliGemma/llm/layers/mlp/gating_einsum_lora_b",
+    "PaliGemma/llm/layers/mlp/linear_lora_a",
+    "PaliGemma/llm/layers/mlp/linear_lora_b",
+    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_a",
+    "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b",
+    "PaliGemma/llm/layers/mlp_1/linear_lora_a",
+    "PaliGemma/llm/layers/mlp_1/linear_lora_b"
+  ],
+  "changed_non_golden_leaf_count": 0,
+  "checkpoint_written": false,
+  "elapsed_seconds": 128.8803246016614,
+  "final_step": 10,
+  "golden_leaf_count": 20,
+  "initial_step": 0,
+  "jax_devices": [
+    "cuda:0"
+  ],
+  "metrics_trace": [
+    {
+      "grad_norm": 0.5554096102714539,
+      "loss": 0.08690591901540756,
+      "param_norm": 1380.0482177734375
+    },
+    {
+      "grad_norm": 0.3912670910358429,
+      "loss": 0.08229802548885345,
+      "param_norm": 1380.0482177734375
+    },
+    {
+      "grad_norm": 0.27196812629699707,
+      "loss": 0.11506074666976929,
+      "param_norm": 1380.0482177734375
+    },
+    {
+      "grad_norm": 0.12733721733093262,
+      "loss": 0.06316209584474564,
+      "param_norm": 1380.0482177734375
+    },
+    {
+      "grad_norm": 0.4493972957134247,
+      "loss": 0.14003680646419525,
+      "param_norm": 1380.0482177734375
+    },
+    {
+      "grad_norm": 0.4921678602695465,
+      "loss": 0.10547304153442383,
+      "param_norm": 1380.0482177734375
+    },
+    {
+      "grad_norm": 0.46076086163520813,
+      "loss": 0.09737600386142731,
+      "param_norm": 1380.0482177734375
+    },
+    {
+      "grad_norm": 0.4944221079349518,
+      "loss": 0.11602882295846939,
+      "param_norm": 1380.0482177734375
+    },
+    {
+      "grad_norm": 0.16257572174072266,
+      "loss": 0.08730924129486084,
+      "param_norm": 1380.0482177734375
+    },
+    {
+      "grad_norm": 0.13588619232177734,
+      "loss": 0.09051095694303513,
+      "param_norm": 1380.0482177734375
+    }
+  ],
+  "model_identity_sha256": "d484ef5fa06bcb92b0dad92d1f221d4b65406f86dd928569362cb8a9106213ac",
+  "non_golden_hashes_unchanged": true,
+  "non_golden_leaf_count": 50,
+  "num_workers": 0,
+  "optimizer_array_parameter_count": 99975170,
+  "optimizer_leaf_count": 42,
+  "physical_gpu": 1,
+  "schema_version": 1,
+  "shuffle": false,
+  "stage": "S1c",
+  "timing": {
+    "batch_seconds": [
+      0.23209043079987168,
+      0.03093103226274252,
+      0.04173950105905533,
+      0.06192723382264376,
+      0.07544814003631473,
+      0.07734310207888484,
+      0.07807370880618691,
+      0.07503708265721798,
+      0.07571333786472678,
+      0.07558791385963559
+    ],
+    "data_loader_create_seconds": 7.386047020088881,
+    "post_step_hash_seconds": 16.580640460830182,
+    "pre_step_hash_seconds": 14.920219238381833,
+    "step_compile_and_execute_seconds": [
+      42.98479027021676,
+      0.09424952883273363,
+      0.09534175600856543,
+      0.09555152477696538,
+      0.09565121494233608,
+      0.09637592686340213,
+      0.0969677260145545,
+      0.0986307980492711,
+      0.09657375700771809,
+      0.09597391681745648
+    ],
+    "train_state_init_seconds": 38.42088744509965
+  },
+  "training_steps_executed": 10
+}

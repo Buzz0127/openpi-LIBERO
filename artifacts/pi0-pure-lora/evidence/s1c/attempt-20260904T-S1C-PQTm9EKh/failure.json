@@ -1,0 +1,8 @@
+{
+  "child_started": false,
+  "gpu_used": false,
+  "reason": "incorrect_guard_path_in_static_hash_step",
+  "schema_version": 1,
+  "stage": "S1c",
+  "status": "failed_before_preflight"
+}

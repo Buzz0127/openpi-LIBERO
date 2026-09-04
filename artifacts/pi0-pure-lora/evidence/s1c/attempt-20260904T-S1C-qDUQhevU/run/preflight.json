@@ -1,0 +1,864 @@
+{
+  "guard_thresholds": {
+    "pause_free_memory_percent": 15,
+    "pause_utilization_percent": 95,
+    "resume_consecutive_samples": 5,
+    "resume_free_memory_percent": 20,
+    "resume_utilization_percent": 85,
+    "terminate_free_memory_percent": 10
+  },
+  "jax_preallocation_required": false,
+  "launch_gate": {
+    "free_memory_percent_strictly_greater_than": 15.0,
+    "max_load1_per_cpu": 0.9,
+    "min_mem_available_bytes": 64000000000,
+    "utilization_percent_strictly_less_than": 95.0
+  },
+  "preflight_identity_sha256": "d23ab7e9449429c6b85945c01e1c03c0d94abf14a3c517fccd81f853ac3d662a",
+  "sample_count": 30,
+  "samples": [
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 51.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.09,
+        "load1_per_cpu": 0.007171052631578948,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269744377856
+      },
+      "monotonic_seconds": 2408070.664288394,
+      "sample_index": 0
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 51.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.09,
+        "load1_per_cpu": 0.007171052631578948,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743869952
+      },
+      "monotonic_seconds": 2408071.858254746,
+      "sample_index": 1
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 52.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.08,
+        "load1_per_cpu": 0.007105263157894737,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743804416
+      },
+      "monotonic_seconds": 2408073.034614168,
+      "sample_index": 2
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 51.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.08,
+        "load1_per_cpu": 0.007105263157894737,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743722496
+      },
+      "monotonic_seconds": 2408074.219837402,
+      "sample_index": 3
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 48.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.08,
+        "load1_per_cpu": 0.007105263157894737,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743845376
+      },
+      "monotonic_seconds": 2408075.404066044,
+      "sample_index": 4
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 48.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.08,
+        "load1_per_cpu": 0.007105263157894737,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743865856
+      },
+      "monotonic_seconds": 2408076.580673935,
+      "sample_index": 5
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 51.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.07,
+        "load1_per_cpu": 0.007039473684210527,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743476736
+      },
+      "monotonic_seconds": 2408077.763828131,
+      "sample_index": 6
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 51.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.07,
+        "load1_per_cpu": 0.007039473684210527,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743230976
+      },
+      "monotonic_seconds": 2408078.929186897,
+      "sample_index": 7
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 48.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.07,
+        "load1_per_cpu": 0.007039473684210527,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743378432
+      },
+      "monotonic_seconds": 2408080.114079333,
+      "sample_index": 8
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 49.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.07,
+        "load1_per_cpu": 0.007039473684210527,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743521792
+      },
+      "monotonic_seconds": 2408081.290159804,
+      "sample_index": 9
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 51.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.07,
+        "load1_per_cpu": 0.007039473684210527,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743280128
+      },
+      "monotonic_seconds": 2408082.467974968,
+      "sample_index": 10
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 52.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.07,
+        "load1_per_cpu": 0.007039473684210527,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743427584
+      },
+      "monotonic_seconds": 2408083.643841878,
+      "sample_index": 11
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 51.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.07,
+        "load1_per_cpu": 0.007039473684210527,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743173632
+      },
+      "monotonic_seconds": 2408084.819635714,
+      "sample_index": 12
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 55.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.07,
+        "load1_per_cpu": 0.007039473684210527,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743312896
+      },
+      "monotonic_seconds": 2408085.996039826,
+      "sample_index": 13
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 49.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.07,
+        "load1_per_cpu": 0.007039473684210527,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743329280
+      },
+      "monotonic_seconds": 2408087.177542279,
+      "sample_index": 14
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 47.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.06,
+        "load1_per_cpu": 0.006973684210526316,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743214592
+      },
+      "monotonic_seconds": 2408088.357912487,
+      "sample_index": 15
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 51.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.06,
+        "load1_per_cpu": 0.006973684210526316,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743501312
+      },
+      "monotonic_seconds": 2408089.5356295,
+      "sample_index": 16
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 51.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.06,
+        "load1_per_cpu": 0.006973684210526316,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743124480
+      },
+      "monotonic_seconds": 2408090.714104155,
+      "sample_index": 17
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 52.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.06,
+        "load1_per_cpu": 0.006973684210526316,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743415296
+      },
+      "monotonic_seconds": 2408091.891808073,
+      "sample_index": 18
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 48.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.06,
+        "load1_per_cpu": 0.006973684210526316,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743439872
+      },
+      "monotonic_seconds": 2408093.062027491,
+      "sample_index": 19
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 47.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.06,
+        "load1_per_cpu": 0.006973684210526316,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743321088
+      },
+      "monotonic_seconds": 2408094.237916103,
+      "sample_index": 20
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 51.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.06,
+        "load1_per_cpu": 0.006973684210526316,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743079424
+      },
+      "monotonic_seconds": 2408095.414079066,
+      "sample_index": 21
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 52.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.06,
+        "load1_per_cpu": 0.006973684210526316,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743624192
+      },
+      "monotonic_seconds": 2408096.589932996,
+      "sample_index": 22
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 46.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.05,
+        "load1_per_cpu": 0.006907894736842106,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743374336
+      },
+      "monotonic_seconds": 2408097.770533184,
+      "sample_index": 23
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 57.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.05,
+        "load1_per_cpu": 0.006907894736842106,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743521792
+      },
+      "monotonic_seconds": 2408098.949352432,
+      "sample_index": 24
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 48.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.05,
+        "load1_per_cpu": 0.006907894736842106,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743280128
+      },
+      "monotonic_seconds": 2408100.119046833,
+      "sample_index": 25
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 49.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.05,
+        "load1_per_cpu": 0.006907894736842106,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743427584
+      },
+      "monotonic_seconds": 2408101.297787231,
+      "sample_index": 26
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 51.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.05,
+        "load1_per_cpu": 0.006907894736842106,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743443968
+      },
+      "monotonic_seconds": 2408102.479425643,
+      "sample_index": 27
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 55.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.05,
+        "load1_per_cpu": 0.006907894736842106,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743591424
+      },
+      "monotonic_seconds": 2408103.649310039,
+      "sample_index": 28
+    },
+    {
+      "gpus": [
+        {
+          "free_memory_percent": 58.69216545608712,
+          "index": 0,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 40435.0,
+          "utilization_percent": 49.0,
+          "uuid": "GPU-c73329d7-e6d6-b7a8-4a70-07ea2fe336eb"
+        },
+        {
+          "free_memory_percent": 60.89674829139722,
+          "index": 1,
+          "memory_total_mib": 97887.0,
+          "memory_used_mib": 38277.0,
+          "utilization_percent": 0.0,
+          "uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727"
+        }
+      ],
+      "host": {
+        "load1": 1.05,
+        "load1_per_cpu": 0.006907894736842106,
+        "logical_cpu_count": 152,
+        "mem_available_bytes": 269743480832
+      },
+      "monotonic_seconds": 2408104.826515964,
+      "sample_index": 29
+    }
+  ],
+  "schema_version": 1,
+  "selected_gpu_uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727",
+  "selected_physical_gpu": 1
+}

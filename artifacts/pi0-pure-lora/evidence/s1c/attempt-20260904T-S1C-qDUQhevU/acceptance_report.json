@@ -1,0 +1,57 @@
+{
+  "checks": {
+    "adapter_root_absent": true,
+    "all_golden_leaves_changed": true,
+    "all_metrics_finite": true,
+    "all_non_golden_leaves_frozen": true,
+    "checkpoint_root_absent": true,
+    "exactly_ten_steps": true,
+    "guard_child_exit_zero": true,
+    "guard_no_memory_emergency": true,
+    "guard_no_monitor_error": true,
+    "guard_selected_same_gpu": true,
+    "model_identity_matches": true,
+    "no_adapter_written": true,
+    "no_checkpoint_written": true,
+    "openpi_worktree_clean_after": true,
+    "openpi_worktree_clean_before": true,
+    "stage_is_s1c": true,
+    "storage_increment_within_bound": true,
+    "ten_metric_records": true,
+    "unchanged:/home/wengzr/.cache/openpi": true,
+    "unchanged:/home/wengzr/.cache/uv": true,
+    "unchanged:/home/wengzr/projects/openpi-lora-cache": true
+  },
+  "guard_sha256": "6e66ceab1c429347900260c7a314e434b5563d044813ebf53bbab2aee770f068",
+  "guard_summary": {
+    "max_utilization_percent": 55.0,
+    "minimum_free_memory_percent": 51.78113539080777,
+    "pause_events": 0,
+    "resume_events": 0,
+    "runtime_samples": 133
+  },
+  "positive_storage_increment_bytes": 2006046,
+  "preflight_identity_sha256": "d23ab7e9449429c6b85945c01e1c03c0d94abf14a3c517fccd81f853ac3d662a",
+  "report_identity_sha256": "0cf0551a9ce72df3fe2c21d8f404369bdc1c8fa372aecec1bbab17ebdc792a25",
+  "result_sha256": "63daed33e8f94633d99d523b6c7aa70f9d6ee977e0a3df0d4a37d6675aaeb9ac",
+  "result_summary": {
+    "adapter_written": false,
+    "changed_golden_leaf_count": 20,
+    "changed_non_golden_leaf_count": 0,
+    "checkpoint_written": false,
+    "elapsed_seconds": 128.8803246016614,
+    "training_steps_executed": 10
+  },
+  "schema_version": 1,
+  "selected_gpu_uuid": "GPU-14900654-ea51-b7aa-28d3-b2885502d727",
+  "selected_physical_gpu": 1,
+  "stage": "S1c",
+  "status": "pass",
+  "storage_deltas_bytes": {
+    "/home/wengzr/.cache/openpi": 0,
+    "/home/wengzr/.cache/uv": 0,
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora": 2006046,
+    "/home/wengzr/projects/openpi-lora-cache": 0,
+    "/home/wengzr/projects/openpi-lora-runs": 0
+  }
+}
