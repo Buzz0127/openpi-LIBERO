@@ -1,6 +1,6 @@
 # pi0_base → LIBERO pure-LoRA 状态
 
-更新：2026-09-04（C0）
+更新：2026-09-04（E0）
 
 ## 固定实验定义
 
@@ -19,6 +19,9 @@
 - S1b：真实 LIBERO batch 的单步更新通过；20 个 Golden 叶子变化，50 个非 Golden 叶子不变。
 - C0：远端 OpenPI LoRA 源码已提交为 `3619c35ffdcbfe97ae735de175d91c2fb67a899d`。完整 train-state restore 现在逐叶验证全部 parameter 和 optimizer 值，并在任何 mismatch 时禁止发布 adapter/receipt。
 - C0 cache reconciliation：HF 总量仍为 80,604,459,314 B、5,775 文件；唯一 raw dataset 为 1,699 个逻辑文件/34,938,927,454 B，唯一 Arrow tree 为 71 文件/34,941,009,190 B。S1b 的空 after-root 文件属于采集失败，不代表缓存被删除。
+- E0：已用 outcome-blind SHA-256 排序预注册 40 条 development 与 200 条 main episode；每个 suite/task 的 development 1 个 state 与 main 5 个 state 严格互斥。实际 evaluator 的 split gate 接受全部 80 个 suite/task/split 分组。
+- E0 checkpoint 选择规则：候选 T1 segment-end step 必须在 T1 开始前固定；仅用 development 40 条，以成功数最高为主；并列时依次选择更早 train step、字典序更小的 adapter identity。首次 development episode 后不得追加候选，选择结果在 main 前锁定，main 不得用于重新选 checkpoint 或调参。
+- 既有 `pi0_libero` seed-7 汇总投影到相同 E0 states 后为 development 38/40、main 190/200；它继续使用 checkpoint-owned normalization，仅是端到端外部参考，不属于 Base/pure-LoRA 受控 normalization 比较。
 
 ## 失败尝试（均保留证据）
 
@@ -38,7 +41,6 @@
 
 ## 未开始
 
-- E0 开发集/主测试集预注册。
 - S1c 10-step 稳定性 smoke。
 - S1d 100-step、首个真实 full train-state、adapter export 与 restore 实测。
 - T1 正式分段训练。
@@ -56,6 +58,6 @@
 
 ## 后续路线
 
-`E0 → S1c(10-step) → S1d(100-step + 首次 full-state/adapter/restore 实测) → T1 → E1(dev 40) → E2(main 200) → E3(可选 2000)`
+`S1c(10-step) → S1d(100-step + 首次 full-state/adapter/restore 实测) → T1 → E1(dev 40) → E2(main 200) → E3(可选 2000)`
 
 每个 GPU 阶段仍须重新做约 30 秒双卡与 CPU/RAM 前检、动态固定单卡、关闭 JAX 预分配，并只由已验证 guard 控制其自身进程组。

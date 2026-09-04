@@ -1,0 +1,1714 @@
+{
+  "aggregates": {
+    "development": {
+      "episodes": 40,
+      "failures": 2,
+      "success_rate": 0.95,
+      "successes": 38
+    },
+    "main": {
+      "episodes": 200,
+      "failures": 10,
+      "success_rate": 0.95,
+      "successes": 190
+    }
+  },
+  "entries": [
+    {
+      "initial_state_index": 14,
+      "split": "development",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 47,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 13,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 8,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 29,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 11,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 0,
+      "split": "development",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 18,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 46,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 12,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 33,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 31,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 47,
+      "split": "development",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 5,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 10,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 29,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 18,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 43,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 13,
+      "split": "development",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 43,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 11,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 5,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 17,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 8,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 46,
+      "split": "development",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 38,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 11,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 3,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 43,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 17,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 10,
+      "split": "development",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 13,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 21,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 15,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 34,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 25,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 29,
+      "split": "development",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 10,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 40,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 18,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 6,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 34,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 41,
+      "split": "development",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 14,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 42,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 12,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 15,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 48,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 34,
+      "split": "development",
+      "success": false,
+      "suite": "libero_spatial",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 3,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 19,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 40,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 8,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 37,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 47,
+      "split": "development",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 44,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 12,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 13,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 3,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 45,
+      "split": "main",
+      "success": true,
+      "suite": "libero_spatial",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 39,
+      "split": "development",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 3,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 6,
+      "split": "main",
+      "success": false,
+      "suite": "libero_object",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 26,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 34,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 33,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 13,
+      "split": "development",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 2,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 31,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 45,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 41,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 3,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 9,
+      "split": "development",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 16,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 15,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 13,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 12,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 10,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 24,
+      "split": "development",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 10,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 15,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 3,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 32,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 16,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 30,
+      "split": "development",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 44,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 4,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 19,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 47,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 31,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 15,
+      "split": "development",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 32,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 22,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 26,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 11,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 33,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 16,
+      "split": "development",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 35,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 14,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 29,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 3,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 23,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 13,
+      "split": "development",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 5,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 38,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 39,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 0,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 16,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 27,
+      "split": "development",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 14,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 12,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 22,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 35,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 25,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 22,
+      "split": "development",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 3,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 2,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 27,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 13,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 28,
+      "split": "main",
+      "success": true,
+      "suite": "libero_object",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 23,
+      "split": "development",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 38,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 9,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 49,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 14,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 43,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 41,
+      "split": "development",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 39,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 29,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 49,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 25,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 13,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 22,
+      "split": "development",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 27,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 4,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 21,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 49,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 46,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 4,
+      "split": "development",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 26,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 38,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 14,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 9,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 23,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 41,
+      "split": "development",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 46,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 35,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 25,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 44,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 34,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 25,
+      "split": "development",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 36,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 18,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 22,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 9,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 39,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 5,
+      "split": "development",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 42,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 47,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 39,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 12,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 10,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 23,
+      "split": "development",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 11,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 38,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 15,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 36,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 3,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 0,
+      "split": "development",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 20,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 41,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 16,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 10,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 43,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 6,
+      "split": "development",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 39,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 28,
+      "split": "main",
+      "success": false,
+      "suite": "libero_goal",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 38,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 46,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 22,
+      "split": "main",
+      "success": true,
+      "suite": "libero_goal",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 30,
+      "split": "development",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 40,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 21,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 45,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 23,
+      "split": "main",
+      "success": false,
+      "suite": "libero_10",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 22,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 0
+    },
+    {
+      "initial_state_index": 1,
+      "split": "development",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 28,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 19,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 11,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 32,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 15,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 1
+    },
+    {
+      "initial_state_index": 30,
+      "split": "development",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 41,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 33,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 21,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 31,
+      "split": "main",
+      "success": false,
+      "suite": "libero_10",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 43,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 2
+    },
+    {
+      "initial_state_index": 34,
+      "split": "development",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 7,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 4,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 38,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 6,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 37,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 3
+    },
+    {
+      "initial_state_index": 2,
+      "split": "development",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 24,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 19,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 25,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 41,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 7,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 4
+    },
+    {
+      "initial_state_index": 0,
+      "split": "development",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 1,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 2,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 32,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 44,
+      "split": "main",
+      "success": false,
+      "suite": "libero_10",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 17,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 5
+    },
+    {
+      "initial_state_index": 2,
+      "split": "development",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 19,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 35,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 9,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 10,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 22,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 6
+    },
+    {
+      "initial_state_index": 1,
+      "split": "development",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 29,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 38,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 11,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 35,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 13,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 7
+    },
+    {
+      "initial_state_index": 26,
+      "split": "development",
+      "success": false,
+      "suite": "libero_10",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 21,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 29,
+      "split": "main",
+      "success": false,
+      "suite": "libero_10",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 36,
+      "split": "main",
+      "success": false,
+      "suite": "libero_10",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 0,
+      "split": "main",
+      "success": false,
+      "suite": "libero_10",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 4,
+      "split": "main",
+      "success": false,
+      "suite": "libero_10",
+      "task_id": 8
+    },
+    {
+      "initial_state_index": 22,
+      "split": "development",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 26,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 47,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 20,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 42,
+      "split": "main",
+      "success": true,
+      "suite": "libero_10",
+      "task_id": 9
+    },
+    {
+      "initial_state_index": 21,
+      "split": "main",
+      "success": false,
+      "suite": "libero_10",
+      "task_id": 9
+    }
+  ],
+  "normalization_protocol": "pi0_libero checkpoint-owned; external reference, not controlled Base/pure-LoRA normalization",
+  "schema_version": 1,
+  "scope": "existing pi0_libero external reference projected onto preregistered E0 states",
+  "source_overall": {
+    "episodes": 2000,
+    "failures": 155,
+    "mean_control_steps": 171.528,
+    "mean_episode_wall_seconds": 10.296163979894597,
+    "mean_policy_requests": 34.6735,
+    "p95_control_steps": 508.0,
+    "success_rate": 0.9225,
+    "successes": 1845,
+    "total_control_steps": 343056,
+    "total_episode_wall_seconds": 20592.327959789196,
+    "total_policy_requests": 69347
+  }
+}

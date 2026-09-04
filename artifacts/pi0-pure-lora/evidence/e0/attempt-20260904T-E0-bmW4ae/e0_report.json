@@ -1,0 +1,60 @@
+{
+  "attempt_id": "attempt-20260904T-E0-bmW4ae",
+  "completed_utc": "2026-09-04T05:02:32Z",
+  "execution": {
+    "checkpoint_loaded": false,
+    "evaluation_run": false,
+    "gpu_used": false,
+    "network_used": false,
+    "server_accessed": false,
+    "training_run": false
+  },
+  "git_baseline": {
+    "branch": "feature/pi0-libero-pure-lora",
+    "head": "6c153f9e4e7fb684985bb52f63cceb668d29593d",
+    "preserved_preexisting_modified_path": "artifacts/pi0-pure-lora/evidence/b1-pi0-base/tunnel/attempt-20260902T-B1-TUNNEL-screen1/supervisor/events.jsonl"
+  },
+  "identities": {
+    "c0_model_manifest_sha256": "02ffd4931ab39cd6e36cfea1ceb20da822cbdec4a6f3f736d7ad37525acc3e99",
+    "evaluator_sha256": "ecd8289915aff057569e79ca126655ed0bd904802f72e784d08202645234dc14",
+    "libero_commit": "f78abd68ee283de9f9be3c8f7e2a9ad60246e95c",
+    "manifest_file_sha256": "0f5cf15d410c9d1fa154a9a35ddf15ac8d917934252c377df767a2a2924c2796",
+    "manifest_identity_sha256": "f85350357b75ecaea7330e386f805d024ea44a7a6a5c58f96d64259fbedca283",
+    "official_reference_sha256": "ce8c875aa9bd71e63655a750f2de561191e0ee3007a769270a8915b44710f84d",
+    "official_summary_sha256": "165b02a9ee5485a46ce428c6e8e324dd8da72d90e0c9b189029952a173924024",
+    "openpi_commit": "3619c35ffdcbfe97ae735de175d91c2fb67a899d"
+  },
+  "official_external_reference": {
+    "development": {"episodes": 40, "failures": 2, "successes": 38},
+    "main": {"episodes": 200, "failures": 10, "successes": 190},
+    "normalization": "pi0_libero checkpoint-owned; not the controlled Base/pure-LoRA protocol"
+  },
+  "selection": {
+    "candidate_steps_frozen_before_t1": true,
+    "development_episodes": 40,
+    "main_episodes": 200,
+    "outcome_blind": true,
+    "overlap_per_task": 0,
+    "rule": "ascending_sha256_rank_v1"
+  },
+  "source_sha256": {
+    "extract_official_e0_reference.py": "12e16c80ea3662993091b592082b35a8d7c23a494861f45bc9568acef9e68775",
+    "preregister_e0_splits.py": "a40749e7b9e9e0e7b91afe6dbc1441cf8c78602bd055e1bbd39170ad29f5124b",
+    "test_preregister_e0_splits.py": "d75356ecaf5209eab5f35555fb53a2835febd2fa9a1adac81de5d02ec7b8d185"
+  },
+  "tests": {
+    "command": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=tools:tools/pi0_pure_lora /usr/bin/python3 -m unittest -v tools/pi0_pure_lora/test_preregister_e0_splits.py",
+    "result": "PASS",
+    "tests_run": 6,
+    "verified": [
+      "determinism",
+      "40/200 balance and per-task disjointness",
+      "selection independence from outcomes",
+      "official task coverage and failed-state consistency",
+      "manifest tamper rejection",
+      "official projection coverage",
+      "actual evaluator split-gate compatibility",
+      "refuse-overwrite output behavior"
+    ]
+  }
+}

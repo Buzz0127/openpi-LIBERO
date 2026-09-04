@@ -1,0 +1,1 @@
+This immutable attempt was superseded before E0 completion because protocol validation and the checkpoint-candidate freeze rule were strengthened. Its outputs were not used as the canonical E0 manifest. The final accepted attempt is `attempt-20260904T-E0-bmW4ae`.
