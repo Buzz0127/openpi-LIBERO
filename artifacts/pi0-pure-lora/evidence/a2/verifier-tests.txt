@@ -1,0 +1,7 @@
+test_accepts_consistent_terminal_attempt (test_verify_a2_autonomy.VerifyA2AutonomyTest.test_accepts_consistent_terminal_attempt) ... ok
+test_rejects_tampered_output (test_verify_a2_autonomy.VerifyA2AutonomyTest.test_rejects_tampered_output) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.025s
+
+OK

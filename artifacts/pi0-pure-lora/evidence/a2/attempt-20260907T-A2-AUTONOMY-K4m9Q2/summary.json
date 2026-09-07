@@ -1,0 +1,44 @@
+{
+  "attempt_id": "attempt-20260907T-A2-AUTONOMY-K4m9Q2",
+  "child_runs": [
+    {
+      "child_pgid": 1488634,
+      "child_pid": 1488634,
+      "elapsed_seconds": 10.468846620991826,
+      "kill_sent": false,
+      "ownership_verified": false,
+      "reason": "completed",
+      "retry_index": 0,
+      "returncode": 0,
+      "term_sent": false,
+      "wait_reaped": true
+    }
+  ],
+  "elapsed_seconds": 10.600073107052594,
+  "last_progress": {
+    "current_step": 10,
+    "last_committed_step": 10,
+    "pause_count": 0,
+    "recent_metrics": {
+      "synthetic_loss": 0.1
+    },
+    "resource_peaks": {
+      "synthetic_rss_bytes": 1
+    },
+    "resume_count": 0
+  },
+  "next_stage_started": false,
+  "output_sha256": {
+    "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/a2/autonomy/attempt-20260907T-A2-AUTONOMY-K4m9Q2/probe-result.json": "ac97cb70df61eec67ac0b56d16b4a9156ad82aa04ba739707b040e7b05540ca5"
+  },
+  "reason_code": "completed",
+  "retry_count": 0,
+  "schema_version": 1,
+  "segment": {
+    "end": 10,
+    "start": 0
+  },
+  "stage": "A2-autonomy-probe",
+  "status": "pass",
+  "summary_identity_sha256": "efab47a5401dbe5c927902f24db17a2f55eb65576d5f7c140ccd9453f3089806"
+}

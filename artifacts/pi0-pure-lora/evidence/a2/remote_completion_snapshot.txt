@@ -1,0 +1,16 @@
+A2 remote completion snapshot
+date: 2026-09-07
+remote source root: /home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora
+branch: feature/pi0-libero-pure-lora
+HEAD: 3619c35ffdcbfe97ae735de175d91c2fb67a899d
+source status: clean
+orchestrator sha256: fa920b2a8eefab9dac728329c575a8546669ea068135db8112f8ee93c8c6262c
+launcher sha256: 3dd05923019be63f434b93bf15119ad0346d9d27825a9c23e735c82836e3e2d6
+planner sha256: a0273a60a3d5a4cdafe73828fef100bd5bf710c79d0832fce86631ae0f28136a
+probe sha256: 3fdc423dd688e005ad17ca3135a45ef4ddf91b04100bf5c3b6fecbeca4e753f6
+verifier sha256: 49bd70e7713fb29813e65daff150c57e3513325e1e814ff4935cd0d888a546db
+acceptance_report sha256: 312e7fa27dccd8c9b65db1a4d561848220acadb746204dd6cf4b7df18a6b0984
+remote A2 evidence bytes: 289713
+task orchestrator/child process query after completion: no processes
+GPU/model/data/checkpoint work: not performed
+next stage started: false

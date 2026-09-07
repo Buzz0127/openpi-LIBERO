@@ -1,0 +1,12 @@
+{
+  "current_step": 10,
+  "last_committed_step": 10,
+  "pause_count": 0,
+  "recent_metrics": {
+    "synthetic_loss": 0.1
+  },
+  "resource_peaks": {
+    "synthetic_rss_bytes": 1
+  },
+  "resume_count": 0
+}

@@ -1,0 +1,12 @@
+{
+  "elapsed_seconds": 10.272634267807007,
+  "next_stage_started": false,
+  "offline_environment_verified": true,
+  "parent_pid": 1488627,
+  "pgid": 1488634,
+  "pid": 1488634,
+  "proxies_unset": true,
+  "schema_version": 1,
+  "status": "pass",
+  "steps": 10
+}

@@ -1,0 +1,3 @@
+{"event": "orchestrator_started", "time_utc": "2026-09-07T06:50:48.630127+00:00"}
+{"event": "child_started", "pgid": 1488634, "pid": 1488634, "retry_index": 0, "time_utc": "2026-09-07T06:50:48.665304+00:00"}
+{"child_pgid": 1488634, "child_pid": 1488634, "elapsed_seconds": 10.468846620991826, "event": "child_finished", "kill_sent": false, "ownership_verified": false, "reason": "completed", "retry_index": 0, "returncode": 0, "term_sent": false, "time_utc": "2026-09-07T06:50:59.165732+00:00", "wait_reaped": true}
