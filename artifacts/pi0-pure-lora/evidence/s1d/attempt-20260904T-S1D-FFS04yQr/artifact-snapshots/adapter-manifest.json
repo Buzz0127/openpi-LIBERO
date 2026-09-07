@@ -1,0 +1,295 @@
+{
+  "adapter_identity_sha256": "26dc0261e16bb7ca8f77a7ea8113f22c5dab6d264f4e51861cbd003e80b543c1",
+  "artifact_type": "pi0_pure_lora_adapter_only",
+  "entries": [
+    {
+      "array_sha256": "7c9e3e92f56dea44666fb947fc587e7d163e08028f30227e2c4b302b717ac7ae",
+      "dtype": "float32",
+      "file": "arrays/0000.npy",
+      "file_sha256": "36e2f3692915e0cadaf4c914fe6e585b4184720909958277f293b46344da00fa",
+      "parameter_count": 589824,
+      "path": "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_a",
+      "shape": [
+        18,
+        8,
+        256,
+        16
+      ]
+    },
+    {
+      "array_sha256": "0a254577a1cba87c7b14d37b94846381e63d1c7d9c59ab5742b42a173d9ab087",
+      "dtype": "float32",
+      "file": "arrays/0001.npy",
+      "file_sha256": "d57ae006a09f9b3cc51b0f50cdf8e7b5e63b097fce1dd9f87cfbc4426229b52c",
+      "parameter_count": 4718592,
+      "path": "PaliGemma/llm/layers/attn/attn_vec_einsum/lora_b",
+      "shape": [
+        18,
+        8,
+        16,
+        2048
+      ]
+    },
+    {
+      "array_sha256": "3465faf9e8992a533b08ff0e82d3142084cdc1c9435fc5190833fad3f77d7b6f",
+      "dtype": "float32",
+      "file": "arrays/0002.npy",
+      "file_sha256": "2d6f470809269ab8d5f3c58e7e778f16a220d06521a7d250fafbb7e46008d991",
+      "parameter_count": 1179648,
+      "path": "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_a",
+      "shape": [
+        18,
+        8,
+        256,
+        32
+      ]
+    },
+    {
+      "array_sha256": "174c0f8f054f7a354f10bbba2c493d2f53e1724cc64efbc1065fdd83ea81f136",
+      "dtype": "float32",
+      "file": "arrays/0003.npy",
+      "file_sha256": "5e889c0a489cf51eb160a02bad9ec2b72062682ba6c545017fabfad75b443364",
+      "parameter_count": 4718592,
+      "path": "PaliGemma/llm/layers/attn/attn_vec_einsum_1/lora_b",
+      "shape": [
+        18,
+        8,
+        32,
+        1024
+      ]
+    },
+    {
+      "array_sha256": "7ecd4b8aaa88c1914d075851519e89e334e957a12f4348330881c4c9b70cb7a2",
+      "dtype": "float32",
+      "file": "arrays/0004.npy",
+      "file_sha256": "34be5af3eb97a0fa09d99114361ec6126ac4d0f51b1040b0560206ff302ffbd6",
+      "parameter_count": 1179648,
+      "path": "PaliGemma/llm/layers/attn/kv_einsum/lora_a",
+      "shape": [
+        18,
+        2,
+        1,
+        2048,
+        16
+      ]
+    },
+    {
+      "array_sha256": "882d70e51a80337068d43263b2ff14e3827ab4bcd34dba966a9b2df2db2bcec0",
+      "dtype": "float32",
+      "file": "arrays/0005.npy",
+      "file_sha256": "1f2832e5ae9e84a562e02f65c7facfd5d6bb1ee06f07e5269a8953a579e1cfa7",
+      "parameter_count": 147456,
+      "path": "PaliGemma/llm/layers/attn/kv_einsum/lora_b",
+      "shape": [
+        18,
+        2,
+        1,
+        16,
+        256
+      ]
+    },
+    {
+      "array_sha256": "6236dc131272ab24eda4d8478be4fd60961ae2100a65f6efb9b641ea2a76bf3d",
+      "dtype": "float32",
+      "file": "arrays/0006.npy",
+      "file_sha256": "c9a4fd036924f595ff221a886733f7e8aaeb96852a220011a2690de3cd9c14d4",
+      "parameter_count": 1179648,
+      "path": "PaliGemma/llm/layers/attn/kv_einsum_1/lora_a",
+      "shape": [
+        18,
+        2,
+        1,
+        1024,
+        32
+      ]
+    },
+    {
+      "array_sha256": "9dc2daf549a55bf247b0956c05e132a0283e3ad997c6cbfc88f87c802f24a2ab",
+      "dtype": "float32",
+      "file": "arrays/0007.npy",
+      "file_sha256": "ff6549e49220c5d0f32e72189ffb7f828754cde9b098295709d87826e44028c7",
+      "parameter_count": 294912,
+      "path": "PaliGemma/llm/layers/attn/kv_einsum_1/lora_b",
+      "shape": [
+        18,
+        2,
+        1,
+        32,
+        256
+      ]
+    },
+    {
+      "array_sha256": "3b9353efede0ebd4955ff6fe985c429864b5a149b557c1c8925be62a476c3a78",
+      "dtype": "float32",
+      "file": "arrays/0008.npy",
+      "file_sha256": "accde6e550d24d92b1f61d96212fa8750a06e8c70fbcb682ba127e4a2f0fd02f",
+      "parameter_count": 4718592,
+      "path": "PaliGemma/llm/layers/attn/q_einsum/lora_a",
+      "shape": [
+        18,
+        8,
+        2048,
+        16
+      ]
+    },
+    {
+      "array_sha256": "fca52e420ead788e6976203e86c9f91ac61955ba727abc4858b8f936cd840f39",
+      "dtype": "float32",
+      "file": "arrays/0009.npy",
+      "file_sha256": "860b601f8142035e8a1b106cb2b4525cc1cd2f9aa2ffadd65f960f2d7d4a8f47",
+      "parameter_count": 589824,
+      "path": "PaliGemma/llm/layers/attn/q_einsum/lora_b",
+      "shape": [
+        18,
+        8,
+        16,
+        256
+      ]
+    },
+    {
+      "array_sha256": "5ccfc3072891e3bd54a8571d3464dcab01d5e20fbcc52e834a261d4d33819246",
+      "dtype": "float32",
+      "file": "arrays/0010.npy",
+      "file_sha256": "94cb1bee4b21297d444fed9d7bb9db76fe531b5ce47ea8b1595feab9882f7201",
+      "parameter_count": 4718592,
+      "path": "PaliGemma/llm/layers/attn/q_einsum_1/lora_a",
+      "shape": [
+        18,
+        8,
+        1024,
+        32
+      ]
+    },
+    {
+      "array_sha256": "e6994d7c9903566e6684d403006b6ede71c4851f5ea1d8cbb134ff2923d63e7c",
+      "dtype": "float32",
+      "file": "arrays/0011.npy",
+      "file_sha256": "7adb7afeaa2eaf5a68f5ff63f5b2df392b22af0a6f4a19dac0e0e73bc1855eb6",
+      "parameter_count": 1179648,
+      "path": "PaliGemma/llm/layers/attn/q_einsum_1/lora_b",
+      "shape": [
+        18,
+        8,
+        32,
+        256
+      ]
+    },
+    {
+      "array_sha256": "4be925f22dce90844ada8e4dc9c3233bd0114dd6264df1942468dd48c3421c3e",
+      "dtype": "float32",
+      "file": "arrays/0012.npy",
+      "file_sha256": "0ab4f4f9222d0135e3bcba65198940d73ee275758e60e1b56a8ff0c6e7a97978",
+      "parameter_count": 1179648,
+      "path": "PaliGemma/llm/layers/mlp/gating_einsum_lora_a",
+      "shape": [
+        18,
+        2,
+        2048,
+        16
+      ]
+    },
+    {
+      "array_sha256": "3540157a43346a3fedcc791e1cd75e71a6c5223bbcde1cf3b6240bed801ffd7d",
+      "dtype": "float32",
+      "file": "arrays/0013.npy",
+      "file_sha256": "9a352c1eb207bb15e8e2804890c586dc08ef1d2b48f7d203bf15e1fc75ecdf6f",
+      "parameter_count": 9437184,
+      "path": "PaliGemma/llm/layers/mlp/gating_einsum_lora_b",
+      "shape": [
+        18,
+        2,
+        16,
+        16384
+      ]
+    },
+    {
+      "array_sha256": "de5b0913d41cb6c56a2fd8b1ef41e168a18ced2fe8768ca1b58964301f64f9f0",
+      "dtype": "float32",
+      "file": "arrays/0014.npy",
+      "file_sha256": "f5deb2e108d10fcaa8f6798427b9d465fe8f6afbffcbcaf5897a91fd06784759",
+      "parameter_count": 4718592,
+      "path": "PaliGemma/llm/layers/mlp/linear_lora_a",
+      "shape": [
+        18,
+        16384,
+        16
+      ]
+    },
+    {
+      "array_sha256": "26dc45ecc09a68988dc6b2073d521e1f76b4984e4ed5e6b68238241a7db8731c",
+      "dtype": "float32",
+      "file": "arrays/0015.npy",
+      "file_sha256": "cc15e22fbd8f4655e2c27e26597ba4e130505c3be59fa381d911a97f1ce2219b",
+      "parameter_count": 589824,
+      "path": "PaliGemma/llm/layers/mlp/linear_lora_b",
+      "shape": [
+        18,
+        16,
+        2048
+      ]
+    },
+    {
+      "array_sha256": "39aff6c25d6a51255d1c5c7a7ade88003a8e08d0171d0fec9bf5d84b3933b239",
+      "dtype": "float32",
+      "file": "arrays/0016.npy",
+      "file_sha256": "af681654f010eabb201b48029f62343a48d462780287663ac89761c28f450266",
+      "parameter_count": 1179648,
+      "path": "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_a",
+      "shape": [
+        18,
+        2,
+        1024,
+        32
+      ]
+    },
+    {
+      "array_sha256": "301365abf0e1e6691e630b82a4efb05bff585ef11e0c8a9848754162010f6a2f",
+      "dtype": "float32",
+      "file": "arrays/0017.npy",
+      "file_sha256": "4502e17fe6788b3848db6b979efc6f1541d163c9d7836cbf7d12e299f8435f74",
+      "parameter_count": 4718592,
+      "path": "PaliGemma/llm/layers/mlp_1/gating_einsum_lora_b",
+      "shape": [
+        18,
+        2,
+        32,
+        4096
+      ]
+    },
+    {
+      "array_sha256": "7327507cb5ab1f6e844255b304a2cc539dfafe564b5286bddaf8388d251ba837",
+      "dtype": "float32",
+      "file": "arrays/0018.npy",
+      "file_sha256": "5ccdada324078b242b3790840d646cdddff9afeab60529d0350e1837bc7f43fb",
+      "parameter_count": 2359296,
+      "path": "PaliGemma/llm/layers/mlp_1/linear_lora_a",
+      "shape": [
+        18,
+        4096,
+        32
+      ]
+    },
+    {
+      "array_sha256": "37371be3fb61f5956c07fe5f5f14c5160de83e1a7f0e36e1ffdef2ee9bfb2126",
+      "dtype": "float32",
+      "file": "arrays/0019.npy",
+      "file_sha256": "2bf912a1df50fccc338608da5a2cd26a8efa791e28ecee152d551acf28d59f97",
+      "parameter_count": 589824,
+      "path": "PaliGemma/llm/layers/mlp_1/linear_lora_b",
+      "shape": [
+        18,
+        32,
+        1024
+      ]
+    }
+  ],
+  "identities": {
+    "base_manifest_sha256": "0a9e72e07255dcdb09b71ebc3daac3c7ab0a8d9d3be72426c4464ca46ef8d8dd",
+    "config_patch_sha256": "1c289cc470e064d6717513e149b5cae03ee71b56f7c9634df450e496ca46c958",
+    "golden_manifest_sha256": "3799cf4d053b013089216be97ab0b57d08dde1dd3c4f04744088ce2e93a32029",
+    "norm_stats_sha256": "f68a5fafe15e1577b7bb2c6fc4837a7d1669e2e9be3752f2589c3d327c6f8ccf"
+  },
+  "schema_version": 1,
+  "train_seed": 42,
+  "train_step": 100
+}

@@ -1,0 +1,97 @@
+{
+  "child_pid": 1483000,
+  "child_returncode": 0,
+  "elapsed_seconds": 261.7450486519374,
+  "expected_child_pgid": 1483000,
+  "external_signal": null,
+  "final_billed_lora_bytes": 91765739008,
+  "final_sample": {
+    "billed_lora_bytes": 91765739008,
+    "child_rss_bytes": 23502848,
+    "hard_headroom_bytes": 158234260992,
+    "load1": 3.84326171875,
+    "load1_per_cpu": 0.025284616570723683,
+    "logical_cpu_count": 152,
+    "mem_available_bytes": 267294420992,
+    "monitor_ok": true,
+    "monotonic_seconds": 2409763.579675662,
+    "positive_stage_delta_bytes": 5765739008,
+    "roots": [
+      {
+        "baseline_allocated_bytes": 1794048,
+        "baseline_apparent_bytes": 2054340,
+        "billed_delta_bytes": 0,
+        "current_allocated_bytes": 1794048,
+        "current_apparent_bytes": 2054340,
+        "path": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora",
+        "positive_allocated_delta_bytes": 0,
+        "positive_apparent_delta_bytes": 0
+      },
+      {
+        "baseline_allocated_bytes": 14804480,
+        "baseline_apparent_bytes": 429388238,
+        "billed_delta_bytes": 2546688,
+        "current_allocated_bytes": 17351168,
+        "current_apparent_bytes": 431589752,
+        "path": "/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora",
+        "positive_allocated_delta_bytes": 2546688,
+        "positive_apparent_delta_bytes": 2201514
+      },
+      {
+        "baseline_allocated_bytes": 80674394112,
+        "baseline_apparent_bytes": 80604467251,
+        "billed_delta_bytes": 0,
+        "current_allocated_bytes": 80674394112,
+        "current_apparent_bytes": 80604467251,
+        "path": "/home/wengzr/projects/openpi-lora-cache",
+        "positive_allocated_delta_bytes": 0,
+        "positive_apparent_delta_bytes": 0
+      },
+      {
+        "baseline_allocated_bytes": 0,
+        "baseline_apparent_bytes": 0,
+        "billed_delta_bytes": 5763192320,
+        "current_allocated_bytes": 5763192320,
+        "current_apparent_bytes": 5759045966,
+        "path": "/home/wengzr/projects/openpi-lora-runs",
+        "positive_allocated_delta_bytes": 5763192320,
+        "positive_apparent_delta_bytes": 5759045966
+      },
+      {
+        "baseline_allocated_bytes": 24048115712,
+        "baseline_apparent_bytes": 24032812207,
+        "billed_delta_bytes": 0,
+        "current_allocated_bytes": 24048115712,
+        "current_apparent_bytes": 24032812207,
+        "path": "/home/wengzr/.cache/openpi",
+        "positive_allocated_delta_bytes": 0,
+        "positive_apparent_delta_bytes": 0
+      },
+      {
+        "baseline_allocated_bytes": 3383054848,
+        "baseline_apparent_bytes": 5291778260,
+        "billed_delta_bytes": 0,
+        "current_allocated_bytes": 3383054848,
+        "current_apparent_bytes": 5291778260,
+        "path": "/home/wengzr/.cache/uv",
+        "positive_allocated_delta_bytes": 0,
+        "positive_apparent_delta_bytes": 0
+      }
+    ],
+    "sample_index": 41,
+    "soft_headroom_bytes": 148234260992,
+    "violation_counts": {
+      "max_load": 0,
+      "max_rss": 0,
+      "min_mem": 0
+    },
+    "wall_time_epoch_seconds": 1788500941.3950508
+  },
+  "kill_sent": false,
+  "observed_soft_limit_overshoot_bytes": 0,
+  "ownership_verified": false,
+  "reason_code": "completed",
+  "sample_count": 42,
+  "term_sent": false,
+  "wait_reaped": true
+}

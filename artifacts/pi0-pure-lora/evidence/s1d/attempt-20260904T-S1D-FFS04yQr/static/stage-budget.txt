@@ -1,0 +1,6 @@
+hard_limit_bytes=250000000000
+review_line_bytes=225000000000
+soft_stop_bytes=240000000000
+worst_case_new_bytes=30000000000
+checkpoint_dir=/home/wengzr/projects/openpi-lora-runs/checkpoints/pi0_libero_pure_lora/s1d-smoke-seed42-20260904
+adapter_root=/home/wengzr/projects/openpi-lora-runs/adapters/s1d-smoke-seed42-20260904

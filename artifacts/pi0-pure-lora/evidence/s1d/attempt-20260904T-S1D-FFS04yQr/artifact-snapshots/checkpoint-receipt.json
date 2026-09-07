@@ -1,0 +1,15 @@
+{
+  "adapter_identity_sha256": "26dc0261e16bb7ca8f77a7ea8113f22c5dab6d264f4e51861cbd003e80b543c1",
+  "adapter_values_equal_after_restore": true,
+  "all_optimizer_values_equal_after_restore": true,
+  "all_parameter_values_equal_after_restore": true,
+  "automatic_pruning_enabled": false,
+  "checkpoint_restore_succeeded": true,
+  "old_checkpoint_deletion_performed": false,
+  "optimizer_leaf_count": 42,
+  "optimizer_tree_shape_dtype_equal": true,
+  "parameter_leaf_count": 70,
+  "parameter_tree_shape_dtype_equal": true,
+  "save_step": 100,
+  "schema_version": 1
+}

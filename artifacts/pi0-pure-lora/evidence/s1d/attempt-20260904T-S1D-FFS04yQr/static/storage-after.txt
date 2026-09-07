@@ -1,0 +1,5 @@
+80604459314	/home/wengzr/projects/openpi-lora-cache
+5759045858	/home/wengzr/projects/openpi-lora-runs
+431592540	/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora
+24032812110	/home/wengzr/.cache/openpi
+5291730556	/home/wengzr/.cache/uv
