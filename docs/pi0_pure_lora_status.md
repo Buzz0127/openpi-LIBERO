@@ -1,6 +1,6 @@
 # pi0_base → LIBERO pure-LoRA 状态
 
-更新：2026-09-07（A2）
+更新：2026-09-07（T1 启动前冻结）
 
 ## 固定实验定义
 
@@ -34,6 +34,10 @@
 - A2 自治基础设施：实现 immutable plan、精确 source/input/tool identity 绑定、collision-safe attempt、原子 `status/current/heartbeat`、离线环境、有限 timeout/retry、独立 child PGID、只控制自有进程组、TERM→KILL→wait 回收、有界轮转日志和终态 output hash manifest。自动化明确 `next_stage_auto_start=false`。
 - A2 断连存活 smoke：服务器 `tmux` 中的 10 秒 synthetic probe 在 launcher 观察到递增心跳 `3→4` 后脱离 SSH；复连时已完成 10/10 步、零重试、child PID=PGID 且已回收，`tmux` 自然退出。未联网、未加载模型/数据/checkpoint、未使用 GPU，也未启动 T1。
 - A2 fail-closed 验收：本地完整 A2 测试 11 项通过；远端验证器测试 2 项通过；真实 attempt 的独立 acceptance report 为 `pass`，plan 文件 SHA-256 为 `1653529fef0274d4164e1a54994104b841a2caee896d380e6cbb5d240fa3d719`，内部 identity 为 `9707093c81eb4c39856c6dc0135888c4f1776b9b0fd74d265af1aafd634ee28c`。A2 远端证据总量 289,713 B。
+- T1 启动前冻结包：无 GPU 地固定了一个非候选工程验证段 `100→200`，只用于验证 S1d step 100 resume、data-loader 序列连续性和 A2 远端自治组合；正式训练另起新的 base 轨迹，候选 step 固定为 `1000/5000/10000/15000/20000/25000/30000`，训练 seed 42 与评测 seed 7 继续分离。冻结包 identity 为 `0d1521a326e1f951f4f89f1660090a88ea2e1b162271cf4ef258b0fcdbd44939`，文件 SHA-256 为 `8fc786a6ad4f041aa9593785505d21d0fe9095b92c4a6218dd64415dbad80275`。
+- T1 存储冻结：当前计费 91,765,739,008 B；按 step 200 工程制品加 7 个正式候选全部不删除、每个 full-state 5,559,083,375 B、adapter 199,962,483 B，并额外预留一份 full-state 原子落盘和 1,000,000,000 B margin，最坏峰值为 144,397,189,247 B。距 soft/hard 仍有 95,602,810,753 B / 105,602,810,753 B，不触及 225,000,000,000 B review line。
+- T1 resume runner CPU 阶段：实现 `resume_sequence.py` 和 `run_t1_resume_segment.py`。runner 对两个独立、同 seed loader 做 batch fingerprint 比对，step 100 精确跳过 100 个 batch 后以索引 100 开始，下一 batch 为 101；同时重放 100 次 S1d RNG split，运行前复核 acceptance/manifest 身份，并重新流式哈希 checkpoint 与 adapter 树。
+- T1 runner 静态验收：本地、远端固定 Python 各 11 项测试通过；覆盖无限 epoch 定位、第二 loader 漂移、短 loader、负 step、多卡映射、receipt 篡改、checkpoint 文件篡改及目标碰撞。未读取真实 dataset/checkpoint，未导入真实 Pi0，未使用 GPU。测试运行时绑定的是 uncommitted file hashes；用户随后明确要求执行独立 Git consolidation，相关源码与证据纳入包含本状态文档的提交，但既有 readiness evidence 保留其运行时原始表述。
 
 ## 失败尝试、警告与偏差（均保留证据）
 
@@ -45,6 +49,8 @@
 - S1d 在新的“长任务远端自治”规则到达前已经完成。它有远端双层 guard、独立进程组、collision-safe attempt、结构化日志和完整 restore，但由前台 SSH 启动，且没有持续原子 `status.json/current.json` 与独立心跳，因此不宣称完全符合新规则，也不为补形式重跑。
 - A2 首次只读终态命令假定存在 `exit_code.json`，实际 schema 使用 `exit_code.txt`，因此在打印已通过的 `status/summary` 后提前退出。未修改远端 attempt；随后通过文件枚举和独立验证器按真实 schema 完成验收。
 - A2 lightweight evidence 首次 `scp` 花括号列表未按预期展开，仅先复制了 plan；随后整目录复制成功。远端原始证据未覆盖，本地 `.log` 文件受 Git ignore 排除。
+- T1 冻结器首次本地测试使用包式模块路径，但 `tools/pi0_pure_lora` 不是 Python package，测试收集失败且没有执行 T1 逻辑；改用既有 `unittest discover -s tools/pi0_pure_lora` 后本地、远端各 4 项通过。
+- 远端源码确认：`restore_state()` 明确丢弃 `data_loader`，通用 `train.py` 在 restore 前重新创建 iterator 并先取首个 batch。因此 `--resume` 不能自动证明 batch 序列连续；在专用 runner 完成确定性 skip/position 校验前，冻结包保持 `execution_ready=false`。
 
 ## 已收敛现场
 
@@ -57,7 +63,8 @@
 
 ## 未开始
 
-- T1：正式分段训练；先为首个有界短分段冻结 committed source、候选 segment-end step、adapter milestone、full-state 安全轮换与存储峰值计划，再单独申请 GPU 执行授权。A2 完成不会自动授权或启动 T1。
+- T1 工程验证段：把已通过 CPU 测试的 runner、A2 orchestrator、GPU/storage guard 和 terminal verifier 绑定到 collision-safe stage plan，审查 5.5 GB 输入复核的 heartbeat/timeout；随后才可单独申请 `100→200` checkpoint load 与 GPU 执行授权。
+- T1 正式分段训练：工程验证通过后从 base 新轨迹开始；任何正式 segment、checkpoint 处理和 GPU 执行仍需单独决定。
 - E1 40-episode dev、E2 200-episode main、E3 可选 2,000-episode 评测。
 
 ## 当前存储政策
@@ -100,5 +107,7 @@
 `A2(自治 orchestrator + 候选 step/存储轮换预注册与 smoke) → T1(首个短分段验证 → 后续正式 segments) → E1(dev 40) → E2(main 200) → E3(可选 2000)`
 
 这次只是把执行控制阶段统一命名为 A2：A2 仍只补齐自治、预注册和恢复控制，T1 仍是训练本身；pure-LoRA 研究目标、Golden 定义和 250 GB 独立增量政策均不改变。
+
+A2 的自治协议与 synthetic 断连 smoke 已完成；具体 T1 candidate step、adapter milestone 和 full-state 轮换实例必须引用本次 A2 提交后的 committed tool identity，因此移到 T1 启动前的无 GPU 授权包中冻结。这个依赖顺序调整不授权 T1，也不弱化其预注册要求。
 
 每个 GPU 阶段仍须重新做约 30 秒双卡与 CPU/RAM 前检、动态固定单卡、关闭 JAX 预分配，并只由已验证 guard 控制其自身进程组。

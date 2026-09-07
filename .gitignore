@@ -24,6 +24,7 @@ __pycache__/
 *.pid
 *.exit_code
 *.log
+*.log.*
 *.stop
 
 # Raw control telemetry remains local; reports and structured outcomes are kept

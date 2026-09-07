@@ -1,0 +1,44 @@
+usage: run_t1_resume_segment.py [-h] --openpi-root OPENPI_ROOT
+                                --model-manifest MODEL_MANIFEST
+                                --golden-manifest GOLDEN_MANIFEST
+                                --s1d-acceptance-report S1D_ACCEPTANCE_REPORT
+                                --expected-s1d-acceptance-sha256
+                                EXPECTED_S1D_ACCEPTANCE_SHA256
+                                --expected-s1d-report-identity
+                                EXPECTED_S1D_REPORT_IDENTITY
+                                --expected-checkpoint-tree-sha256
+                                EXPECTED_CHECKPOINT_TREE_SHA256
+                                --expected-adapter-identity-sha256
+                                EXPECTED_ADAPTER_IDENTITY_SHA256
+                                --checkpoint-dir CHECKPOINT_DIR --adapter-root
+                                ADAPTER_ROOT --exp-name EXP_NAME --attempt-dir
+                                ATTEMPT_DIR --progress PROGRESS
+                                --loader-receipt LOADER_RECEIPT --output
+                                OUTPUT --segment-start SEGMENT_START
+                                --segment-end SEGMENT_END --train-seed
+                                TRAIN_SEED --eval-seed EVAL_SEED
+
+Resume one bounded pure-LoRA segment with deterministic loader/RNG
+positioning.
+
+options:
+  -h, --help            show this help message and exit
+  --openpi-root OPENPI_ROOT
+  --model-manifest MODEL_MANIFEST
+  --golden-manifest GOLDEN_MANIFEST
+  --s1d-acceptance-report S1D_ACCEPTANCE_REPORT
+  --expected-s1d-acceptance-sha256 EXPECTED_S1D_ACCEPTANCE_SHA256
+  --expected-s1d-report-identity EXPECTED_S1D_REPORT_IDENTITY
+  --expected-checkpoint-tree-sha256 EXPECTED_CHECKPOINT_TREE_SHA256
+  --expected-adapter-identity-sha256 EXPECTED_ADAPTER_IDENTITY_SHA256
+  --checkpoint-dir CHECKPOINT_DIR
+  --adapter-root ADAPTER_ROOT
+  --exp-name EXP_NAME
+  --attempt-dir ATTEMPT_DIR
+  --progress PROGRESS
+  --loader-receipt LOADER_RECEIPT
+  --output OUTPUT
+  --segment-start SEGMENT_START
+  --segment-end SEGMENT_END
+  --train-seed TRAIN_SEED
+  --eval-seed EVAL_SEED

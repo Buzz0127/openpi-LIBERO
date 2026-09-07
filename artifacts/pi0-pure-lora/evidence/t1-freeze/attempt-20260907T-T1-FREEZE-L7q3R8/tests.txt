@@ -1,0 +1,9 @@
+test_candidate_drift_fails_closed (test_build_t1_freeze_package.T1FreezePackageTest.test_candidate_drift_fails_closed) ... ok
+test_dirty_source_fails_closed (test_build_t1_freeze_package.T1FreezePackageTest.test_dirty_source_fails_closed) ... ok
+test_package_is_non_executing_and_recomputes_storage_bound (test_build_t1_freeze_package.T1FreezePackageTest.test_package_is_non_executing_and_recomputes_storage_bound) ... ok
+test_storage_review_line_fails_closed (test_build_t1_freeze_package.T1FreezePackageTest.test_storage_review_line_fails_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK

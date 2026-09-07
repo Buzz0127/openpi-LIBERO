@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "stage": "T1-resume-runner-CPU",
+  "status": "pass",
+  "execution_authorized": false,
+  "gpu_used": false,
+  "model_loaded": false,
+  "checkpoint_loaded": false,
+  "real_dataset_loaded": false,
+  "source_snapshot_kind": "fixed_openpi_head_plus_uncommitted_runner_file_hashes",
+  "openpi_source": {
+    "root": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora",
+    "branch": "feature/pi0-libero-pure-lora",
+    "head": "3619c35ffdcbfe97ae735de175d91c2fb67a899d",
+    "status": "clean",
+    "upstream": "NONE"
+  },
+  "input_identities": {
+    "t1_freeze_package_sha256": "8fc786a6ad4f041aa9593785505d21d0fe9095b92c4a6218dd64415dbad80275",
+    "t1_freeze_package_identity_sha256": "0d1521a326e1f951f4f89f1660090a88ea2e1b162271cf4ef258b0fcdbd44939",
+    "s1d_acceptance_report_sha256": "1965f78401b36a4ac5c1e564fd0b5a8b90b90d428da45d13d755a146e4b658d5",
+    "s1d_acceptance_report_identity_sha256": "c560bb932159eaa28502f89560ed1a325422f41f9aec249c67e30764541f4d91",
+    "s1d_checkpoint_tree_sha256": "abd8fdd33915eae208b2aebe1dcad7fd4675df927ebc504438a448d895ff26a1",
+    "s1d_adapter_identity_sha256": "26dc0261e16bb7ca8f77a7ea8113f22c5dab6d264f4e51861cbd003e80b543c1",
+    "base_model_manifest_file_sha256": "02ffd4931ab39cd6e36cfea1ceb20da822cbdec4a6f3f736d7ad37525acc3e99",
+    "golden_manifest_file_sha256": "3799cf4d053b013089216be97ab0b57d08dde1dd3c4f04744088ce2e93a32029"
+  },
+  "runner_file_sha256": {
+    "resume_sequence.py": "7ca653e2f59ff7fddb8d144ee2cb78fc8997939838bd17047a2ffc292da84f4d",
+    "run_t1_resume_segment.py": "a877852cdd46d65db04e64dd06235e7385a1f021bc11403d1fc79a02b31d2980",
+    "test_resume_sequence.py": "414b08be391b74de2953faa22896ec630b4176042114b264944e3775c7917737",
+    "test_run_t1_resume_segment.py": "dd82e9f1f8872af130d3e6ee1a365a82009970cbbdea38dd0b1a1c8d2d2dab84"
+  },
+  "verified": {
+    "local_tests_passed": 11,
+    "remote_tests_passed": 11,
+    "remote_fixed_python": "/home/wengzr/projects/openpi/.venv/bin/python",
+    "py_compile": true,
+    "help_without_heavy_imports": true,
+    "restored_step_100_maps_to_batch_index_100": true,
+    "next_iterator_batch_is_101": true,
+    "mismatched_loader_fingerprint_fails_closed": true,
+    "short_loader_fails_closed": true,
+    "rng_split_replay_count_frozen": 100,
+    "single_gpu_mapping_gate": true,
+    "input_receipt_identity_gate": true,
+    "checkpoint_tree_rehash_gate": true,
+    "adapter_tree_rehash_gate": true,
+    "target_collision_gate": true,
+    "automatic_checkpoint_deletion": false,
+    "next_stage_started": false
+  },
+  "remaining_before_gpu_execution": [
+    "review the real-loader fingerprint cost and set a bounded heartbeat timeout for the 5.5 GB input rehash",
+    "bind this uncommitted runner snapshot and both guards into one exact A2 stage plan",
+    "add a fail-closed terminal verifier for the step-200 result and two-checkpoint coexistence",
+    "run the required fresh 30-second dual-GPU plus CPU/RAM preflight",
+    "obtain explicit user authorization for checkpoint loading and the 100-to-200 GPU engineering segment"
+  ],
+  "execution_ready": false,
+  "next_stage_started": false
+}

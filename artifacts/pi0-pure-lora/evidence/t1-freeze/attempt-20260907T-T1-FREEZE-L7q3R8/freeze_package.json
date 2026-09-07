@@ -1,0 +1,152 @@
+{
+  "automatic_next_stage": false,
+  "blocking_facts": [
+    {
+      "code": "resume_loader_position_unverified",
+      "evidence": "OpenPI restore_state discards data_loader and train.py recreates its iterator from the beginning"
+    },
+    {
+      "code": "gpu_execution_not_authorized",
+      "evidence": "this package is a CPU-only non-executing freeze artifact"
+    }
+  ],
+  "engineering_segment": {
+    "batch_size": 1,
+    "candidate": false,
+    "delete_step_100_after_success": false,
+    "end": 200,
+    "expected_new_adapter_step": 200,
+    "expected_new_checkpoint_step": 200,
+    "num_workers": 0,
+    "purpose": "autonomous resume and deterministic loader-position validation only",
+    "start": 100
+  },
+  "execution_authorized": false,
+  "execution_command": null,
+  "execution_ready": false,
+  "formal_training": {
+    "append_candidates_after_first_dev_episode": false,
+    "candidate_steps": [
+      1000,
+      5000,
+      10000,
+      15000,
+      20000,
+      25000,
+      30000
+    ],
+    "development_selection_protocol": "E0 outcome-blind preregistration; dev-40 only; main-200 never selects",
+    "segments": [
+      {
+        "candidate": true,
+        "end": 1000,
+        "start": 0
+      },
+      {
+        "candidate": true,
+        "end": 5000,
+        "start": 1000
+      },
+      {
+        "candidate": true,
+        "end": 10000,
+        "start": 5000
+      },
+      {
+        "candidate": true,
+        "end": 15000,
+        "start": 10000
+      },
+      {
+        "candidate": true,
+        "end": 20000,
+        "start": 15000
+      },
+      {
+        "candidate": true,
+        "end": 25000,
+        "start": 20000
+      },
+      {
+        "candidate": true,
+        "end": 30000,
+        "start": 25000
+      }
+    ],
+    "starts_from_base_in_a_new_run_root": true,
+    "target_step": 30000,
+    "tie_break": [
+      "higher_dev_success",
+      "earlier_train_step",
+      "lexicographically_smaller_adapter_identity"
+    ]
+  },
+  "identities": {
+    "config": "1c289cc470e064d6717513e149b5cae03ee71b56f7c9634df450e496ca46c958",
+    "dataset": "44c5fbe41202cbd29cf209d2856b4e95857f89728697a994d9aa14e0f2c5d700",
+    "golden": "3799cf4d053b013089216be97ab0b57d08dde1dd3c4f04744088ce2e93a32029",
+    "model": "d484ef5fa06bcb92b0dad92d1f221d4b65406f86dd928569362cb8a9106213ac",
+    "norm": "f68a5fafe15e1577b7bb2c6fc4837a7d1669e2e9be3752f2589c3d327c6f8ccf",
+    "split": "f85350357b75ecaea7330e386f805d024ea44a7a6a5c58f96d64259fbedca283"
+  },
+  "package_identity_sha256": "0d1521a326e1f951f4f89f1660090a88ea2e1b162271cf4ef258b0fcdbd44939",
+  "required_before_execution": [
+    "implement and unit-test exact resume data-loader position handling",
+    "bind the concrete runner and both guards by SHA-256",
+    "create a collision-safe A2 stage plan with exact command and output paths",
+    "repeat at least 30 seconds of dual-GPU plus CPU/RAM preflight",
+    "dynamically select and pin one physical GPU with more than 15 percent free VRAM",
+    "verify XLA_PYTHON_CLIENT_PREALLOCATE=false and single-card mapping",
+    "obtain separate user authorization for the GPU engineering segment"
+  ],
+  "resume_input": {
+    "acceptance_report_identity_sha256": "c560bb932159eaa28502f89560ed1a325422f41f9aec249c67e30764541f4d91",
+    "adapter_identity_sha256": "26dc0261e16bb7ca8f77a7ea8113f22c5dab6d264f4e51861cbd003e80b543c1",
+    "all_parameter_and_optimizer_values_restored": true,
+    "automatic_pruning_enabled": false,
+    "checkpoint_root": "/home/wengzr/projects/openpi-lora-runs/checkpoints/pi0_libero_pure_lora/s1d-smoke-seed42-20260904",
+    "checkpoint_step": 100,
+    "checkpoint_tree_sha256": "abd8fdd33915eae208b2aebe1dcad7fd4675df927ebc504438a448d895ff26a1",
+    "old_checkpoint_deletion_authorized": false,
+    "restore_receipt_sha256": "cfdf05f0ceb8cf1b1b0818eba680110b7086e5c51413adaf7f330a60a105747d"
+  },
+  "schema_version": 1,
+  "seeds": {
+    "evaluation": 7,
+    "training": 42
+  },
+  "source": {
+    "branch": "feature/pi0-libero-pure-lora",
+    "head": "3619c35ffdcbfe97ae735de175d91c2fb67a899d",
+    "root": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora",
+    "status": "clean",
+    "upstream": "NONE"
+  },
+  "source_snapshot_kind": "fixed_head_plus_uncommitted_file_hashes",
+  "stage": "T1-preflight-freeze",
+  "storage": {
+    "atomic_write_margin_bytes": 1000000000,
+    "automatic_pruning_allowed": false,
+    "current_billed_bytes": 91765739008,
+    "deletion_authorized": false,
+    "hard_headroom_at_worst_peak_bytes": 105602810753,
+    "hard_limit_bytes": 250000000000,
+    "measured_adapter_bytes": 199962483,
+    "measured_full_state_bytes": 5559083375,
+    "minimum_uncommitted_bytes": 20000000000,
+    "retained_new_milestones_for_no_deletion_bound": 8,
+    "review_line_bytes": 225000000000,
+    "soft_headroom_at_worst_peak_bytes": 95602810753,
+    "soft_stop_bytes": 240000000000,
+    "steady_peak_if_no_deletion_bytes": 137838105872,
+    "worst_peak_with_one_extra_full_state_and_margin_bytes": 144397189247
+  },
+  "tool_sha256": {
+    "gpu_guard": "ba9f7c74b843a61dc7cdf2f48b182390edb59022b5a2e76a489ce9d7048c4594",
+    "launcher": "3dd05923019be63f434b93bf15119ad0346d9d27825a9c23e735c82836e3e2d6",
+    "orchestrator": "fa920b2a8eefab9dac728329c575a8546669ea068135db8112f8ee93c8c6262c",
+    "s1d_reference_runner": "6c832450484e8b2ea4bceac6766ef2f2db8a4f6814b587f7fa59be35889059ff",
+    "storage_guard": "427e9d32a3405ac1ea35245ca7f8c5dc63f1389cfff44ee2894bf8fb6e683721",
+    "t1_freeze_builder": "43d7d53c8ce11cfe2bf0b7ac71e7e403b87485604c0107ee186bad3b2a16faaa"
+  }
+}

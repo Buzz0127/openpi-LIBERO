@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+"""Deterministic iterator positioning helpers for segmented pure-LoRA training."""
+
+from __future__ import annotations
+
+import hashlib
+import json
+from typing import Callable, Iterable, Iterator, TypeVar
+
+
+T = TypeVar("T")
+
+
+def canonical_fingerprint(value: object) -> str:
+    payload = (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode()
+    return hashlib.sha256(payload).hexdigest()
+
+
+def positioned_batch(loader: Iterable[T], restored_step: int) -> tuple[Iterator[T], T, dict[str, object]]:
+    if isinstance(restored_step, bool) or not isinstance(restored_step, int) or restored_step < 0:
+        raise ValueError("restored_step must be a non-negative integer")
+    iterator = iter(loader)
+    for _ in range(restored_step):
+        try:
+            next(iterator)
+        except StopIteration as error:
+            raise RuntimeError("loader ended before restored_step") from error
+    try:
+        batch = next(iterator)
+    except StopIteration as error:
+        raise RuntimeError("loader ended at restored_step") from error
+    return iterator, batch, {
+        "schema_version": 1,
+        "restored_step": restored_step,
+        "skipped_batch_count": restored_step,
+        "first_resumed_batch_index": restored_step,
+    }
+
+
+def verify_position(
+    loader_factory: Callable[[], Iterable[T]], restored_step: int, fingerprint: Callable[[T], str]
+) -> tuple[Iterator[T], T, dict[str, object]]:
+    reference = iter(loader_factory())
+    expected = None
+    for _ in range(restored_step + 1):
+        try:
+            expected = next(reference)
+        except StopIteration as error:
+            raise RuntimeError("reference loader ended before resumed batch") from error
+    iterator, actual, receipt = positioned_batch(loader_factory(), restored_step)
+    expected_hash = fingerprint(expected)
+    actual_hash = fingerprint(actual)
+    if expected_hash != actual_hash:
+        raise RuntimeError("resumed batch fingerprint does not match deterministic reference")
+    return iterator, actual, {
+        **receipt,
+        "reference_batch_sha256": expected_hash,
+        "resumed_batch_sha256": actual_hash,
+        "position_verified": True,
+    }

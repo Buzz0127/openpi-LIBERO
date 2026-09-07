@@ -1,0 +1,279 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-09-07T16:10:00+08:00",
+  "policy": {
+    "git_mutation_requires_explicit_user_request": true,
+    "automatic_add_commit_push": false,
+    "manifest_is_worktree_only_and_not_staged": false
+  },
+  "record_purpose": "pre-consolidation snapshot; pending dispositions describe the state immediately before the user-requested Git commit",
+  "git_consolidation": {
+    "explicitly_requested_by_user": true,
+    "include_this_manifest": true,
+    "exclude_preexisting_b1_tunnel_change": true,
+    "exclude_logs_pyc_ds_store_and_temporary_files": true
+  },
+  "repository": {
+    "branch": "feature/pi0-libero-pure-lora",
+    "head": "474ae8b37d02a4a9d37ee573ab7c5c561fefbd96",
+    "upstream": "origin/feature/pi0-libero-pure-lora",
+    "upstream_head": "f85d605d368c44e4812222e099e6561464754797",
+    "ahead_by": 1
+  },
+  "unpushed_commits": [
+    {
+      "commit": "474ae8b37d02a4a9d37ee573ab7c5c561fefbd96",
+      "subject": "feat: add autonomous pure-LoRA stage orchestration",
+      "stage": "A2",
+      "created_before_latest_no_commit_rule": true,
+      "push_attempt_succeeded": false,
+      "push_failure": "configured local proxy 127.0.0.1:7890 was unavailable",
+      "action": "retain unchanged; do not push until the user explicitly requests a Git consolidation task"
+    }
+  ],
+  "pending_files": [
+    {
+      "path": ".gitignore",
+      "stage": "A2",
+      "change_type": "modified",
+      "sha256": "f5c940beb941ede5a5ffc7522a3725c7f69939f32796641fba17053ab6fe4d88",
+      "validation": "git diff --check passed; adds *.log.* so rotated runtime logs remain excluded",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "docs/pi0_pure_lora_status.md",
+      "stage": "A2/T1-preflight-freeze",
+      "change_type": "modified_after_local_A2_commit",
+      "sha256": "4fa40b4f9598ab37442657a2a0621007382695476d4d4ad34c7b6e61d49d0d1d",
+      "validation": "git diff --check passed; records A2, T1 freeze, storage bound, resume runner, CPU tests, and remaining GPU gates",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "tools/pi0_pure_lora/resume_sequence.py",
+      "stage": "T1-resume-runner-CPU",
+      "change_type": "new",
+      "sha256": "7ca653e2f59ff7fddb8d144ee2cb78fc8997939838bd17047a2ffc292da84f4d",
+      "validation": "five local and remote iterator-position tests passed",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "tools/pi0_pure_lora/run_t1_resume_segment.py",
+      "stage": "T1-resume-runner-CPU",
+      "change_type": "new",
+      "sha256": "a877852cdd46d65db04e64dd06235e7385a1f021bc11403d1fc79a02b31d2980",
+      "validation": "py_compile/help passed locally and remotely; six static/identity/tamper tests passed; real model path not executed",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "tools/pi0_pure_lora/test_resume_sequence.py",
+      "stage": "T1-resume-runner-CPU",
+      "change_type": "new",
+      "sha256": "414b08be391b74de2953faa22896ec630b4176042114b264944e3775c7917737",
+      "validation": "covers exact step-100 positioning, next batch 101, cyclic epochs, mismatch, negative and short loaders",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "tools/pi0_pure_lora/test_run_t1_resume_segment.py",
+      "stage": "T1-resume-runner-CPU",
+      "change_type": "new",
+      "sha256": "dd82e9f1f8872af130d3e6ee1a365a82009970cbbdea38dd0b1a1c8d2d2dab84",
+      "validation": "covers segment, single GPU, acceptance identity, output collision and checkpoint-tree tamper gates",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/t1-resume-runner/attempt-20260907T-T1-RESUME-CPU-H6v2N9/readiness.json",
+      "stage": "T1-resume-runner-CPU",
+      "change_type": "new evidence",
+      "sha256": "6c293efcc064a421418d145f6c127d49e5c15c9a39a053a5fe13846ea522b587",
+      "validation": "machine-readable uncommitted runner snapshot and remaining execution gates",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/t1-resume-runner/attempt-20260907T-T1-RESUME-CPU-H6v2N9/tests.txt",
+      "stage": "T1-resume-runner-CPU",
+      "change_type": "new evidence",
+      "sha256": "35da5b704c4faf90fda2153c74cf7737eec8dfee207442dfeb3b479df1d7033b",
+      "validation": "eleven remote CPU-only tests passed under fixed OpenPI Python",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/t1-resume-runner/attempt-20260907T-T1-RESUME-CPU-H6v2N9/help.txt",
+      "stage": "T1-resume-runner-CPU",
+      "change_type": "new evidence",
+      "sha256": "84dc08dff3bcd378e897de81dfb32bc28ed8496a1684f5d0d052d0b87663526b",
+      "validation": "runner help completed before heavy runtime imports",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/t1-resume-runner/attempt-20260907T-T1-RESUME-CPU-H6v2N9/sha256.txt",
+      "stage": "T1-resume-runner-CPU",
+      "change_type": "new evidence",
+      "sha256": "27431c71da054489ab3d56710e5852ea6138796f168e96a0222b0edb40aab97a",
+      "validation": "records four remote runner/test file SHA-256 values",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/t1-resume-runner/attempt-20260907T-T1-RESUME-CPU-H6v2N9/openpi-status-after.txt",
+      "stage": "T1-resume-runner-CPU",
+      "change_type": "new evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "validation": "empty file proves remote OpenPI source worktree remained clean",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/t1-resume-runner/attempt-20260907T-T1-RESUME-CPU-H6v2N9/storage.txt",
+      "stage": "T1-resume-runner-CPU",
+      "change_type": "new evidence",
+      "sha256": "b9692f6b205b9e287c14dde240325239546033d23e5e02d6423582cca90d2024",
+      "validation": "remote CPU test attempt occupied 45,966 bytes including redirected pycache",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "tools/pi0_pure_lora/build_t1_freeze_package.py",
+      "stage": "T1-preflight-freeze",
+      "change_type": "new",
+      "sha256": "43d7d53c8ce11cfe2bf0b7ac71e7e403b87485604c0107ee186bad3b2a16faaa",
+      "validation": "local and remote py_compile passed; four local and four remote fail-closed tests passed",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "tools/pi0_pure_lora/test_build_t1_freeze_package.py",
+      "stage": "T1-preflight-freeze",
+      "change_type": "new",
+      "sha256": "adc83414f6861892928bf54e68416c4a85b749f7e49a91f2eecfdf345c3ba10d",
+      "validation": "four tests cover non-execution, candidate drift, dirty source, and storage review-line rejection",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/t1-freeze/attempt-20260907T-T1-FREEZE-L7q3R8/freeze_package.json",
+      "stage": "T1-preflight-freeze",
+      "change_type": "new evidence",
+      "sha256": "8fc786a6ad4f041aa9593785505d21d0fe9095b92c4a6218dd64415dbad80275",
+      "validation": "JSON parsed; execution_ready=false; execution_authorized=false; package identity 0d1521a326e1f951f4f89f1660090a88ea2e1b162271cf4ef258b0fcdbd44939",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/t1-freeze/attempt-20260907T-T1-FREEZE-L7q3R8/build.stdout.json",
+      "stage": "T1-preflight-freeze",
+      "change_type": "new evidence",
+      "sha256": "8fc786a6ad4f041aa9593785505d21d0fe9095b92c4a6218dd64415dbad80275",
+      "validation": "builder stdout exactly matches freeze_package.json",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/t1-freeze/attempt-20260907T-T1-FREEZE-L7q3R8/tests.txt",
+      "stage": "T1-preflight-freeze",
+      "change_type": "new evidence",
+      "sha256": "ce742766b90b0df34ecbbe92bde13ad6d4a62a1a4779fccbd24f3a29802ec230",
+      "validation": "four remote unit tests passed under the fixed OpenPI Python",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/t1-freeze/attempt-20260907T-T1-FREEZE-L7q3R8/sha256.txt",
+      "stage": "T1-preflight-freeze",
+      "change_type": "new evidence",
+      "sha256": "f211631cd8f9e2c42646bb4e1d14abed113b933da85947d28b4b71436cb71454",
+      "validation": "records builder, test, and generated package SHA-256 values",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/t1-freeze/attempt-20260907T-T1-FREEZE-L7q3R8/openpi-status-after.txt",
+      "stage": "T1-preflight-freeze",
+      "change_type": "new evidence",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "validation": "empty file proves the remote OpenPI worktree remained clean after the CPU-only freeze step",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/t1-freeze/attempt-20260907T-T1-FREEZE-L7q3R8/storage.txt",
+      "stage": "T1-preflight-freeze",
+      "change_type": "new evidence",
+      "sha256": "ebe24c98ddab6770267491e2572a9658ba57f00de371385a9b4329afb27d05f4",
+      "validation": "records the collision-safe remote freeze attempt byte count",
+      "historical_evidence": false,
+      "ownership": "pi0-pure-lora task",
+      "disposition": "pending",
+      "suggested_future_commit_group": "A2/T1 autonomous training infrastructure consolidation"
+    },
+    {
+      "path": "artifacts/pi0-pure-lora/evidence/b1-pi0-base/tunnel/attempt-20260902T-B1-TUNNEL-screen1/supervisor/events.jsonl",
+      "stage": "B1 historical tunnel",
+      "change_type": "pre-existing modified file",
+      "sha256": "fa5230cb792949659e794a5a98a0f7c25374519dbe84ef3b981d89b8d52eca3a",
+      "validation": "time-point snapshot only; an unrelated background tunnel continues appending, so this excluded historical file is intentionally not part of the owned-file stability gate",
+      "historical_evidence": true,
+      "ownership": "pre-existing user state",
+      "disposition": "exclude from all pi0-pure-lora task submissions",
+      "suggested_future_commit_group": null
+    }
+  ],
+  "latest_stage_validation": {
+    "stage": "T1-resume-runner-CPU",
+    "local_unit_tests": "11 passed",
+    "remote_unit_tests": "11 passed",
+    "runner_sha256": "a877852cdd46d65db04e64dd06235e7385a1f021bc11403d1fc79a02b31d2980",
+    "resume_sequence_sha256": "7ca653e2f59ff7fddb8d144ee2cb78fc8997939838bd17047a2ffc292da84f4d",
+    "py_compile": "pass",
+    "execution_ready": false,
+    "execution_authorized": false,
+    "git_diff_check": "pass",
+    "next_stage_started": false
+  }
+}
