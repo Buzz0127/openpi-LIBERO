@@ -14,12 +14,20 @@ import storage_budget_guard as guard
 
 
 SCRIPT = Path(guard.__file__).resolve()
+FAKE_HOST_BOOTSTRAP = (
+    f"import sys; sys.path.insert(0, {str(SCRIPT.parent)!r}); "
+    "import storage_budget_guard as guard; "
+    "guard._read_mem_available_bytes=lambda: 64*(1<<30); "
+    "guard._read_child_rss_bytes=lambda pid: 1<<20; "
+    "sys.exit(guard.main())"
+)
 
 
 def _command(attempt: Path, root: Path, *child: str, extra: list[str] | None = None) -> list[str]:
     command = [
         sys.executable,
-        str(SCRIPT),
+        "-c",
+        FAKE_HOST_BOOTSTRAP,
         "--attempt-dir",
         str(attempt),
         "--monitor-root",
@@ -138,6 +146,87 @@ class StorageBudgetGuardTest(unittest.TestCase):
         )
         self.assertEqual(result.returncode, guard.EXIT_GUARD_STOP, result.stderr)
         self.assertEqual(_status(attempt)["reason_code"], "monitor_failure")
+
+    def test_manifest_write_failure_after_spawn_still_reaps_child(self) -> None:
+        attempt = self.tmp / "manifest-failure"
+        pid_file = self.tmp / "owned-pid"
+        command = _command(attempt, self.root, sys.executable, "-c", "import time; time.sleep(30)")
+        bootstrap = (
+            f"import pathlib,sys; sys.path.insert(0, {str(SCRIPT.parent)!r})\n"
+            "import storage_budget_guard as guard\n"
+            "original=guard.subprocess.Popen\n"
+            "def launch(*args,**kwargs):\n"
+            " child=original(*args,**kwargs)\n"
+            f" pathlib.Path({str(pid_file)!r}).write_text(str(child.pid))\n"
+            " return child\n"
+            "def fail(*args,**kwargs): raise OSError('fake manifest disk failure')\n"
+            "guard.subprocess.Popen=launch\n"
+            "guard._atomic_json=fail\n"
+            "sys.exit(guard.main())\n"
+        )
+        command[2] = bootstrap
+        result = subprocess.run(command, capture_output=True, text=True, timeout=4)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("fake manifest disk failure", result.stderr)
+        self.assertFalse(_pid_exists(int(pid_file.read_text())))
+
+    def test_post_reap_sample_catches_fast_final_write(self) -> None:
+        attempt = self.tmp / "fast-final-write"
+        gate = self.tmp / "first-periodic-sample"
+        child = (
+            "import pathlib,time; "
+            f"gate=pathlib.Path({str(gate)!r}); "
+            "exec('while not gate.exists(): time.sleep(0.005)'); "
+            f"pathlib.Path({str(self.root / 'final.bin')!r}).write_bytes(b'x'*1048576)"
+        )
+        command = _command(attempt, self.root, sys.executable, "-c", child)
+        command[2] = self._post_reap_bootstrap(gate, fail_final=False)
+        for option in ("--sample-interval-seconds", "--near-sample-interval-seconds"):
+            command[command.index(option) + 1] = "0.2"
+        result = subprocess.run(command, capture_output=True, text=True, timeout=4)
+        self.assertEqual(result.returncode, guard.EXIT_GUARD_STOP, result.stderr)
+        status = _status(attempt)
+        self.assertEqual(status["reason_code"], "storage_hard_limit")
+        self.assertEqual(status["final_storage_sample"]["phase"], "post_reap")
+        self.assertGreaterEqual(status["final_billed_lora_bytes"], 1048576)
+
+    def test_post_reap_sampling_failure_fails_closed(self) -> None:
+        attempt = self.tmp / "final-sample-failure"
+        gate = self.tmp / "first-periodic-sample"
+        child = (
+            "import pathlib,time; "
+            f"gate=pathlib.Path({str(gate)!r}); "
+            "exec('while not gate.exists(): time.sleep(0.005)')"
+        )
+        command = _command(attempt, self.root, sys.executable, "-c", child)
+        command[2] = self._post_reap_bootstrap(gate, fail_final=True)
+        for option in ("--sample-interval-seconds", "--near-sample-interval-seconds"):
+            command[command.index(option) + 1] = "0.2"
+        result = subprocess.run(command, capture_output=True, text=True, timeout=4)
+        self.assertEqual(result.returncode, guard.EXIT_GUARD_STOP, result.stderr)
+        status = _status(attempt)
+        self.assertEqual(status["reason_code"], "monitor_failure")
+        self.assertIsNone(status["final_storage_sample"])
+        self.assertIn("fake post-reap stat failure", status["final_storage_sample_error"])
+
+    def _post_reap_bootstrap(self, gate: Path, *, fail_final: bool) -> str:
+        return (
+            f"import pathlib,sys; sys.path.insert(0,{str(SCRIPT.parent)!r})\n"
+            "import storage_budget_guard as guard\n"
+            "guard._read_mem_available_bytes=lambda:64*(1<<30)\n"
+            "guard._read_child_rss_bytes=lambda pid:1<<20\n"
+            "original=guard._storage_sample\n"
+            "calls=0\n"
+            "def sample(*args):\n"
+            " global calls\n"
+            " calls+=1\n"
+            f" if calls>1 and {fail_final!r}: raise OSError('fake post-reap stat failure')\n"
+            " result=original(*args)\n"
+            f" pathlib.Path({str(gate)!r}).touch()\n"
+            " return result\n"
+            "guard._storage_sample=sample\n"
+            "sys.exit(guard.main())\n"
+        )
 
     def test_unrelated_process_is_not_signaled(self) -> None:
         unrelated = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(30)"])

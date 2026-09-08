@@ -1,0 +1,10 @@
+test_infinite_epoch_sequence_is_positioned_exactly (test_resume_sequence.ResumeSequenceTest.test_infinite_epoch_sequence_is_positioned_exactly) ... ok
+test_mismatched_second_loader_fails_closed (test_resume_sequence.ResumeSequenceTest.test_mismatched_second_loader_fails_closed) ... ok
+test_negative_step_fails_closed (test_resume_sequence.ResumeSequenceTest.test_negative_step_fails_closed) ... ok
+test_short_loader_fails_closed (test_resume_sequence.ResumeSequenceTest.test_short_loader_fails_closed) ... ok
+test_step_100_uses_batch_index_100 (test_resume_sequence.ResumeSequenceTest.test_step_100_uses_batch_index_100) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+OK

@@ -190,10 +190,15 @@ def _read_progress(path: Path, defaults: dict[str, Any]) -> tuple[dict[str, Any]
 
 
 def _group_alive(proc: subprocess.Popen[bytes], pgid: int) -> bool:
-    if proc.poll() is not None:
+    # This PGID is retained only from our own start_new_session Popen.  Workers
+    # can outlive the leader, so leader exit is not evidence of group exit.
+    if pgid != proc.pid:
         return False
     try:
-        return os.getpgid(proc.pid) == proc.pid == pgid
+        if proc.poll() is None and os.getpgid(proc.pid) != pgid:
+            return False
+        os.killpg(pgid, 0)
+        return True
     except ProcessLookupError:
         return False
 
@@ -201,22 +206,29 @@ def _group_alive(proc: subprocess.Popen[bytes], pgid: int) -> bool:
 def _stop_owned_group(
     proc: subprocess.Popen[bytes], pgid: int, term_grace: float, kill_grace: float
 ) -> dict[str, bool]:
-    result = {"ownership_verified": False, "term_sent": False, "kill_sent": False, "wait_reaped": False}
-    if _group_alive(proc, pgid):
-        result["ownership_verified"] = True
-        os.killpg(pgid, signal.SIGTERM)
-        result["term_sent"] = True
-    try:
-        proc.wait(timeout=term_grace)
-        result["wait_reaped"] = True
-        return result
-    except subprocess.TimeoutExpired:
-        pass
-    if _group_alive(proc, pgid):
-        os.killpg(pgid, signal.SIGKILL)
-        result["kill_sent"] = True
-    proc.wait(timeout=kill_grace)
-    result["wait_reaped"] = True
+    result = {"ownership_verified": False, "term_sent": False, "kill_sent": False,
+              "wait_reaped": False, "group_exit_confirmed": False}
+    for signum, grace, field in ((signal.SIGTERM, term_grace, "term_sent"),
+                                 (signal.SIGKILL, kill_grace, "kill_sent")):
+        if _group_alive(proc, pgid):
+            result["ownership_verified"] = True
+            try:
+                if signum == signal.SIGTERM:
+                    os.killpg(pgid, signal.SIGCONT)
+                os.killpg(pgid, signum)
+                result[field] = True
+            except ProcessLookupError:
+                pass
+        deadline = time.monotonic() + grace
+        while True:
+            result["wait_reaped"] = proc.poll() is not None
+            result["group_exit_confirmed"] = not _group_alive(proc, pgid)
+            if result["wait_reaped"] and result["group_exit_confirmed"]:
+                return result
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                break
+            time.sleep(min(0.02, remaining))
     return result
 
 
@@ -322,7 +334,7 @@ def _parse_args() -> argparse.Namespace:
         "timeout_seconds", "heartbeat_timeout_seconds", "sample_interval_seconds",
         "term_grace_seconds", "kill_grace_seconds", "retry_delay_seconds",
     ):
-        if getattr(args, name) <= 0:
+        if not math.isfinite(getattr(args, name)) or getattr(args, name) <= 0:
             parser.error(f"--{name.replace('_', '-')} must be positive")
     if args.max_retries < 0 or args.max_log_bytes < 1024 or args.log_backups < 1:
         parser.error("retry and log bounds are invalid")
@@ -342,7 +354,6 @@ def main() -> int:
         raise ValueError("progress JSON must stay inside the collision-safe attempt")
     if progress.exists() or any(path.exists() for path in args.required_output):
         raise FileExistsError("progress and required completion outputs must be new")
-    attempt.parent.mkdir(parents=True, exist_ok=True)
     _safe_current_target(current_json, attempt.name)
     identities = _parse_identities(args.identity)
     if _sha256(args.stage_plan) != args.expected_stage_plan_sha256:
@@ -395,7 +406,12 @@ def main() -> int:
         raise RuntimeError(f"autonomous plan/runtime mismatch: {mismatched_plan_fields}")
     if stage_plan.get("tools", {}).get("orchestrator_sha256") != _sha256(Path(__file__)):
         raise RuntimeError("orchestrator source identity differs from stage plan")
+    if stage_plan.get("stage") == "T1-engineering-100-200":
+        import t1_execution_contract
 
+        t1_execution_contract.validate_launch_bindings(stage_plan)
+
+    attempt.parent.mkdir(parents=True, exist_ok=True)
     attempt.mkdir()
     status_path = attempt / "status.json"
     heartbeat_path = attempt / "heartbeat.json"
@@ -405,7 +421,7 @@ def main() -> int:
     stop_signal: list[int] = []
     previous_handlers = {
         signum: signal.signal(signum, lambda received, _frame: stop_signal.append(received) if not stop_signal else None)
-        for signum in (signal.SIGTERM, signal.SIGINT)
+        for signum in (signal.SIGTERM, signal.SIGINT, signal.SIGHUP)
     }
     defaults = {
         "current_step": args.segment_start,
@@ -451,6 +467,8 @@ def main() -> int:
     final_returncode = 1
     retry_index = 0
     child_records: list[dict[str, Any]] = []
+    proc: subprocess.Popen[bytes] | None = None
+    captures: list[_RotatingCapture] = []
 
     def publish(state: str, *, child_pid: int | None, child_pgid: int | None, reason: str | None) -> None:
         nonlocal sequence
@@ -483,6 +501,10 @@ def main() -> int:
     publish("starting", child_pid=None, child_pgid=None, reason=None)
     try:
         while True:
+            if stop_signal or time.monotonic() - start_mono >= args.timeout_seconds:
+                final_reason = "external_signal" if stop_signal else "timeout"
+                final_returncode = 128 + stop_signal[0] if stop_signal else EXIT_TIMEOUT
+                break
             stdout_path = attempt / f"child-{retry_index:02d}.stdout.log"
             stderr_path = attempt / f"child-{retry_index:02d}.stderr.log"
             proc = subprocess.Popen(
@@ -499,6 +521,7 @@ def main() -> int:
             pgid = proc.pid
             stdout_capture = _RotatingCapture(proc.stdout, stdout_path, args.max_log_bytes, args.log_backups)
             stderr_capture = _RotatingCapture(proc.stderr, stderr_path, args.max_log_bytes, args.log_backups)
+            captures = [stdout_capture, stderr_capture]
             stdout_capture.start()
             stderr_capture.start()
             _append_event(events_path, {
@@ -541,10 +564,9 @@ def main() -> int:
 
             if proc.poll() is None:
                 publish("terminating", child_pid=proc.pid, child_pgid=pgid, reason=child_reason)
-                termination = _stop_owned_group(proc, pgid, args.term_grace_seconds, args.kill_grace_seconds)
-            else:
-                proc.wait()
-                termination["wait_reaped"] = True
+            termination = _stop_owned_group(proc, pgid, args.term_grace_seconds, args.kill_grace_seconds)
+            if not termination["wait_reaped"] or not termination["group_exit_confirmed"]:
+                child_reason = "cleanup_incomplete"
             stdout_capture.join(timeout=args.kill_grace_seconds)
             stderr_capture.join(timeout=args.kill_grace_seconds)
             if stdout_capture.is_alive() or stderr_capture.is_alive() or stdout_capture.error or stderr_capture.error:
@@ -598,6 +620,16 @@ def main() -> int:
     except BaseException as error:
         final_reason = "orchestrator_exception"
         final_returncode = 1
+        # Cleanup precedes evidence I/O: an unavailable/full disk must not leave
+        # the nested storage/GPU guards running in their separate sessions.
+        if proc is not None:
+            termination = _stop_owned_group(proc, proc.pid, args.term_grace_seconds, args.kill_grace_seconds)
+            for capture in captures:
+                if capture.ident is not None:
+                    capture.join(timeout=args.kill_grace_seconds)
+            child_records.append({"retry_index": retry_index, "child_pid": proc.pid,
+                                  "child_pgid": proc.pid, "returncode": proc.returncode,
+                                  "reason": final_reason, **termination})
         _append_event(events_path, {"event": final_reason, "error": repr(error), "time_utc": _utc_now()})
     finally:
         for signum, handler in previous_handlers.items():

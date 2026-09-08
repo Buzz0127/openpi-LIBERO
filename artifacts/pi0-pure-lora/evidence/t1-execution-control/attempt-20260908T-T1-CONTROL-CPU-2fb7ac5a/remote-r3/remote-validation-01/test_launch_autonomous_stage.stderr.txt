@@ -1,0 +1,8 @@
+test_attempt_binding_is_exact (test_launch_autonomous_stage.AutonomousLauncherTest.test_attempt_binding_is_exact) ... ok
+test_receipt_writer_refuses_overwrite (test_launch_autonomous_stage.AutonomousLauncherTest.test_receipt_writer_refuses_overwrite) ... ok
+test_session_name_is_strict (test_launch_autonomous_stage.AutonomousLauncherTest.test_session_name_is_strict) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.005s
+
+OK

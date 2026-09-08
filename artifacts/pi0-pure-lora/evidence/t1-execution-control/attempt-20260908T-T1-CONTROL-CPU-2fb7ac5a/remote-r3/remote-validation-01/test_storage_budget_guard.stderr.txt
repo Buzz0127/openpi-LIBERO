@@ -1,0 +1,15 @@
+test_external_signal_forwards_and_reaps (test_storage_budget_guard.StorageBudgetGuardTest.test_external_signal_forwards_and_reaps) ... ok
+test_manifest_write_failure_after_spawn_still_reaps_child (test_storage_budget_guard.StorageBudgetGuardTest.test_manifest_write_failure_after_spawn_still_reaps_child) ... ok
+test_monitor_failure_fails_closed (test_storage_budget_guard.StorageBudgetGuardTest.test_monitor_failure_fails_closed) ... ok
+test_normal_completion_and_reap (test_storage_budget_guard.StorageBudgetGuardTest.test_normal_completion_and_reap) ... ok
+test_overlapping_roots_rejected (test_storage_budget_guard.StorageBudgetGuardTest.test_overlapping_roots_rejected) ... ok
+test_post_reap_sample_catches_fast_final_write (test_storage_budget_guard.StorageBudgetGuardTest.test_post_reap_sample_catches_fast_final_write) ... ok
+test_post_reap_sampling_failure_fails_closed (test_storage_budget_guard.StorageBudgetGuardTest.test_post_reap_sampling_failure_fails_closed) ... ok
+test_storage_soft_limit_stops_owned_group (test_storage_budget_guard.StorageBudgetGuardTest.test_storage_soft_limit_stops_owned_group) ... ok
+test_timeout_escalates_to_kill (test_storage_budget_guard.StorageBudgetGuardTest.test_timeout_escalates_to_kill) ... ok
+test_unrelated_process_is_not_signaled (test_storage_budget_guard.StorageBudgetGuardTest.test_unrelated_process_is_not_signaled) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 4.556s
+
+OK

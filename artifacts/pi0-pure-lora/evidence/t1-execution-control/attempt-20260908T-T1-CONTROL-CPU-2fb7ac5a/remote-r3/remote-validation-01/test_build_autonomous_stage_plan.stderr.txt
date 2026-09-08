@@ -1,0 +1,6 @@
+test_plan_binds_source_tools_inputs_and_command (test_build_autonomous_stage_plan.BuildAutonomousStagePlanTest.test_plan_binds_source_tools_inputs_and_command) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.048s
+
+OK

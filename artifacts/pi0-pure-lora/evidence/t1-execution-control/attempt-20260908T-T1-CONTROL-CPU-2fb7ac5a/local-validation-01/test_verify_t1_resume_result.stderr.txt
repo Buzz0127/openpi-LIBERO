@@ -1,0 +1,35 @@
+test_live_owned_group_fails (test_verify_t1_resume_result.ProcessAuditTests) ... ok
+test_permission_error_is_not_absence (test_verify_t1_resume_result.ProcessAuditTests) ... ok
+test_process_and_group_checked_without_signalling (test_verify_t1_resume_result.ProcessAuditTests) ... ok
+test_tmux_query_error_fails_closed (test_verify_t1_resume_result.ProcessAuditTests) ... ok
+test_accepts_fake_complete_segment_and_independent_identities (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_a2_output_content_tampering (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_cache_growth (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_composition_wrong_base_leaf (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_deleted_step100_adapter_file (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_frozen_identity_tampering (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_full_restore_failure (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_gpu_guard_error (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_incomplete_step200_even_when_runner_rehashes_it (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_ineligible_gpu_mapping (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_loader_restart (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_missing_a2_output_manifest_entry (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_missing_parameter_hash_despite_claimed_count (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_modified_step100_even_when_runner_rehashes_it (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_non_golden_change_despite_claimed_zero_count (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_nonfinite_metrics (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_owned_group_without_confirmed_exit (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_partial_artifacts (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_plan_identity_tampering (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_pruning_permission (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_rng_mismatch (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_step200_changed_after_runner_receipt (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_storage_guard_failure (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_symlink_artifact (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_unchanged_golden_leaf (test_verify_t1_resume_result.VerifierTests) ... ok
+test_rejects_uncommitted_step200_metadata (test_verify_t1_resume_result.VerifierTests) ... ok
+
+----------------------------------------------------------------------
+Ran 30 tests in 0.771s
+
+OK

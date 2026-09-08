@@ -1,0 +1,30 @@
+test_active_current_pointer_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_attempt_and_checkpoint_target_collisions (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_duplicate_card_ids_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_exact_nested_command_and_single_gpu_environment (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_fabricated_free_ratio_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_future_report_is_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_legacy_report_without_wall_clock_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_missing_one_physical_card (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_nonfinite_gpu_number_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_other_host_or_boot_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_rehashed_failure_reasons_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_rehashed_long_timeout_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_rehashed_weakened_gate_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_rehashed_wrong_gpu_choice (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_runtime_command_environment_tamper_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_runtime_env_tamper_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_runtime_expiry_after_sealing (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_runtime_hash_recheck_detects_manifest_change (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_runtime_hash_recheck_detects_tool_change (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_sample_count_disagrees (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_selected_gpu_at_exact_15_percent_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_stale_report_is_rejected (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_tampered_identity (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_too_short_elapsed_sampling (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+test_unsafe_cpu_ram_or_spoofed_load_ratio (test_finalize_t1_execution_plan.FinalizerTest) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.107s
+
+OK

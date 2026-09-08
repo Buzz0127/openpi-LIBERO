@@ -20,6 +20,8 @@ class GpuPreflightTest(unittest.TestCase):
             fake.chmod(0o755)
             proc = root / "proc"
             proc.mkdir()
+            (proc / "sys/kernel/random").mkdir(parents=True)
+            (proc / "sys/kernel/random/boot_id").write_text("fake-test-boot\n")
             (proc / "meminfo").write_text("MemAvailable: 200000000 kB\n")
             (proc / "loadavg").write_text("1.0 1.0 1.0 1/1 1\n")
             (proc / "cpuinfo").write_text("processor : 0\nprocessor : 1\n")
@@ -30,6 +32,8 @@ class GpuPreflightTest(unittest.TestCase):
             self.assertEqual(value["selected_physical_gpu"], 1)
             self.assertEqual(value["sample_count"], 3)
             self.assertEqual(value["guard_thresholds"]["resume_consecutive_samples"], 5)
+            self.assertEqual(value["host_identity"]["boot_id"], "fake-test-boot")
+            self.assertGreaterEqual(value["collection_finished_epoch_seconds"], value["collection_started_epoch_seconds"])
 
     def test_refuses_short_production_sampling(self) -> None:
         with tempfile.TemporaryDirectory() as raw:

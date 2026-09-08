@@ -1,0 +1,15 @@
+test_checkpoint_file_tampering_fails (test_run_t1_resume_segment.T1ResumeSegmentStaticTest) ... ok
+test_existing_output_fails (test_run_t1_resume_segment.T1ResumeSegmentStaticTest) ... ok
+test_existing_target_receipt_fails (test_run_t1_resume_segment.T1ResumeSegmentStaticTest) ... ok
+test_historical_freeze_identity_and_tampering (test_run_t1_resume_segment.T1ResumeSegmentStaticTest) ... ok
+test_multi_gpu_mapping_fails (test_run_t1_resume_segment.T1ResumeSegmentStaticTest) ... ok
+test_output_alias_fails (test_run_t1_resume_segment.T1ResumeSegmentStaticTest) ... ok
+test_rng_continuation_and_off_by_one (test_run_t1_resume_segment.T1ResumeSegmentStaticTest) ... ok
+test_static_gate_accepts_exact_frozen_inputs (test_run_t1_resume_segment.T1ResumeSegmentStaticTest) ... ok
+test_tampered_acceptance_fails (test_run_t1_resume_segment.T1ResumeSegmentStaticTest) ... ok
+test_wrong_segment_fails_before_heavy_imports (test_run_t1_resume_segment.T1ResumeSegmentStaticTest) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.020s
+
+OK

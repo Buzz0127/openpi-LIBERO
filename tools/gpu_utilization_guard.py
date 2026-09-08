@@ -12,6 +12,7 @@ import argparse
 import dataclasses
 import datetime
 import json
+import math
 import os
 import pathlib
 import signal
@@ -54,6 +55,7 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--max-prelaunch-wait-seconds", type=float, default=300.0)
     parser.add_argument("--max-runtime-seconds", type=float, default=3600.0)
     parser.add_argument("--terminate-grace-seconds", type=float, default=15.0)
+    parser.add_argument("--kill-grace-seconds", type=float, default=5.0)
     parser.add_argument("--log", type=pathlib.Path)
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args(argv)
@@ -88,6 +90,10 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
         parser.error("--max-runtime-seconds must be positive")
     if args.terminate_grace_seconds <= 0:
         parser.error("--terminate-grace-seconds must be positive")
+    for name in ("interval_seconds", "max_prelaunch_wait_seconds", "max_runtime_seconds",
+                 "terminate_grace_seconds", "kill_grace_seconds"):
+        if not math.isfinite(getattr(args, name)) or getattr(args, name) <= 0:
+            parser.error("--{} must be finite and positive".format(name.replace("_", "-")))
     return args
 
 
@@ -127,10 +133,14 @@ class EventLogger:
 
 
 def signal_child_group(child: subprocess.Popen[Any], signum: int) -> bool:
-    if child.poll() is not None:
+    # child.pid is the PGID we created, including when workers outlive its leader.
+    try:
+        if child.poll() is None and os.getpgid(child.pid) != child.pid:
+            return False
+        os.killpg(child.pid, signum)
+        return True
+    except ProcessLookupError:
         return False
-    os.killpg(child.pid, signum)
-    return True
 
 
 def terminate_child(
@@ -138,26 +148,42 @@ def terminate_child(
     paused: bool,
     grace_seconds: float,
     logger: EventLogger,
-) -> None:
-    if child.poll() is not None:
-        return
-    if paused:
-        signal_child_group(child, signal.SIGCONT)
-        logger.emit("resumed_for_termination", child_pid=child.pid)
-    signal_child_group(child, signal.SIGTERM)
-    logger.emit("termination_requested", child_pid=child.pid)
-    try:
-        child.wait(timeout=grace_seconds)
-    except subprocess.TimeoutExpired:
-        signal_child_group(child, signal.SIGKILL)
-        logger.emit("termination_forced", child_pid=child.pid)
-        child.wait()
+    kill_grace_seconds: float = 5.0,
+) -> dict[str, bool]:
+    result = {"ownership_verified": False, "term_sent": False, "kill_sent": False,
+              "wait_reaped": False, "group_exit_confirmed": False}
+    for signum, grace, field in ((signal.SIGTERM, grace_seconds, "term_sent"),
+                                 (signal.SIGKILL, kill_grace_seconds, "kill_sent")):
+        if signal_child_group(child, 0):
+            result["ownership_verified"] = True
+            if signum == signal.SIGTERM:
+                signal_child_group(child, signal.SIGCONT)
+            result[field] = signal_child_group(child, signum)
+        deadline = time.monotonic() + grace
+        while True:
+            result["wait_reaped"] = child.poll() is not None
+            result["group_exit_confirmed"] = not signal_child_group(child, 0)
+            if result["wait_reaped"] and result["group_exit_confirmed"]:
+                break
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                break
+            time.sleep(min(0.02, remaining))
+        if result["wait_reaped"] and result["group_exit_confirmed"]:
+            break
+    # Logging is deliberately after cleanup, so log I/O failure cannot strand
+    # a paused child or interrupt TERM -> KILL -> bounded reap.
+    logger.emit("child_cleanup", child_pid=child.pid, child_pgid=child.pid, **result)
+    return result
 
 
-def wait_until_launch_safe(args: argparse.Namespace, logger: EventLogger) -> None:
+def wait_until_launch_safe(args: argparse.Namespace, logger: EventLogger,
+                           shutdown_signal: Optional[List[int]] = None) -> None:
     errors = 0
     deadline = time.monotonic() + args.max_prelaunch_wait_seconds
     while True:
+        if shutdown_signal:
+            raise InterruptedError("shutdown requested before child launch")
         if time.monotonic() >= deadline:
             raise TimeoutError("GPU did not fall below the pause threshold before launch")
         try:
@@ -206,32 +232,45 @@ def run_guarded(args: argparse.Namespace) -> int:
         max_runtime_seconds=args.max_runtime_seconds,
         command=args.command,
     )
-    wait_until_launch_safe(args, logger)
-
-    child = subprocess.Popen(args.command, start_new_session=True)
-    logger.emit("child_started", child_pid=child.pid)
-    started = time.monotonic()
+    child = None
     paused = False
     safe_samples = 0
     monitor_errors = 0
     shutdown_signal = []  # type: List[int]
+    cleaned = False
 
     def request_shutdown(signum: int, _frame: Any) -> None:
-        shutdown_signal.append(signum)
+        if not shutdown_signal:
+            shutdown_signal.append(signum)
 
     previous_handlers = {}
-    for signum in (signal.SIGINT, signal.SIGTERM):
+    for signum in (signal.SIGINT, signal.SIGTERM, signal.SIGHUP):
         previous_handlers[signum] = signal.signal(signum, request_shutdown)
 
+    def cleanup() -> None:
+        nonlocal cleaned
+        if child is not None and not cleaned:
+            cleaned = True
+            result = terminate_child(child, paused, args.terminate_grace_seconds, logger,
+                                     args.kill_grace_seconds)
+            if not result["wait_reaped"] or not result["group_exit_confirmed"]:
+                raise RuntimeError("owned child process-group cleanup incomplete")
+
     try:
+        wait_until_launch_safe(args, logger, shutdown_signal)
+        if shutdown_signal:
+            return 128 + shutdown_signal[0]
+        child = subprocess.Popen(args.command, start_new_session=True)
+        started = time.monotonic()
+        logger.emit("child_started", child_pid=child.pid)
         while child.poll() is None:
             if shutdown_signal:
                 logger.emit("guard_shutdown_requested", signal=shutdown_signal[-1])
-                terminate_child(child, paused, args.terminate_grace_seconds, logger)
+                cleanup()
                 return 128 + shutdown_signal[-1]
             if time.monotonic() - started >= args.max_runtime_seconds:
                 logger.emit("runtime_limit_reached")
-                terminate_child(child, paused, args.terminate_grace_seconds, logger)
+                cleanup()
                 return 124
 
             try:
@@ -244,7 +283,7 @@ def run_guarded(args: argparse.Namespace) -> int:
                         child_pid=child.pid,
                         free_memory_percent=status.free_memory_percent,
                     )
-                    terminate_child(child, paused, args.terminate_grace_seconds, logger)
+                    cleanup()
                     return 125
                 pressure = (
                     status.utilization_percent >= args.pause_at
@@ -279,6 +318,8 @@ def run_guarded(args: argparse.Namespace) -> int:
                     action=action,
                 )
             except Exception as exc:
+                if cleaned:
+                    raise
                 monitor_errors += 1
                 logger.emit(
                     "monitor_error",
@@ -292,14 +333,14 @@ def run_guarded(args: argparse.Namespace) -> int:
                         safe_samples = 0
                         logger.emit("paused_fail_safe", child_pid=child.pid)
             time.sleep(args.interval_seconds)
-    except BaseException:
-        terminate_child(child, paused, args.terminate_grace_seconds, logger)
-        raise
     finally:
-        for signum, handler in previous_handlers.items():
-            signal.signal(signum, handler)
+        try:
+            cleanup()
+        finally:
+            for signum, handler in previous_handlers.items():
+                signal.signal(signum, handler)
 
-    return_code = child.wait()
+    return_code = child.returncode
     logger.emit("child_exited", child_pid=child.pid, return_code=return_code)
     return return_code
 

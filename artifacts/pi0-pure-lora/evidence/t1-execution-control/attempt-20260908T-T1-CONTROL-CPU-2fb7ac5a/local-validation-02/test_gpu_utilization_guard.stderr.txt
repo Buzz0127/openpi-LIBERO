@@ -1,0 +1,11 @@
+test_cleanup_kills_worker_after_group_leader_exits (test_gpu_utilization_guard.GpuUtilizationGuardTest) ... ok
+test_log_failure_after_spawn_still_cleans_child (test_gpu_utilization_guard.GpuUtilizationGuardTest) ... ok
+test_paused_runtime_timeout_resumes_then_kills_with_bounded_wait (test_gpu_utilization_guard.GpuUtilizationGuardTest) ... ok
+test_pauses_at_15_percent_free_memory (test_gpu_utilization_guard.GpuUtilizationGuardTest) ... ok
+test_pauses_at_95_and_resumes_after_five_safe_samples (test_gpu_utilization_guard.GpuUtilizationGuardTest) ... ok
+test_signal_during_prelaunch_prevents_spawn (test_gpu_utilization_guard.GpuUtilizationGuardTest) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.393s
+
+OK

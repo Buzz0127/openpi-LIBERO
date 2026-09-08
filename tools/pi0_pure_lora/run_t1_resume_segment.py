@@ -16,6 +16,7 @@ import time
 
 import resume_sequence
 import run_s1d_hundred_step as s1d
+import experiment_identity
 
 
 def _atomic_replace_json(path: Path, value: object) -> None:
@@ -50,7 +51,7 @@ def _validate_static(args: argparse.Namespace, environment: dict[str, str]) -> N
         raise FileNotFoundError("verified starting checkpoint step is missing")
     if not args.adapter_root.is_dir() or not (args.adapter_root / f"step-{args.segment_start:08d}.verified.json").is_file():
         raise FileNotFoundError("verified starting adapter receipt is missing")
-    for path in (args.model_manifest, args.golden_manifest, args.s1d_acceptance_report):
+    for path in (args.model_manifest, args.golden_manifest, args.s1d_acceptance_report, args.freeze_package):
         if not path.is_file():
             raise FileNotFoundError(path)
     if _file_sha256(args.s1d_acceptance_report) != args.expected_s1d_acceptance_sha256:
@@ -62,8 +63,11 @@ def _validate_static(args: argparse.Namespace, environment: dict[str, str]) -> N
         raise RuntimeError("starting checkpoint tree identity mismatch")
     if acceptance.get("adapter_identity_sha256") != args.expected_adapter_identity_sha256:
         raise RuntimeError("starting adapter identity mismatch")
-    for path in (args.progress, args.loader_receipt, args.output):
-        if path.exists():
+    outputs = (args.progress, args.loader_receipt, args.rng_receipt, args.composition_receipt, args.output)
+    if len({path.resolve() for path in outputs}) != len(outputs):
+        raise ValueError("runner output paths must be distinct")
+    for path in outputs:
+        if path.exists() or path.is_symlink():
             raise FileExistsError(path)
         if not s1d._inside(path, args.attempt_dir):
             raise ValueError("progress, loader receipt, and output must stay inside the attempt")
@@ -71,6 +75,64 @@ def _validate_static(args: argparse.Namespace, environment: dict[str, str]) -> N
         raise FileExistsError("target checkpoint step already exists")
     if (args.adapter_root / f"step-{args.segment_end:08d}").exists():
         raise FileExistsError("target adapter step already exists")
+    if (args.adapter_root / f"step-{args.segment_end:08d}.verified.json").exists():
+        raise FileExistsError("target adapter receipt already exists")
+
+
+def _validate_freeze(args: argparse.Namespace) -> dict[str, object]:
+    freeze = json.loads(args.freeze_package.read_text())
+    unsigned = dict(freeze)
+    identity = unsigned.pop("package_identity_sha256", None)
+    # The historical freeze builder includes a trailing newline in its identity.
+    payload = (json.dumps(unsigned, sort_keys=True, separators=(",", ":")) + "\n").encode()
+    if identity != hashlib.sha256(payload).hexdigest():
+        raise RuntimeError("freeze package identity mismatch")
+    if freeze.get("execution_authorized") is not False or freeze.get("automatic_next_stage") is not False:
+        raise RuntimeError("freeze package authorization boundary changed")
+    segment = freeze.get("engineering_segment", {})
+    if (segment.get("start"), segment.get("end"), segment.get("candidate")) != (100, 200, False):
+        raise RuntimeError("freeze engineering segment mismatch")
+    if freeze.get("seeds") != {"training": 42, "evaluation": 7}:
+        raise RuntimeError("freeze seeds mismatch")
+    model = experiment_identity.validate_model_manifest(json.loads(args.model_manifest.read_text()))
+    expected = {
+        "model": model["model_identity_sha256"],
+        "golden": _file_sha256(args.golden_manifest),
+        "norm": model["identities"]["norm_stats_sha256"],
+        "config": model["identities"]["config_patch_sha256"],
+    }
+    if any(freeze.get("identities", {}).get(key) != value for key, value in expected.items()):
+        raise RuntimeError("freeze/model identity mismatch")
+    if freeze["source"]["head"] != model["openpi_commit"]:
+        raise RuntimeError("freeze/model source mismatch")
+    resume = freeze.get("resume_input", {})
+    if (resume.get("checkpoint_root") != str(args.checkpoint_dir)
+            or resume.get("checkpoint_tree_sha256") != args.expected_checkpoint_tree_sha256
+            or resume.get("adapter_identity_sha256") != args.expected_adapter_identity_sha256
+            or resume.get("acceptance_report_identity_sha256") != args.expected_s1d_report_identity):
+        raise RuntimeError("freeze resume input mismatch")
+    return freeze
+
+
+def verify_rng_replay(seed, restored_step, resumed_key, make_key, split_key, fingerprint):
+    """Compare the resumed key with a separate replay of the original S1d sequence."""
+    reference, _ = split_key(make_key(seed))
+    for _ in range(restored_step):
+        reference, _ = split_key(reference)
+    _, expected_first = split_key(reference)
+    _, actual_first = split_key(resumed_key)
+    receipt = {
+        "schema_version": 1, "seed": seed, "restored_step": restored_step,
+        "replayed_split_count": restored_step,
+        "reference_train_key_sha256": fingerprint(reference),
+        "resumed_train_key_sha256": fingerprint(resumed_key),
+        "first_step_key_sha256": fingerprint(actual_first),
+        "reference_first_step_key_sha256": fingerprint(expected_first),
+    }
+    if (receipt["reference_train_key_sha256"] != receipt["resumed_train_key_sha256"]
+            or receipt["first_step_key_sha256"] != receipt["reference_first_step_key_sha256"]):
+        raise RuntimeError("RNG replay mismatch")
+    return receipt
 
 
 def _verify_resume_artifacts(args: argparse.Namespace) -> dict[str, object]:
@@ -92,6 +154,7 @@ def main() -> int:
     parser.add_argument("--model-manifest", type=Path, required=True)
     parser.add_argument("--golden-manifest", type=Path, required=True)
     parser.add_argument("--s1d-acceptance-report", type=Path, required=True)
+    parser.add_argument("--freeze-package", type=Path, required=True)
     parser.add_argument("--expected-s1d-acceptance-sha256", required=True)
     parser.add_argument("--expected-s1d-report-identity", required=True)
     parser.add_argument("--expected-checkpoint-tree-sha256", required=True)
@@ -102,6 +165,8 @@ def main() -> int:
     parser.add_argument("--attempt-dir", type=Path, required=True)
     parser.add_argument("--progress", type=Path, required=True)
     parser.add_argument("--loader-receipt", type=Path, required=True)
+    parser.add_argument("--rng-receipt", type=Path, required=True)
+    parser.add_argument("--composition-receipt", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--segment-start", type=int, required=True)
     parser.add_argument("--segment-end", type=int, required=True)
@@ -109,6 +174,12 @@ def main() -> int:
     parser.add_argument("--eval-seed", type=int, required=True)
     args = parser.parse_args()
     _validate_static(args, dict(os.environ))
+    freeze = _validate_freeze(args)
+    import autonomous_stage_orchestrator as orchestrator
+    source = orchestrator._source_snapshot(args.openpi_root)
+    expected_source = {**freeze["source"], "status": ""}
+    if source != expected_source:
+        raise RuntimeError("runtime source differs from frozen clean worktree")
 
     _atomic_replace_json(args.progress, {
         "current_step": args.segment_start,
@@ -156,6 +227,9 @@ def main() -> int:
         raise RuntimeError("checkpoint path does not match frozen config/exp-name")
     if (Path(config.pure_lora_adapter_base_dir) / args.exp_name).resolve() != args.adapter_root.resolve():
         raise RuntimeError("adapter path does not match frozen config/exp-name")
+    if (Path(config.pure_lora_model_manifest).resolve() != args.model_manifest.resolve()
+            or Path(config.pure_lora_golden_manifest).resolve() != args.golden_manifest.resolve()):
+        raise RuntimeError("config manifest paths differ from verified runner inputs")
     if config.keep_period is not None or config.checkpoint_max_to_keep is not None:
         raise RuntimeError("automatic checkpoint pruning must remain disabled")
 
@@ -202,11 +276,20 @@ def main() -> int:
             raise RuntimeError("restored train-state step mismatch")
         for _ in range(args.segment_start):
             train_rng, _ = jax.random.split(train_rng)
+        def key_hash(key):
+            return hashlib.sha256(np.ascontiguousarray(jax.device_get(jax.random.key_data(key))).tobytes()).hexdigest()
+        rng_receipt = verify_rng_replay(
+            args.train_seed, args.segment_start, train_rng,
+            jax.random.key, jax.random.split, key_hash,
+        )
+        s1d._atomic_json_new(args.rng_receipt, rng_receipt)
 
         before_flat = s1d._flat(state.params)
         if not golden_paths <= set(before_flat):
             raise RuntimeError("Golden adapter paths missing from restored state")
         non_golden_paths = set(before_flat) - golden_paths
+        if len(golden_paths) != 20 or len(non_golden_paths) != 50:
+            raise RuntimeError("restored parameter tree must contain 20 Golden and 50 frozen leaves")
         adapter_before = s1d._hash_paths(before_flat, golden_paths, adapter_artifact.array_sha256)
         frozen_before = s1d._hash_paths(before_flat, non_golden_paths, adapter_artifact.array_sha256)
         step_fn = jax.jit(
@@ -240,6 +323,8 @@ def main() -> int:
                 batch = next(data_iter)
 
         after_flat = s1d._flat(state.params)
+        if set(after_flat) != set(before_flat):
+            raise RuntimeError("parameter path set changed during segment")
         adapter_after = s1d._hash_paths(after_flat, golden_paths, adapter_artifact.array_sha256)
         frozen_after = s1d._hash_paths(after_flat, non_golden_paths, adapter_artifact.array_sha256)
         changed_adapters = sorted(path for path in golden_paths if adapter_before[path] != adapter_after[path])
@@ -262,9 +347,40 @@ def main() -> int:
         if manager is not None:
             manager.close()
 
+    # Independently load the exported adapter and compare every composed parameter.
+    reference_params = state.params.to_pure_dict()
+    reference_flat = flax.traverse_util.flatten_dict(reference_params, sep="/")
+    base_without_adapter = flax.traverse_util.unflatten_dict(
+        {path: value for path, value in reference_flat.items() if path not in golden_paths}, sep="/"
+    )
+    composed = adapter_artifact.compose_adapter(
+        base_without_adapter, reference_params, golden,
+        args.adapter_root / f"step-{args.segment_end:08d}",
+        expected_identities=manifest["identities"],
+    )
+    composed_flat = flax.traverse_util.flatten_dict(composed, sep="/")
+    after_hashes = {**adapter_after, **frozen_after}
+    composed_hashes = s1d._hash_paths(composed_flat, set(composed_flat), adapter_artifact.array_sha256)
+    if composed_hashes != after_hashes:
+        raise RuntimeError("base plus adapter composition differs from final parameters")
+    s1d._atomic_json_new(args.composition_receipt, {
+        "schema_version": 1, "status": "pass", "save_step": args.segment_end,
+        "parameter_hashes": composed_hashes,
+        "adapter_identity_sha256": receipt["adapter_identity_sha256"],
+    })
+    import verify_s1d_result
+    checkpoint_after = verify_s1d_result._artifact_manifest(args.checkpoint_dir)
+    adapter_artifact_after = verify_s1d_result._artifact_manifest(args.adapter_root)
+
     result = {
         "schema_version": 1,
+        "stage": "T1-resume-engineering",
         "status": "pass",
+        "identities": freeze["identities"],
+        "source_head": source["head"],
+        "physical_gpu": int(os.environ["CUDA_VISIBLE_DEVICES"]),
+        "jax_device_count": len(devices),
+        "batch_size": 1, "num_workers": 0, "shuffle": True,
         "segment_start": args.segment_start,
         "segment_end": args.segment_end,
         "train_seed": args.train_seed,
@@ -274,11 +390,19 @@ def main() -> int:
         "starting_adapter_tree_verified": True,
         "rng_split_steps_replayed": args.segment_start,
         "metrics_count": len(metrics_trace),
+        "metrics_trace": metrics_trace,
         "all_metrics_finite": True,
+        "parameter_hashes_before": {**adapter_before, **frozen_before},
+        "parameter_hashes_after": after_hashes,
+        "loader_receipt_sha256": _file_sha256(args.loader_receipt),
+        "rng_receipt_sha256": _file_sha256(args.rng_receipt),
+        "composition_receipt_sha256": _file_sha256(args.composition_receipt),
         "changed_golden_leaf_count": len(changed_adapters),
         "changed_non_golden_leaf_count": len(changed_frozen),
         "checkpoint_steps": [args.segment_start, args.segment_end],
         "checkpoint_restore_receipt": receipt,
+        "checkpoint_artifact_after": checkpoint_after,
+        "adapter_artifact_after": adapter_artifact_after,
         "old_checkpoint_deleted": False,
         "next_stage_started": False,
         "elapsed_seconds": time.monotonic() - started,

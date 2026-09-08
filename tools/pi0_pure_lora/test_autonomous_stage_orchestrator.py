@@ -6,9 +6,11 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import signal
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 
 import autonomous_stage_orchestrator as orchestrator
@@ -51,6 +53,7 @@ class AutonomousOrchestratorTest(unittest.TestCase):
     def command(
         self, attempt: Path, progress: Path, *worker_args: str,
         extra: list[str] | None = None, child_override: list[str] | None = None,
+        bounds_override: dict[str, float] | None = None,
     ) -> list[str]:
         identities = [f"{key}={index:064x}" for index, key in enumerate(sorted(orchestrator.REQUIRED_IDENTITIES), 1)]
         identity_map = dict(value.split("=", 1) for value in identities)
@@ -64,6 +67,7 @@ class AutonomousOrchestratorTest(unittest.TestCase):
             "retry_return_codes": retry_codes, "retry_delay_seconds": 0.05,
             "max_log_bytes": 2048, "log_backups": 1,
         }
+        bounds.update(bounds_override or {})
         plan = {
             "schema_version": 1, "stage": "A2-test", "segment_start": 0, "segment_end": 3,
             "train_seed": 42, "eval_seed": 7, "expected_final_committed_step": 3,
@@ -92,6 +96,8 @@ class AutonomousOrchestratorTest(unittest.TestCase):
         ]
         for identity in identities:
             command.extend(["--identity", identity])
+        for key, value in (bounds_override or {}).items():
+            command[command.index("--" + key.replace("_", "-")) + 1] = str(value)
         if extra:
             command.extend(extra)
         return command + ["--", *child]
@@ -134,6 +140,130 @@ class AutonomousOrchestratorTest(unittest.TestCase):
         self.assertTrue(record["term_sent"])
         self.assertTrue(record["kill_sent"])
         self.assertTrue(record["wait_reaped"])
+
+    def test_event_write_exception_after_spawn_cleans_owned_child(self) -> None:
+        attempt = self.root / "write-failure"
+        pid_file = self.root / "child-pid"
+        command = self.command(attempt, attempt / "progress.json", child_override=[
+            sys.executable, "-c", "import time; time.sleep(30)",
+        ])
+        bootstrap = (
+            f"import pathlib,sys; sys.path.insert(0,{str(SCRIPT.parent)!r})\n"
+            "import autonomous_stage_orchestrator as guard\n"
+            "original_popen=guard.subprocess.Popen\n"
+            "original_event=guard._append_event\n"
+            "def launch(*args,**kwargs):\n"
+            " child=original_popen(*args,**kwargs)\n"
+            " if kwargs.get('start_new_session'):\n"
+            f"  pathlib.Path({str(pid_file)!r}).write_text(str(child.pid))\n"
+            " return child\n"
+            "def event(path,value):\n"
+            " if value.get('event')=='child_started': raise OSError('fake event disk failure')\n"
+            " original_event(path,value)\n"
+            "guard.subprocess.Popen=launch\n"
+            "guard._append_event=event\n"
+            "sys.exit(guard.main())\n"
+        )
+        result = subprocess.run([sys.executable, "-c", bootstrap, *command[2:]],
+                                text=True, capture_output=True, timeout=5)
+        self.assertNotEqual(result.returncode, 0)
+        summary = json.loads((attempt / "summary.json").read_text())
+        self.assertEqual(summary["reason_code"], "orchestrator_exception")
+        self.assertTrue(summary["child_runs"][0]["group_exit_confirmed"])
+        with self.assertRaises(ProcessLookupError):
+            os.kill(int(pid_file.read_text()), 0)
+
+    def test_t1_launch_bindings_rechecked_before_any_attempt_mkdir(self) -> None:
+        stage_parent = self.root / "not-created-stage"
+        attempt = stage_parent / "attempt"
+        command = self.command(attempt, attempt / "progress.json")
+        plan = json.loads(self.plan.read_text())
+        plan["stage"] = "T1-engineering-100-200"
+        plan["current_json"] = str((stage_parent / "current.json").resolve())
+        plan.pop("plan_identity_sha256")
+        plan["plan_identity_sha256"] = orchestrator.experiment_identity.canonical_sha256(plan)
+        self.plan.write_text(json.dumps(plan) + "\n")
+        command[command.index("--stage") + 1] = plan["stage"]
+        command[command.index("--current-json") + 1] = plan["current_json"]
+        command[command.index("--expected-stage-plan-sha256") + 1] = hashlib.sha256(self.plan.read_bytes()).hexdigest()
+        bootstrap = (
+            f"import sys,types; sys.path.insert(0,{str(SCRIPT.parent)!r})\n"
+            "gate=types.ModuleType('t1_execution_contract')\n"
+            "def validate(plan): raise RuntimeError('fake stale launch binding rejected')\n"
+            "gate.validate_launch_bindings=validate\n"
+            "sys.modules['t1_execution_contract']=gate\n"
+            "import autonomous_stage_orchestrator as guard\n"
+            "sys.exit(guard.main())\n"
+        )
+        result = subprocess.run([sys.executable, "-c", bootstrap, *command[2:]],
+                                text=True, capture_output=True, timeout=4)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("fake stale launch binding rejected", result.stderr)
+        self.assertFalse(stage_parent.exists())
+
+    def test_nested_storage_gpu_guards_forward_term_and_leave_no_owned_process(self) -> None:
+        attempt = self.root / "nested"
+        leaf_pid = self.root / "leaf-pid"
+        metered = self.root / "metered"
+        metered.mkdir()
+        tools_dir = SCRIPT.parent.parent
+        trainer = (
+            "import os,pathlib,signal,time; signal.signal(signal.SIGTERM,signal.SIG_IGN); "
+            f"pathlib.Path({str(leaf_pid)!r}).write_text(str(os.getpid())); time.sleep(30)"
+        )
+        gpu_bootstrap = (
+            f"import sys; sys.path.insert(0,{str(tools_dir)!r}); import gpu_utilization_guard as g; "
+            "g.query_gpu_status=lambda gpu: g.GpuStatus(1,10,100); sys.exit(g.main())"
+        )
+        gpu_command = [sys.executable, "-c", gpu_bootstrap, "--physical-gpu", "0",
+                       "--interval-seconds", "0.01", "--max-prelaunch-wait-seconds", "0.5",
+                       "--max-runtime-seconds", "10", "--terminate-grace-seconds", "0.1",
+                       "--kill-grace-seconds", "0.3", "--log", str(attempt / "gpu.jsonl"),
+                       "--", sys.executable, "-c", trainer]
+        storage_bootstrap = (
+            f"import sys; sys.path.insert(0,{str(tools_dir)!r}); import storage_budget_guard as g; "
+            "g._read_mem_available_bytes=lambda:64*(1<<30); "
+            "g._read_child_rss_bytes=lambda pid:1<<20; sys.exit(g.main())"
+        )
+        storage_command = [sys.executable, "-c", storage_bootstrap,
+                           "--attempt-dir", str(attempt / "storage"), "--monitor-root", str(metered),
+                           "--existing-billed-bytes", "0", "--soft-limit-bytes", "10000000",
+                           "--hard-limit-bytes", "20000000", "--timeout-seconds", "12",
+                           "--sample-interval-seconds", "0.02", "--near-sample-interval-seconds", "0.02",
+                           "--term-grace-seconds", "0.6", "--kill-grace-seconds", "0.3", "--", *gpu_command]
+        command = self.command(attempt, attempt / "progress.json", child_override=storage_command,
+                               bounds_override={"timeout_seconds": 15.0, "heartbeat_timeout_seconds": 10.0,
+                                                "term_grace_seconds": 1.5})
+        unrelated = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(30)"])
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        try:
+            deadline = time.monotonic() + 5
+            while not leaf_pid.exists() and time.monotonic() < deadline and process.poll() is None:
+                time.sleep(0.01)
+            self.assertTrue(leaf_pid.exists())
+            os.kill(process.pid, signal.SIGTERM)
+            stdout, stderr = process.communicate(timeout=5)
+            self.assertNotEqual(process.returncode, 0, stdout + stderr)
+            summary = json.loads((attempt / "summary.json").read_text())
+            self.assertEqual(summary["reason_code"], "external_signal")
+            self.assertTrue(summary["child_runs"][0]["group_exit_confirmed"])
+            storage = json.loads((attempt / "storage" / "exit_status.json").read_text())
+            self.assertEqual(storage["reason_code"], "external_signal")
+            self.assertTrue(storage["group_exit_confirmed"])
+            gpu = [json.loads(line) for line in (attempt / "gpu.jsonl").read_text().splitlines()]
+            cleanup = next(record for record in gpu if record["event"] == "child_cleanup")
+            self.assertTrue(cleanup["kill_sent"])
+            self.assertTrue(cleanup["group_exit_confirmed"])
+            for pid in (summary["child_runs"][0]["child_pid"], storage["child_pid"], int(leaf_pid.read_text())):
+                with self.assertRaises(ProcessLookupError):
+                    os.kill(pid, 0)
+            self.assertIsNone(unrelated.poll())
+        finally:
+            unrelated.terminate()
+            unrelated.wait(timeout=2)
+            if process.poll() is None:
+                process.terminate()
+                process.communicate(timeout=5)
 
 
 if __name__ == "__main__":

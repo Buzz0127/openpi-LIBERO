@@ -1,0 +1,12 @@
+py_compile: exit=0, tests=0
+test_run_t1_resume_segment: exit=0, tests=10
+test_resume_sequence: exit=0, tests=5
+test_gpu_stage_preflight: exit=0, tests=2
+test_build_t1_execution_template: exit=0, tests=12
+test_finalize_t1_execution_plan: exit=0, tests=25
+test_verify_t1_resume_result: exit=0, tests=30
+test_autonomous_stage_orchestrator: exit=0, tests=6
+test_build_autonomous_stage_plan: exit=0, tests=1
+test_launch_autonomous_stage: exit=0, tests=3
+test_gpu_utilization_guard: exit=0, tests=6
+test_storage_budget_guard: exit=0, tests=10

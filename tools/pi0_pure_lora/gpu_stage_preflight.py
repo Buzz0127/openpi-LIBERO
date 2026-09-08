@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+import socket
 import subprocess
 import sys
 import time
@@ -61,6 +62,14 @@ def main() -> int:
         parser.error("production preflight requires at least 30 samples")
     if args.interval_seconds <= 0:
         parser.error("interval must be positive")
+    if args.output.exists():
+        raise FileExistsError(args.output)
+    # A later finalizer must reject copied reports and reports from an earlier boot.
+    host_identity = {
+        "hostname": socket.gethostname(),
+        "boot_id": (args.proc_root / "sys/kernel/random/boot_id").read_text().strip(),
+    }
+    collection_started = time.time()
     samples = []
     for index in range(args.samples):
         record = {"sample_index": index, "monotonic_seconds": time.monotonic(), "gpus": gpu_samples(args.nvidia_smi), "host": cpu_ram_sample(args.proc_root)}
@@ -78,6 +87,9 @@ def main() -> int:
     selected = min(candidates, key=lambda gpu: (gpu["utilization_percent"], -gpu["free_memory_percent"], gpu["index"]))
     report = {
         "schema_version": 1, "sample_count": len(samples), "samples": samples,
+        "collection_started_epoch_seconds": collection_started,
+        "collection_finished_epoch_seconds": time.time(),
+        "host_identity": host_identity,
         "selected_physical_gpu": selected["index"], "selected_gpu_uuid": selected["uuid"],
         "launch_gate": {"free_memory_percent_strictly_greater_than": args.min_free_memory_percent, "utilization_percent_strictly_less_than": args.max_utilization_percent, "min_mem_available_bytes": args.min_mem_available_bytes, "max_load1_per_cpu": args.max_load1_per_cpu},
         "jax_preallocation_required": False,

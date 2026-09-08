@@ -1,6 +1,6 @@
 # pi0_base → LIBERO pure-LoRA 状态
 
-更新：2026-09-07（T1 启动前冻结）
+更新：2026-09-08（T1 execution-control CPU 收尾）
 
 ## 固定实验定义
 
@@ -38,6 +38,8 @@
 - T1 存储冻结：当前计费 91,765,739,008 B；按 step 200 工程制品加 7 个正式候选全部不删除、每个 full-state 5,559,083,375 B、adapter 199,962,483 B，并额外预留一份 full-state 原子落盘和 1,000,000,000 B margin，最坏峰值为 144,397,189,247 B。距 soft/hard 仍有 95,602,810,753 B / 105,602,810,753 B，不触及 225,000,000,000 B review line。
 - T1 resume runner CPU 阶段：实现 `resume_sequence.py` 和 `run_t1_resume_segment.py`。runner 对两个独立、同 seed loader 做 batch fingerprint 比对，step 100 精确跳过 100 个 batch 后以索引 100 开始，下一 batch 为 101；同时重放 100 次 S1d RNG split，运行前复核 acceptance/manifest 身份，并重新流式哈希 checkpoint 与 adapter 树。
 - T1 runner 静态验收：本地、远端固定 Python 各 11 项测试通过；覆盖无限 epoch 定位、第二 loader 漂移、短 loader、负 step、多卡映射、receipt 篡改、checkpoint 文件篡改及目标碰撞。未读取真实 dataset/checkpoint，未导入真实 Pi0，未使用 GPU。测试运行时绑定的是 uncommitted file hashes；用户随后明确要求执行独立 Git consolidation，相关源码与证据纳入包含本状态文档的提交，但既有 readiness evidence 保留其运行时原始表述。
+- T1 execution-control CPU 收尾：已实现静态模板、新鲜前检后封装、独立 terminal verifier 及三层 orchestrator→storage guard→GPU guard 异常回收。本地与远端固定 OpenPI Python 各完成 `py_compile + 110` 项 CPU-only fake 测试，67 个源文件的本地/远端哈希映射完全一致，测试期间源码稳定。静态模板无 command/environment/GPU；即使绑定合格 fake preflight，plan 仍为 `execution_authorized=false` 且不自动启动下一阶段。
+- T1 execution-control 不等于训练放行：本批工具与 guard 修正仍未提交，因此 `execution_ready=false`；未读取/重哈希真实 5.5 GB checkpoint，未解码真实 LIBERO 数据，未导入真实 Pi0，未执行 GPU preflight 或训练。
 
 ## 失败尝试、警告与偏差（均保留证据）
 
@@ -51,6 +53,7 @@
 - A2 lightweight evidence 首次 `scp` 花括号列表未按预期展开，仅先复制了 plan；随后整目录复制成功。远端原始证据未覆盖，本地 `.log` 文件受 Git ignore 排除。
 - T1 冻结器首次本地测试使用包式模块路径，但 `tools/pi0_pure_lora` 不是 Python package，测试收集失败且没有执行 T1 逻辑；改用既有 `unittest discover -s tools/pi0_pure_lora` 后本地、远端各 4 项通过。
 - 远端源码确认：`restore_state()` 明确丢弃 `data_loader`，通用 `train.py` 在 restore 前重新创建 iterator 并先取首个 batch。因此 `--resume` 不能自动证明 batch 序列连续；在专用 runner 完成确定性 skip/position 校验前，冻结包保持 `execution_ready=false`。
+- T1 execution-control 远端 R1/R2 均保留为失败 attempt：R1 因 macOS AppleDouble `._*.py` 和缺少轻量 fixture；R2 已解决 AppleDouble 并通过 `py_compile`，但精简快照仍缺 `base_model_manifest_c0.json` 和 Golden manifest。R3 补齐后 110/110 通过；这些是打包 fixture 问题，不是真实训练或 execution-control 逻辑验收失败。
 
 ## 已收敛现场
 
@@ -63,7 +66,8 @@
 
 ## 未开始
 
-- T1 工程验证段：把已通过 CPU 测试的 runner、A2 orchestrator、GPU/storage guard 和 terminal verifier 绑定到 collision-safe stage plan，审查 5.5 GB 输入复核的 heartbeat/timeout；随后才可单独申请 `100→200` checkpoint load 与 GPU 执行授权。
+- T1 工程验证段前置：先由用户独立决定是否提交当前 execution-control 源码；提交后部署到远端支持命名空间并重哈希，再生成引用 committed tool snapshot 的静态非授权模板。
+- T1 `100→200` 工程验证段：上述前置通过后，仍需新的约 30 秒双卡+CPU/RAM 前检、动态单卡绑定、精确但不授权的 plan，以及用户对真实 checkpoint/data/model/GPU 执行的明确决定。
 - T1 正式分段训练：工程验证通过后从 base 新轨迹开始；任何正式 segment、checkpoint 处理和 GPU 执行仍需单独决定。
 - E1 40-episode dev、E2 200-episode main、E3 可选 2,000-episode 评测。
 

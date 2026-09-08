@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import signal
 import subprocess
@@ -113,10 +114,15 @@ def _storage_sample(
 
 
 def _verified_group_alive(proc: subprocess.Popen[Any], expected_pgid: int) -> bool:
-    if proc.poll() is not None:
+    # The PGID comes only from this Popen(start_new_session=True).  A leader
+    # exiting does not imply its process group (e.g. data-loader workers) exited.
+    if expected_pgid != proc.pid:
         return False
     try:
-        return os.getpgid(proc.pid) == expected_pgid == proc.pid
+        if proc.poll() is None and os.getpgid(proc.pid) != expected_pgid:
+            return False
+        os.killpg(expected_pgid, 0)
+        return True
     except ProcessLookupError:
         return False
 
@@ -124,22 +130,29 @@ def _verified_group_alive(proc: subprocess.Popen[Any], expected_pgid: int) -> bo
 def _terminate_own_group(
     proc: subprocess.Popen[Any], expected_pgid: int, term_grace: float, kill_grace: float
 ) -> dict[str, bool]:
-    result = {"ownership_verified": False, "term_sent": False, "kill_sent": False, "wait_reaped": False}
-    if _verified_group_alive(proc, expected_pgid):
-        result["ownership_verified"] = True
-        os.killpg(expected_pgid, signal.SIGTERM)
-        result["term_sent"] = True
-    try:
-        proc.wait(timeout=term_grace)
-        result["wait_reaped"] = True
-        return result
-    except subprocess.TimeoutExpired:
-        pass
-    if _verified_group_alive(proc, expected_pgid):
-        os.killpg(expected_pgid, signal.SIGKILL)
-        result["kill_sent"] = True
-    proc.wait(timeout=kill_grace)
-    result["wait_reaped"] = True
+    result = {"ownership_verified": False, "term_sent": False, "kill_sent": False,
+              "wait_reaped": False, "group_exit_confirmed": False}
+    for signum, grace, field in ((signal.SIGTERM, term_grace, "term_sent"),
+                                 (signal.SIGKILL, kill_grace, "kill_sent")):
+        if _verified_group_alive(proc, expected_pgid):
+            result["ownership_verified"] = True
+            try:
+                if signum == signal.SIGTERM:
+                    os.killpg(expected_pgid, signal.SIGCONT)
+                os.killpg(expected_pgid, signum)
+                result[field] = True
+            except ProcessLookupError:
+                pass
+        deadline = time.monotonic() + grace
+        while True:
+            result["wait_reaped"] = proc.poll() is not None
+            result["group_exit_confirmed"] = not _verified_group_alive(proc, expected_pgid)
+            if result["wait_reaped"] and result["group_exit_confirmed"]:
+                return result
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                break
+            time.sleep(min(0.02, remaining))
     return result
 
 
@@ -170,7 +183,10 @@ def _parse_args() -> argparse.Namespace:
         parser.error("a child command is required after --")
     if not 0 <= args.existing_billed_bytes < args.soft_limit_bytes < args.hard_limit_bytes:
         parser.error("limits must satisfy 0 <= existing < soft < hard")
-    if args.timeout_seconds <= 0 or args.sample_interval_seconds <= 0:
+    if any(not math.isfinite(value) or value <= 0 for value in (
+        args.timeout_seconds, args.sample_interval_seconds, args.term_grace_seconds,
+        args.kill_grace_seconds, args.near_sample_interval_seconds,
+    )):
         parser.error("timeout and sampling intervals must be positive")
     if args.near_sample_interval_seconds <= 0 or args.near_soft_margin_bytes < 0:
         parser.error("near-soft sampling values are invalid")
@@ -238,158 +254,187 @@ def main() -> int:
             return EXIT_SPAWN_FAILURE
 
         pgid = proc.pid
-        _atomic_json(
-            args.attempt_dir / "run_manifest.json",
-            {
-                "schema_version": 1,
-                "command": args.command,
-                "child_pid": proc.pid,
-                "expected_child_pgid": pgid,
-                "start_new_session": True,
-                "start_time_epoch_seconds": start_wall,
-                "timeout_seconds": args.timeout_seconds,
-                "storage": {
-                    "roots": [str(path) for path in roots],
-                    "baselines": baselines,
-                    "existing_billed_bytes": args.existing_billed_bytes,
-                    "soft_limit_bytes": args.soft_limit_bytes,
-                    "hard_limit_bytes": args.hard_limit_bytes,
-                    "billing_per_root": "max(positive allocated delta, positive apparent delta)",
-                    "positive_per_root_deltas_prevent_decrease_masking": True,
-                    "hardlinks_deduplicated_per_sample": True,
+        try:
+            _atomic_json(
+                args.attempt_dir / "run_manifest.json",
+                {
+                    "schema_version": 1,
+                    "command": args.command,
+                    "child_pid": proc.pid,
+                    "expected_child_pgid": pgid,
+                    "start_new_session": True,
+                    "start_time_epoch_seconds": start_wall,
+                    "timeout_seconds": args.timeout_seconds,
+                    "storage": {
+                        "roots": [str(path) for path in roots],
+                        "baselines": baselines,
+                        "existing_billed_bytes": args.existing_billed_bytes,
+                        "soft_limit_bytes": args.soft_limit_bytes,
+                        "hard_limit_bytes": args.hard_limit_bytes,
+                        "billing_per_root": "max(positive allocated delta, positive apparent delta)",
+                        "positive_per_root_deltas_prevent_decrease_masking": True,
+                        "hardlinks_deduplicated_per_sample": True,
+                    },
+                    "resources": {
+                        "min_mem_available_bytes": args.min_mem_available_bytes,
+                        "max_child_rss_bytes": args.max_child_rss_bytes,
+                        "max_load1_per_cpu": args.max_load1_per_cpu,
+                        "consecutive_samples": args.resource_consecutive_samples,
+                    },
                 },
-                "resources": {
-                    "min_mem_available_bytes": args.min_mem_available_bytes,
-                    "max_child_rss_bytes": args.max_child_rss_bytes,
-                    "max_load1_per_cpu": args.max_load1_per_cpu,
-                    "consecutive_samples": args.resource_consecutive_samples,
-                },
-            },
-        )
+            )
 
-        violations = {"min_mem": 0, "max_rss": 0, "max_load": 0}
-        monitor_failures = 0
-        sample_index = 0
-        last_sample: dict[str, Any] | None = None
-        reason_code: str | None = None
-        with samples_path.open("x", encoding="utf-8") as samples_stream:
-            while True:
-                returncode = proc.poll()
-                if returncode is not None:
-                    reason_code = "completed" if returncode == 0 else "child_exit_nonzero"
-                    break
-                if received_signal:
-                    reason_code = "external_signal"
-                    break
-                if time.monotonic() - start_monotonic >= args.timeout_seconds:
-                    reason_code = "timeout"
-                    break
-                try:
-                    if args.simulate_monitor_failure_after is not None and sample_index >= args.simulate_monitor_failure_after:
-                        raise RuntimeError("simulated monitor failure")
-                    root_records, positive_delta = _storage_sample(roots, baselines)
-                    billed = args.existing_billed_bytes + positive_delta
-                    load1 = os.getloadavg()[0]
-                    cpu_count = os.cpu_count() or 1
-                    sample = {
-                        "sample_index": sample_index,
-                        "wall_time_epoch_seconds": time.time(),
-                        "monotonic_seconds": time.monotonic(),
-                        "roots": root_records,
-                        "positive_stage_delta_bytes": positive_delta,
-                        "billed_lora_bytes": billed,
-                        "soft_headroom_bytes": args.soft_limit_bytes - billed,
-                        "hard_headroom_bytes": args.hard_limit_bytes - billed,
-                        "child_rss_bytes": _read_child_rss_bytes(proc.pid),
-                        "mem_available_bytes": _read_mem_available_bytes(),
-                        "load1": load1,
-                        "logical_cpu_count": cpu_count,
-                        "load1_per_cpu": load1 / cpu_count,
-                        "monitor_ok": True,
-                    }
-                    monitor_failures = 0
-                    last_sample = sample
-                    if billed >= args.hard_limit_bytes:
-                        reason_code = "storage_hard_limit"
-                    elif billed >= args.soft_limit_bytes:
-                        reason_code = "storage_soft_limit"
+            violations = {"min_mem": 0, "max_rss": 0, "max_load": 0}
+            monitor_failures = 0
+            sample_index = 0
+            last_sample: dict[str, Any] | None = None
+            reason_code: str | None = None
+            with samples_path.open("x", encoding="utf-8") as samples_stream:
+                while True:
+                    returncode = proc.poll()
+                    if returncode is not None:
+                        reason_code = "completed" if returncode == 0 else "child_exit_nonzero"
+                        break
+                    if received_signal:
+                        reason_code = "external_signal"
+                        break
+                    if time.monotonic() - start_monotonic >= args.timeout_seconds:
+                        reason_code = "timeout"
+                        break
+                    try:
+                        if args.simulate_monitor_failure_after is not None and sample_index >= args.simulate_monitor_failure_after:
+                            raise RuntimeError("simulated monitor failure")
+                        root_records, positive_delta = _storage_sample(roots, baselines)
+                        billed = args.existing_billed_bytes + positive_delta
+                        load1 = os.getloadavg()[0]
+                        cpu_count = os.cpu_count() or 1
+                        sample = {
+                            "sample_index": sample_index,
+                            "wall_time_epoch_seconds": time.time(),
+                            "monotonic_seconds": time.monotonic(),
+                            "roots": root_records,
+                            "positive_stage_delta_bytes": positive_delta,
+                            "billed_lora_bytes": billed,
+                            "soft_headroom_bytes": args.soft_limit_bytes - billed,
+                            "hard_headroom_bytes": args.hard_limit_bytes - billed,
+                            "child_rss_bytes": _read_child_rss_bytes(proc.pid),
+                            "mem_available_bytes": _read_mem_available_bytes(),
+                            "load1": load1,
+                            "logical_cpu_count": cpu_count,
+                            "load1_per_cpu": load1 / cpu_count,
+                            "monitor_ok": True,
+                        }
+                        monitor_failures = 0
+                        last_sample = sample
+                        if billed >= args.hard_limit_bytes:
+                            reason_code = "storage_hard_limit"
+                        elif billed >= args.soft_limit_bytes:
+                            reason_code = "storage_soft_limit"
 
-                    checks = {
-                        "min_mem": args.min_mem_available_bytes is not None
-                        and sample["mem_available_bytes"] < args.min_mem_available_bytes,
-                        "max_rss": args.max_child_rss_bytes is not None
-                        and sample["child_rss_bytes"] > args.max_child_rss_bytes,
-                        "max_load": args.max_load1_per_cpu is not None
-                        and sample["load1_per_cpu"] > args.max_load1_per_cpu,
-                    }
-                    for name, violated in checks.items():
-                        violations[name] = violations[name] + 1 if violated else 0
-                    if violations["min_mem"] >= args.resource_consecutive_samples:
-                        reason_code = "resource_min_mem_available"
-                    elif violations["max_rss"] >= args.resource_consecutive_samples:
-                        reason_code = "resource_max_child_rss"
-                    elif violations["max_load"] >= args.resource_consecutive_samples:
-                        reason_code = "resource_max_load1_per_cpu"
-                    sample["violation_counts"] = violations.copy()
-                    samples_stream.write(json.dumps(sample, sort_keys=True) + "\n")
-                    samples_stream.flush()
-                    os.fsync(samples_stream.fileno())
-                except Exception as error:
-                    monitor_failures += 1
-                    samples_stream.write(
-                        json.dumps(
-                            {
-                                "sample_index": sample_index,
-                                "wall_time_epoch_seconds": time.time(),
-                                "monitor_ok": False,
-                                "monitor_failure_count": monitor_failures,
-                                "error": repr(error),
-                            },
-                            sort_keys=True,
+                        checks = {
+                            "min_mem": args.min_mem_available_bytes is not None
+                            and sample["mem_available_bytes"] < args.min_mem_available_bytes,
+                            "max_rss": args.max_child_rss_bytes is not None
+                            and sample["child_rss_bytes"] > args.max_child_rss_bytes,
+                            "max_load": args.max_load1_per_cpu is not None
+                            and sample["load1_per_cpu"] > args.max_load1_per_cpu,
+                        }
+                        for name, violated in checks.items():
+                            violations[name] = violations[name] + 1 if violated else 0
+                        if violations["min_mem"] >= args.resource_consecutive_samples:
+                            reason_code = "resource_min_mem_available"
+                        elif violations["max_rss"] >= args.resource_consecutive_samples:
+                            reason_code = "resource_max_child_rss"
+                        elif violations["max_load"] >= args.resource_consecutive_samples:
+                            reason_code = "resource_max_load1_per_cpu"
+                        sample["violation_counts"] = violations.copy()
+                        samples_stream.write(json.dumps(sample, sort_keys=True) + "\n")
+                        samples_stream.flush()
+                        os.fsync(samples_stream.fileno())
+                    except Exception as error:
+                        monitor_failures += 1
+                        samples_stream.write(
+                            json.dumps(
+                                {
+                                    "sample_index": sample_index,
+                                    "wall_time_epoch_seconds": time.time(),
+                                    "monitor_ok": False,
+                                    "monitor_failure_count": monitor_failures,
+                                    "error": repr(error),
+                                },
+                                sort_keys=True,
+                            )
+                            + "\n"
                         )
-                        + "\n"
-                    )
-                    samples_stream.flush()
-                    os.fsync(samples_stream.fileno())
-                    if monitor_failures >= args.monitor_failure_consecutive_samples:
-                        reason_code = "monitor_failure"
+                        samples_stream.flush()
+                        os.fsync(samples_stream.fileno())
+                        if monitor_failures >= args.monitor_failure_consecutive_samples:
+                            reason_code = "monitor_failure"
 
-                sample_index += 1
-                if reason_code is not None:
-                    break
-                interval = args.sample_interval_seconds
-                if last_sample is not None and last_sample["soft_headroom_bytes"] <= args.near_soft_margin_bytes:
-                    interval = args.near_sample_interval_seconds
-                time.sleep(interval)
+                    sample_index += 1
+                    if reason_code is not None:
+                        break
+                    interval = args.sample_interval_seconds
+                    if last_sample is not None and last_sample["soft_headroom_bytes"] <= args.near_soft_margin_bytes:
+                        interval = args.near_sample_interval_seconds
+                    time.sleep(interval)
 
-        termination = {"ownership_verified": False, "term_sent": False, "kill_sent": False, "wait_reaped": False}
-        returncode = proc.poll()
-        if returncode is None:
             termination = _terminate_own_group(proc, pgid, args.term_grace_seconds, args.kill_grace_seconds)
             returncode = proc.returncode
-        else:
-            proc.wait()
-            termination["wait_reaped"] = True
+            if not termination["wait_reaped"] or not termination["group_exit_confirmed"]:
+                reason_code = "cleanup_incomplete"
 
-        final_billed = last_sample["billed_lora_bytes"] if last_sample else None
-        _atomic_json(
-            args.attempt_dir / "exit_status.json",
-            {
-                "reason_code": reason_code,
-                "child_pid": proc.pid,
-                "expected_child_pgid": pgid,
-                "child_returncode": returncode,
-                "external_signal": received_signal[0] if received_signal else None,
-                "elapsed_seconds": time.monotonic() - start_monotonic,
-                "sample_count": sample_index,
-                "final_billed_lora_bytes": final_billed,
-                "observed_soft_limit_overshoot_bytes": (
-                    max(0, final_billed - args.soft_limit_bytes) if final_billed is not None else None
-                ),
-                "final_sample": last_sample,
-                **termination,
-            },
-        )
+            # A fast final write can happen after the last periodic sample.
+            # Re-measure file metadata after the child group exits; no payload
+            # content is opened.  Failure cannot support a successful budget gate.
+            final_storage_sample: dict[str, Any] | None = None
+            final_storage_sample_error: str | None = None
+            if termination["wait_reaped"] and termination["group_exit_confirmed"]:
+                try:
+                    final_roots, final_delta = _storage_sample(roots, baselines)
+                    final_billed = args.existing_billed_bytes + final_delta
+                    final_storage_sample = {
+                        "phase": "post_reap",
+                        "wall_time_epoch_seconds": time.time(),
+                        "roots": final_roots,
+                        "positive_stage_delta_bytes": final_delta,
+                        "billed_lora_bytes": final_billed,
+                        "soft_headroom_bytes": args.soft_limit_bytes - final_billed,
+                        "hard_headroom_bytes": args.hard_limit_bytes - final_billed,
+                    }
+                    last_sample = {**(last_sample or {}), **final_storage_sample}
+                    if final_billed >= args.hard_limit_bytes:
+                        reason_code = "storage_hard_limit"
+                    elif final_billed >= args.soft_limit_bytes:
+                        reason_code = "storage_soft_limit"
+                except Exception as error:
+                    final_storage_sample_error = repr(error)
+                    reason_code = "monitor_failure"
+
+            final_billed = last_sample["billed_lora_bytes"] if last_sample else None
+            _atomic_json(
+                args.attempt_dir / "exit_status.json",
+                {
+                    "reason_code": reason_code,
+                    "child_pid": proc.pid,
+                    "expected_child_pgid": pgid,
+                    "child_returncode": returncode,
+                    "external_signal": received_signal[0] if received_signal else None,
+                    "elapsed_seconds": time.monotonic() - start_monotonic,
+                    "sample_count": sample_index,
+                    "final_billed_lora_bytes": final_billed,
+                    "observed_soft_limit_overshoot_bytes": (
+                        max(0, final_billed - args.soft_limit_bytes) if final_billed is not None else None
+                    ),
+                    "final_sample": last_sample,
+                    "final_storage_sample": final_storage_sample,
+                    "final_storage_sample_error": final_storage_sample_error,
+                    **termination,
+                },
+            )
+        except BaseException:
+            _terminate_own_group(proc, pgid, args.term_grace_seconds, args.kill_grace_seconds)
+            raise
 
     if reason_code == "completed":
         return 0

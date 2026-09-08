@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "stage": "T1-execution-control-CPU-closeout",
+  "status": "pass",
+  "execution_control_cpu_closeout_complete": true,
+  "execution_ready": false,
+  "execution_authorized": false,
+  "next_stage_started": false,
+  "candidate_checkpoint_created": false,
+  "local_source": {
+    "root": "/Users/buzz/MyProjects/openpi-LIBERO-lora",
+    "branch": "feature/pi0-libero-pure-lora",
+    "head": "8a5695d284be5066495f6357c817295d02cc148e",
+    "upstream_head": "8a5695d284be5066495f6357c817295d02cc148e",
+    "execution_control_changes_committed": false
+  },
+  "remote_openpi_source": {
+    "root": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora",
+    "branch": "feature/pi0-libero-pure-lora",
+    "head": "3619c35ffdcbfe97ae735de175d91c2fb67a899d",
+    "upstream": "NONE",
+    "status": "clean"
+  },
+  "validation": {
+    "local": {
+      "status": "pass",
+      "python": "/Library/Developer/CommandLineTools/usr/bin/python3",
+      "tests_run": 110,
+      "source_stable_during_tests": true,
+      "validation_path": "local-validation-02/validation.json",
+      "validation_sha256": "0ec3fe2bd02146c8b38c59fcbf26f653926a60c0a8006eeaff5f045153d22efa"
+    },
+    "remote": {
+      "status": "pass",
+      "python": "/home/wengzr/projects/openpi/.venv/bin/python",
+      "python_version": "3.11.15",
+      "tests_run": 110,
+      "source_stable_during_tests": true,
+      "validation_path": "remote-r3/remote-validation-01/validation.json",
+      "validation_sha256": "acb35116b78ce42b7c8cb88f7c36a01cc6764762daa9f7d4844fc6a27d472564"
+    },
+    "local_remote_source_hash_maps_equal": true,
+    "source_file_count": 67,
+    "py_compile_passed_locally_and_remotely": true,
+    "fake_artifacts_only": true,
+    "real_runner_run": false,
+    "real_gpu_preflight_run": false
+  },
+  "verified_contracts": {
+    "static_template_has_no_command_environment_or_selected_gpu": true,
+    "static_template_execution_authorized_false": true,
+    "static_template_execution_ready_false": true,
+    "fresh_preflight_host_boot_time_and_30_sample_gates": true,
+    "finalized_plan_remains_execution_authorized_false": true,
+    "finalized_plan_next_stage_auto_start_false": true,
+    "exact_orchestrator_storage_gpu_runner_nesting": true,
+    "single_gpu_mapping_and_jax_preallocation_disabled": true,
+    "runtime_tool_and_input_hash_rechecks": true,
+    "terminal_verifier_uses_independent_golden_truth": true,
+    "step_100_retention_and_step_200_atomic_completion_checks": true,
+    "all_parameter_and_optimizer_restore_receipt_checks": true,
+    "adapter_composition_and_non_golden_unchanged_checks": true,
+    "shared_cache_zero_growth_checks": true,
+    "orchestrator_storage_and_gpu_owned_group_term_kill_wait_checks": true,
+    "nested_external_signal_cleanup_test_passed": true,
+    "unrelated_process_not_signaled_test_passed": true
+  },
+  "retained_failed_attempts": [
+    {
+      "attempt": "remote R1",
+      "status": "fail",
+      "reason": "macOS AppleDouble metadata was included as ._*.py and the reduced snapshot omitted the historical freeze fixture",
+      "technical_execution_control_failure": false
+    },
+    {
+      "attempt": "remote R2",
+      "status": "fail",
+      "reason": "AppleDouble was excluded and py_compile passed, but the reduced snapshot omitted base_model_manifest_c0.json and golden_adapter_paths.json",
+      "technical_execution_control_failure": false
+    },
+    {
+      "attempt": "remote R3",
+      "status": "pass",
+      "reason": "complete lightweight fixture snapshot; py_compile and all 110 CPU-only fake tests passed"
+    }
+  ],
+  "remaining_before_real_100_to_200": [
+    "review and explicitly submit the uncommitted execution-control source as a committed tool snapshot",
+    "deploy and rehash that approved snapshot in the remote support namespace",
+    "generate the real static non-authorizing template against the committed snapshot",
+    "run a fresh approximately 30-second dual-GPU plus CPU/RAM preflight on the same host and boot",
+    "seal an exact non-authorizing plan and recheck every lightweight runtime binding",
+    "report exact command, resources, stop conditions and preservation plan to the user",
+    "obtain explicit user authorization for real checkpoint/data/model access and GPU execution"
+  ],
+  "operations_performed": {
+    "real_s1d_checkpoint_read_or_rehash": false,
+    "real_libero_loader_or_data_decode": false,
+    "real_pi0_import_or_model_load": false,
+    "gpu_preflight": false,
+    "gpu_training": false,
+    "step_200_checkpoint_or_adapter": false,
+    "evaluation": false,
+    "git_add_commit_push": false
+  }
+}

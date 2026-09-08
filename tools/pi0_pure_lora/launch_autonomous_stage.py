@@ -96,6 +96,9 @@ def main() -> int:
         raise RuntimeError("launcher source identity differs from stage plan")
     if plan.get("tools", {}).get("orchestrator_sha256") != _sha256(args.orchestrator):
         raise RuntimeError("orchestrator source identity differs from stage plan")
+    if plan.get("stage") == "T1-engineering-100-200":
+        import t1_execution_contract
+        t1_execution_contract.validate_launch_bindings(plan)
     if args.attempt_dir.exists():
         raise FileExistsError(args.attempt_dir)
     if _tmux_has(args.tmux, args.session_name):

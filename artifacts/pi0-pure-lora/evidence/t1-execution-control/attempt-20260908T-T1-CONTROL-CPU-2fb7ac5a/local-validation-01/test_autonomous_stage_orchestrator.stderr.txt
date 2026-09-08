@@ -1,0 +1,11 @@
+test_event_write_exception_after_spawn_cleans_owned_child (test_autonomous_stage_orchestrator.AutonomousOrchestratorTest) ... ok
+test_heartbeat_timeout_kills_only_owned_ignoring_group (test_autonomous_stage_orchestrator.AutonomousOrchestratorTest) ... ok
+test_nested_storage_gpu_guards_forward_term_and_leave_no_owned_process (test_autonomous_stage_orchestrator.AutonomousOrchestratorTest) ... ok
+test_retry_is_bounded_and_then_succeeds (test_autonomous_stage_orchestrator.AutonomousOrchestratorTest) ... ok
+test_success_writes_atomic_status_summary_and_manifest (test_autonomous_stage_orchestrator.AutonomousOrchestratorTest) ... ok
+test_t1_launch_bindings_rechecked_before_any_attempt_mkdir (test_autonomous_stage_orchestrator.AutonomousOrchestratorTest) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 3.134s
+
+OK
