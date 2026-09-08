@@ -3,13 +3,13 @@
 更新时间：2026-09-08
 用途：作为新对话或恢复对话时的第一份入口文档。本文区分“已有证据”、“已实现但未真实执行”和“未开始”，不将工具完成误写为训练完成。
 
-> 2026-09-07 本轮续做记录（进行中）：用户已要求按本文完成第 6 节。正在实现独立 T1 终态验收器、静态模板和前检封装器，并补齐 runner 的逐叶哈希、RNG/组合 receipt 及嵌套 guard 异常清理。所有修改仍未提交；本轮不读取真实 checkpoint/data、不启动 GPU。最终本地/远端 CPU 测试与 readiness 证据尚待汇总，接手时不得仅凭代码存在判定通过。已读取远端固定 Python 为 3.11.15、OpenPI HEAD 仍为 `3619c35ffdcbfe97ae735de175d91c2fb67a899d` 且工作树干净。
+> 2026-09-08 续做记录：T1 execution-control 源码已作为 `7be18dd` 推送；同一提交的 67 文件工具快照已部署至远端独立 `tool-snapshots` 命名空间并逐文件复核。一次 30 样本双卡+CPU/RAM 前检已通过并用于封存 exact non-authorizing plan；plan 仍为 `execution_authorized=false`，未启动命令。前检有效窗仅 120 秒，后续若要真实启动必须重新采样。本轮未读取真实 checkpoint/data、未加载模型、未创建训练 attempt；远端 OpenPI HEAD 仍为 `3619c35ffdcbfe97ae735de175d91c2fb67a899d` 且工作树干净。
 
 ## 1. 当前一句话停点
 
 pure-LoRA 的数据、normalization、精确冻结、checkpoint/adapter 保存恢复、真实 1/10/100-step smoke、远端自治基础设施和 **T1 execution-control CPU 收尾**均已有证据。
 
-当前停在 **execution-control 源码的独立 Git 保存决定之前**：工具已实现，本地与远端各 110 项 CPU-only fake 测试通过，但它们仍未提交，所以 `execution_ready=false`。未读取真实 5.5 GB checkpoint，未加载数据/模型，未进行 GPU preflight 或训练。
+当前停在 **T1 launcher 修复的独立 Git 保存与重新部署关口**：首次真实启动在创建 `tmux`、训练 attempt、模型或训练进程之前 fail-closed 停止，原因是 launcher 将嵌套 child command 的多个 `--attempt-dir` 误解析为顶层 orchestrator 参数。修正与回归测试已在本地完成但尚未提交；修复后的不可变快照部署后，任何真实启动前仍必须重新前检。未读取真实 5.5 GB checkpoint，未加载数据/模型，也未训练。
 
 ## 2. 固定实验定义
 
@@ -108,16 +108,19 @@ pure-LoRA 的数据、normalization、精确冻结、checkpoint/adapter 保存�
 - 三层嵌套 guard 的 external-signal 测试验证了每层自有进程组的转发与回收；未知独立进程不被 signal。
 - R1/R2 因远端精简测试快照的 AppleDouble/fixture 缺失失败，均已保留；R3 补齐后通过。
 
-### 6.3 仍未执行
+### 6.3 部署完成与仍未执行
 
-- execution-control 源码的 Git 提交/推送与远端正式部署。
+- execution-control 源码已提交并推送为 `7be18dd407869ae34d521441d7403dbdca5573c5`；67 文件远端快照逐项哈希通过，archive SHA-256 为 `2798b59623fc19b16f4237c25585565c4b63834905d5b681691a1b24a0accc92`。
+- 已生成远端静态模板，SHA-256 为 `38b27c6cbd5863a5cef3f0211dea66c8478224a84e45a7bbf1fbec59104b5294`，template identity 为 `1dca5bce43b0f28b27dd566d9f8acc638550ebacd9482334d7e02e850356e3cd`；无 command/environment/GPU 选择，且仍不授权执行。
+- 已用一次通过的 30 样本前检封存 exact non-authorizing plan，plan SHA-256 为 `f0e876e4cc6649de8fda5198ab69e5fbc8e38c1e84399b375d9dfe7e1875fcf8`，identity 为 `f113b31048ad2406fad4820c5d3d1084223030c091908e4161ba83d85fd6b128`；当时选择 GPU 1（UUID `GPU-14900654-ea51-b7aa-28d3-b2885502d727`）。plan 未执行，且前检有效窗不能留待之后复用。
+- 首次真实启动的独立 run package 也在 launcher 顶层解析处 fail-closed：其 plan 已封存但 `tmux`、训练 attempt 与训练进程均未创建。修正为只在第一个 `--` 前解析顶层 `--attempt-dir`，并新增嵌套 child 参数回归测试；该修正尚未提交或部署。
 - 真实 5.5 GB S1d checkpoint 读取或重哈希。
 - 真实 LIBERO loader/data 解码、Pi0 import/load、GPU preflight 或训练。
 - step-200 checkpoint/adapter 和任何评测。
 
 ## 7. 之后的候选路线（均未授权）
 
-1. **T1 `100→200` 工程验证段**：新鲜 30 秒双卡+CPU/RAM 采样，动态固定一张卡，在远端自治和双 guard 下恢复 step 100 并训练到 step 200；保留 100 和 200，恢复/组合/终态验收后停止。该段不是候选 checkpoint，不参与性能结论。
+1. **T1 `100→200` 工程验证段**：经用户对真实 checkpoint/data/model/GPU 执行的明确授权后，重新执行新鲜 30 秒双卡+CPU/RAM 采样，动态固定一张卡，并在有效窗内封存新的 plan；随后才可在远端自治和双 guard 下恢复 step 100 并训练到 step 200。保留 100 和 200，恢复/组合/终态验收后停止。该段不是候选 checkpoint，不参与性能结论。
 2. **T1 正式新轨迹**：从 `pi0_base` 新 run root 启动，候选 steps 已冻结为 `1000/5000/10000/15000/20000/25000/30000`。每段独立授权，full state 用于 resume，候选里程碑发布 adapter-only。
 3. **E1 dev-40**：仅在预注册 dev states 上评测固定候选，以成功数最高优先；并列时依次选更早 step、字典序更小 adapter identity。
 4. **checkpoint selection lock**：锁定唯一最终 LoRA checkpoint；首个 dev episode 开始后不得追加候选，main 集不用于选模型或调参。
@@ -136,6 +139,8 @@ pure-LoRA 的数据、normalization、精确冻结、checkpoint/adapter 保存�
 - T1 冻结包：`artifacts/pi0-pure-lora/evidence/t1-freeze/attempt-20260907T-T1-FREEZE-L7q3R8/freeze_package.json`
 - T1 resume runner CPU readiness：`artifacts/pi0-pure-lora/evidence/t1-resume-runner/attempt-20260907T-T1-RESUME-CPU-H6v2N9/readiness.json`
 - T1 execution-control CPU readiness：`artifacts/pi0-pure-lora/evidence/t1-execution-control/attempt-20260908T-T1-CONTROL-CPU-2fb7ac5a/readiness.json`
+- T1 execution-control 部署/静态模板：`artifacts/pi0-pure-lora/evidence/t1-execution-control-deployment/attempt-20260908T-T1-DEPLOY-7be18dd/static-template.json`
+- T1 新鲜前检与 exact non-authorizing plan：`artifacts/pi0-pure-lora/evidence/t1-execution-control-deployment/attempt-20260908T-T1-DEPLOY-7be18dd/fresh-preflight.json`、`artifacts/pi0-pure-lora/evidence/t1-execution-control-deployment/attempt-20260908T-T1-DEPLOY-7be18dd/exact-non-authorizing-plan.json`
 
 ## 9. 新对话建议读取顺序
 

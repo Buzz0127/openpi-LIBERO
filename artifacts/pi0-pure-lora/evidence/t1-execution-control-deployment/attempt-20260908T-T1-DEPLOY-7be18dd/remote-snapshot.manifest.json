@@ -1,0 +1,343 @@
+{
+  "archive_sha256": "2798b59623fc19b16f4237c25585565c4b63834905d5b681691a1b24a0accc92",
+  "git_commit": "7be18dd407869ae34d521441d7403dbdca5573c5",
+  "member_count": 67,
+  "members": [
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/gpu_utilization_guard.py",
+      "sha256": "299e9b5d41e1d5c83862e6b85f82309cf3e2bd917ea9d7618a2b7d83d5ba0070",
+      "size_bytes": 14589
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/a2_autonomy_probe.py",
+      "sha256": "3fdc423dd688e005ad17ca3135a45ef4ddf91b04100bf5c3b6fecbeca4e753f6",
+      "size_bytes": 3229
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/adapter_artifact.py",
+      "sha256": "efeccd342ba6b20cd8d447c2c0cdab81607680b6b2e0a6044b182d5ba641212b",
+      "size_bytes": 7407
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/atomic_train_state_store.py",
+      "sha256": "87e57f4ee877c4a0c75f5cdd0f5f0b8b79bf88e73fb7f343badb56e129c5d1a9",
+      "size_bytes": 4758
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/audit_abstract_param_tree.py",
+      "sha256": "e6da1219f9e272aae5967f33f1d4fa052dc19377b7b951ba5964b7d0d089dde8",
+      "size_bytes": 6846
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/autonomous_stage_orchestrator.py",
+      "sha256": "4c14302e7a598a7c43dedc1ffc9b19c65a48688a1ab36d27e7715105b84a56b4",
+      "size_bytes": 28858
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/build_autonomous_stage_plan.py",
+      "sha256": "a0273a60a3d5a4cdafe73828fef100bd5bf710c79d0832fce86631ae0f28136a",
+      "size_bytes": 5754
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/build_model_manifest.py",
+      "sha256": "2709e90d1c36247db953f167678b20b38701d1fb17d952b52dc9b49862c8efdf",
+      "size_bytes": 2533
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/build_t1_execution_template.py",
+      "sha256": "f257ab96e45291c46386815aad9148e3a7573ffb1c51c4f02b832541871db32a",
+      "size_bytes": 8056
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/build_t1_freeze_package.py",
+      "sha256": "43d7d53c8ce11cfe2bf0b7ac71e7e403b87485604c0107ee186bad3b2a16faaa",
+      "size_bytes": 11026
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/capture_real_pi0_param_tree.py",
+      "sha256": "40b13b08af5f451e1ec2d1968cc5eaf45444db978ce1b7beaf72a24448a57b40",
+      "size_bytes": 7706
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/cpu_stage_wrapper.py",
+      "sha256": "3bbc05ef076a4ba0a90867b9611e975ec5bd45ef1c76e9a4bf71eb5ed9a15552",
+      "size_bytes": 14741
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/experiment_identity.py",
+      "sha256": "192b50d0bbc479e9247d3ab9efc5b81aba66089143aaf1b1b1a5101611e8707f",
+      "size_bytes": 4009
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/extract_official_e0_reference.py",
+      "sha256": "12e16c80ea3662993091b592082b35a8d7c23a494861f45bc9568acef9e68775",
+      "size_bytes": 2992
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/finalize_t1_execution_plan.py",
+      "sha256": "1a64e80b65fa3ff08c88f6207a52311d3a0c34166edb799456a95aeec4b705ce",
+      "size_bytes": 10500
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/gpu_stage_preflight.py",
+      "sha256": "52731bc5df90985555af071af28909b870e068378ca6345011401a09bc69276e",
+      "size_bytes": 5512
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/launch_autonomous_stage.py",
+      "sha256": "b6e7c78185ed64c0536c4c3b4d469e3305af07bc8a78bffc0194606626915ae4",
+      "size_bytes": 6855
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/prepare_gpu_stage_plan.py",
+      "sha256": "44778364e8cb225c8b09f408df3361695edda2fd5ecbe8276291a24dc5231c75",
+      "size_bytes": 3223
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/prepare_segment_plan.py",
+      "sha256": "9ebc51d528bef6bcd1010b3832db5d588a3af8a79db9c4858abddcac47cefdeb",
+      "size_bytes": 4342
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/preregister_e0_splits.py",
+      "sha256": "a40749e7b9e9e0e7b91afe6dbc1441cf8c78602bd055e1bbd39170ad29f5124b",
+      "size_bytes": 9858
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/reconcile_s1b_cache_evidence.py",
+      "sha256": "4d004187bf51eb96cf222c9bfd719d8f0ea0ff0a77a9d2739dc7a0df9c1b3a7c",
+      "size_bytes": 5964
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/resume_sequence.py",
+      "sha256": "7ca653e2f59ff7fddb8d144ee2cb78fc8997939838bd17047a2ffc292da84f4d",
+      "size_bytes": 2210
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/run_i2_atomic_smoke.py",
+      "sha256": "9ca5a297956284aeb2554a4c8b350ca2f7415b99b8f73285ed72518f5f2ad811",
+      "size_bytes": 2748
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/run_s1a_gpu_smoke.py",
+      "sha256": "e081626b7ad59b0da99f64171d07b4d07e11e7bd8069a1cf350d12335e5acae1",
+      "size_bytes": 5076
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/run_s1b_one_step.py",
+      "sha256": "8b4a5672928334db86717381d35d6d5da344f8c9aa67b9603a91b4cc659ae32d",
+      "size_bytes": 7982
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/run_s1c_ten_step.py",
+      "sha256": "47fc0771ffac33667e8b7b77f6ffec4a6a8ee0ad19509387078791f2e2c7163c",
+      "size_bytes": 8685
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/run_s1d_hundred_step.py",
+      "sha256": "6c832450484e8b2ea4bceac6766ef2f2db8a4f6814b587f7fa59be35889059ff",
+      "size_bytes": 13684
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/run_t1_resume_segment.py",
+      "sha256": "6ee22098ac5e4e7463f111b6664814f530d6c6c1b38222dc4404f27951e73e9b",
+      "size_bytes": 21810
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/t1_execution_contract.py",
+      "sha256": "1d1ee16bb1de61a7e400accb6c67948535635810ed7deec7f70ca31feb95cbc6",
+      "size_bytes": 13308
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_a2_autonomy_probe.py",
+      "sha256": "1fcb72687308eb95db0676014b30f4c1fcd7d9f442b64e0e1550c5f5dd0d7270",
+      "size_bytes": 1757
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_adapter_artifact.py",
+      "sha256": "d0f5b068aa379aa08f61ef258e0cacfd21cb5421eb5833438c0cea813a295f59",
+      "size_bytes": 4131
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_atomic_train_state_store.py",
+      "sha256": "c4988f02a43e1df62178572805c1402ba73d4f7cc0a0cffa3f836cdcaf1a7045",
+      "size_bytes": 2554
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_audit_abstract_param_tree.py",
+      "sha256": "04d0d5cd85f222b5388d883791ea9569f308ed880b139ea06f7643c7fb4f529e",
+      "size_bytes": 5342
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_autonomous_stage_orchestrator.py",
+      "sha256": "096d1b98c25c6139dae8f14570eae0d3de517951a327c2d30ccf3b75ae8c6be5",
+      "size_bytes": 15609
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_build_autonomous_stage_plan.py",
+      "sha256": "b4c733eb81a070015e90c6defc3a6a73f4a85b2df54fc90470a7701d993c9e04",
+      "size_bytes": 3236
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_build_t1_execution_template.py",
+      "sha256": "a1b250b93367269172913a5a59c3b4a3c1738ad7d39386764532fcb12b08e811",
+      "size_bytes": 7382
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_build_t1_freeze_package.py",
+      "sha256": "adc83414f6861892928bf54e68416c4a85b749f7e49a91f2eecfdf345c3ba10d",
+      "size_bytes": 2901
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_cpu_stage_wrapper.py",
+      "sha256": "8a5cd45e1dde5084dbe83e5d5080391cf9eefa108b866acf8b385bd2582b5551",
+      "size_bytes": 7637
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_experiment_identity.py",
+      "sha256": "f6c828fd1c01dbb701814952415bd887f56845ae48676ceccb1ee6d635e03ab0",
+      "size_bytes": 2590
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_finalize_t1_execution_plan.py",
+      "sha256": "b5aaf5127d692cce714cdf0393661bb9e521586067373aead7f02d146f75b53e",
+      "size_bytes": 10124
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_gpu_stage_preflight.py",
+      "sha256": "6d75f263ea1cdf94b41b785b96bbe37faac567772edf164b932a066697a8376a",
+      "size_bytes": 2255
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_launch_autonomous_stage.py",
+      "sha256": "0081dcaa2342d4c01e5b21256d98d85f9a158d27afb9afdc92f28383fa4879e5",
+      "size_bytes": 1174
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_prepare_gpu_stage_plan.py",
+      "sha256": "9be442481d61655e228d367258951673cbf833e37e34e66d7c561bac14fc3d2f",
+      "size_bytes": 1869
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_prepare_segment_plan.py",
+      "sha256": "bdd60e8d5fc9ca0284dbe735867f94f9d2e23e2503d900b4c2a5ca985af0790a",
+      "size_bytes": 2460
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_preregister_e0_splits.py",
+      "sha256": "d75356ecaf5209eab5f35555fb53a2835febd2fa9a1adac81de5d02ec7b8d185",
+      "size_bytes": 4196
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_reconcile_s1b_cache_evidence.py",
+      "sha256": "db48af2290ffc171681cd84af272f0b123db723fdf2f8d80fb43e81704678004",
+      "size_bytes": 2307
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_resume_sequence.py",
+      "sha256": "414b08be391b74de2953faa22896ec630b4176042114b264944e3775c7917737",
+      "size_bytes": 1721
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_run_s1c_ten_step.py",
+      "sha256": "d80b553c3eda122d4e15399822bc360fd747c49df186a62ef4b95e5c5751067c",
+      "size_bytes": 807
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_run_s1d_hundred_step.py",
+      "sha256": "aabba366606331b0c1b559b99ab43ffce59985ccfe1c752835e4119292ccaa19",
+      "size_bytes": 1261
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_run_t1_resume_segment.py",
+      "sha256": "f5264fbf628f1fa3b04d2f0637e25898e9abba4053dfd2f2f76b4a28798a9065",
+      "size_bytes": 6768
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_verify_a2_autonomy.py",
+      "sha256": "f04fbf64a2f1a15d18362ffc63c7268713a3beed083a8e8eb2bc4d0d8612349e",
+      "size_bytes": 3785
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_verify_golden_adapter_manifest.py",
+      "sha256": "08b10444bf5a77fda527e8ceeb57c0e5e11a63d3aeff7062208f9a5ae94bfec4",
+      "size_bytes": 4996
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_verify_s1d_result.py",
+      "sha256": "3f096df96c032c8ff805ed58d6d615d8f57f5028ad0589a9ce5c7a4a3a4af07f",
+      "size_bytes": 2034
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_verify_t1_resume_result.py",
+      "sha256": "4a114a45dc78f4a09f0607a98a0c6c0f35c0222a312c32d7cd6dfb572bdcd88d",
+      "size_bytes": 24968
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/test_write_evidence_manifest.py",
+      "sha256": "cf23db9c62e25886c65715c4cd090673a879421149912b0a592c6b7f2d2672f9",
+      "size_bytes": 1810
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/validate_i1_policy_build.py",
+      "sha256": "7910f51626c982ffd5019582129227093bccdc1d236406a01846f17517e2fba5",
+      "size_bytes": 3978
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/validate_i1_real.py",
+      "sha256": "a88a34aa472129fc04457124cf0d3b362c788c0db121871751d54dfd8167fe63",
+      "size_bytes": 4905
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/verify_a2_autonomy.py",
+      "sha256": "49bd70e7713fb29813e65daff150c57e3513325e1e814ff4935cd0d888a546db",
+      "size_bytes": 9333
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/verify_g2_pure_lora_filter.py",
+      "sha256": "c3ca234023fe1ff2b8339eca42f24f499d96614ed06a55dce1efb4c58498375d",
+      "size_bytes": 6059
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/verify_golden_adapter_manifest.py",
+      "sha256": "932ea03dcd69d8aa8365a832a0c34ecf1dd5556a3b4c887ae8db585ab20a9031",
+      "size_bytes": 6682
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/verify_s1c_result.py",
+      "sha256": "6871c721268c04c29acb76d46b3ffcfccca5072d5a35c75f8233e41e84209b1f",
+      "size_bytes": 6937
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/verify_s1d_result.py",
+      "sha256": "bcbd8effa461c9e4df6ac9fdb433e8061386d1460d9ca8097e872595a53216b2",
+      "size_bytes": 16850
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/verify_t1_resume_result.py",
+      "sha256": "613baecd644cce2cf1e49d822595bf7965d168cc1cb2d1db26b69d4b75fe672b",
+      "size_bytes": 31106
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/pi0_pure_lora/write_evidence_manifest.py",
+      "sha256": "60c0281c148325a0bd6f753ae89a58a4921958ff39a0ef38ff6a784d3f11e5f1",
+      "size_bytes": 2963
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/storage_budget_guard.py",
+      "sha256": "e076a437d4456bca4c6566767206c56290623eba4dd0c31624812ce3b6ba9e6a",
+      "size_bytes": 20843
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/test_gpu_utilization_guard.py",
+      "sha256": "92b4330a0d1b7ede7c6f508a60578ed85ae34b842c7f4654f9c5650922abe18a",
+      "size_bytes": 8926
+    },
+    {
+      "path": "openpi-t1-tools-7be18dd407869ae34d521441d7403dbdca5573c5/tools/test_storage_budget_guard.py",
+      "sha256": "2bb37f71edde2b12666dc4b45927dd3d13e4752f598b87e43fff928ffabcbdfd",
+      "size_bytes": 11144
+    }
+  ],
+  "schema_version": 1
+}

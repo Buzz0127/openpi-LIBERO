@@ -28,6 +28,17 @@ class AutonomousLauncherTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             launcher._bound_attempt(["--stage", "A2"])
 
+    def test_nested_child_attempt_flags_do_not_alias_outer_binding(self) -> None:
+        outer = "/tmp/outer-attempt"
+        self.assertEqual(
+            launcher._bound_attempt([
+                "--stage", "T1", "--attempt-dir", outer, "--stage-plan", "/tmp/plan.json", "--",
+                "/usr/bin/python3", "storage_guard.py", "--attempt-dir", "/tmp/storage", "--",
+                "/usr/bin/python3", "runner.py", "--attempt-dir", "/tmp/runner",
+            ]),
+            pathlib.Path(outer).resolve(),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

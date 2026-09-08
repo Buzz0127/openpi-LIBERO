@@ -62,7 +62,14 @@ def _parse_args() -> argparse.Namespace:
 
 
 def _bound_attempt(orchestrator_args: list[str]) -> Path:
-    return Path(_argument_value(orchestrator_args, "--attempt-dir")).resolve()
+    # The orchestrator's child command follows the first ``--`` separator and
+    # legitimately has its own nested --attempt-dir flags (storage guard and
+    # runner).  Only the outer orchestrator option binds this launcher.
+    try:
+        boundary = orchestrator_args.index("--")
+    except ValueError:
+        boundary = len(orchestrator_args)
+    return Path(_argument_value(orchestrator_args[:boundary], "--attempt-dir")).resolve()
 
 
 def _argument_value(arguments: list[str], name: str) -> str:
