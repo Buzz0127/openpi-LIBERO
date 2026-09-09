@@ -1,0 +1,3 @@
+1b52b8aa0e24a53784a2ef851863399c6e92f47261d83f47303ec0f9ce02a97a  artifacts/pi0-pure-lora/evidence/ft1-preflight/attempt-20260909T-FT1-PREP-7uQ3n2/ft1-nonexecuting-template.json
+135091aec0cbe2ccc613dbadbc663a2c5edeea0c988cbab50ad99f149266890e  tools/pi0_pure_lora/build_ft1_execution_template.py
+3c22afd3d2f60cf79a5458136e379da10646f348c52c026aafd13a8724854153  tools/pi0_pure_lora/verify_ft1_result.py

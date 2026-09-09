@@ -1,0 +1,77 @@
+{
+    "adapter_root": "/home/wengzr/projects/openpi-lora-runs/adapters/pi0-libero-pure-lora-ft0-seed42-v1",
+    "attempt_parent": "/System/Volumes/Data/home/wengzr/projects/openpi-lora-runs/formal-attempts",
+    "candidate": true,
+    "command": null,
+    "environment": null,
+    "execution_authorized": false,
+    "execution_ready": false,
+    "fresh_preflight_required": true,
+    "ft0_freeze": {
+        "identity": "723ede183f745fc45e3709ad91fe8dd39e1e1b487fadb0257db4ddd92e402712",
+        "path": "/Users/buzz/MyProjects/openpi-LIBERO-lora/artifacts/pi0-pure-lora/evidence/ft0/attempt-20260909T-FT0-FORMAL-FREEZE-e19eb72/formal_training_freeze.json",
+        "sha256": "fbd8781bccf3d24c8a11df83da67daa1218016ec2e77bb61b8fda0b426c56524"
+    },
+    "identities": {
+        "config": "1c289cc470e064d6717513e149b5cae03ee71b56f7c9634df450e496ca46c958",
+        "dataset": "44c5fbe41202cbd29cf209d2856b4e95857f89728697a994d9aa14e0f2c5d700",
+        "golden": "3799cf4d053b013089216be97ab0b57d08dde1dd3c4f04744088ce2e93a32029",
+        "model": "d484ef5fa06bcb92b0dad92d1f221d4b65406f86dd928569362cb8a9106213ac",
+        "norm": "f68a5fafe15e1577b7bb2c6fc4837a7d1669e2e9be3752f2589c3d327c6f8ccf",
+        "split": "f85350357b75ecaea7330e386f805d024ea44a7a6a5c58f96d64259fbedca283"
+    },
+    "next_stage_auto_start": false,
+    "run_root": "/home/wengzr/projects/openpi-lora-runs/checkpoints/pi0_libero_pure_lora/pi0-libero-pure-lora-ft0-seed42-v1",
+    "schema_version": 1,
+    "segment_end": 1000,
+    "segment_start": 0,
+    "selected_gpu_uuid": null,
+    "selected_physical_gpu": null,
+    "source": {
+        "branch": "feature/pi0-libero-pure-lora",
+        "head": "3619c35ffdcbfe97ae735de175d91c2fb67a899d",
+        "root": "/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora",
+        "status": "",
+        "upstream": "NONE"
+    },
+    "stage": "FT1-formal-0-1000",
+    "storage": {
+        "adapter_bytes_upper_bound": 199962483,
+        "atomic_write_margin_bytes": 1000000000,
+        "automatic_pruning_allowed": false,
+        "current_billed_bytes": 97531600896,
+        "deletion_authorized": false,
+        "full_state_bytes_upper_bound": 5559145746,
+        "hard_headroom_bytes": 105595495755,
+        "hard_limit_bytes": 250000000000,
+        "minimum_uncommitted_bytes": 20000000000,
+        "retained_candidate_adapters": 7,
+        "retained_candidate_full_states": 7,
+        "review_headroom_bytes": 80595495755,
+        "review_line_bytes": 225000000000,
+        "soft_headroom_bytes": 95595495755,
+        "soft_stop_bytes": 240000000000,
+        "steady_peak_without_deletion_bytes": 137845358499,
+        "worst_peak_old_plus_new_full_state_bytes": 144404504245
+    },
+    "template_identity_sha256": "65b6b64d743dc4c5c2025574303b57ff68d63b7da367c704a486a3ad1eac47dc",
+    "terminal_acceptance_required": {
+        "adapter_composition": true,
+        "finite_metrics": true,
+        "full_restore": true,
+        "golden_changed": 20,
+        "non_golden_changed": 0,
+        "old_and_new_full_state_coexist": true,
+        "owned_processes_absent": true
+    },
+    "tools": {
+        "contract": "1b37e8437da800764b4161d911661e7258053046565629e4ddfeecdd52ca4a00",
+        "gpu_guard": "299e9b5d41e1d5c83862e6b85f82309cf3e2bd917ea9d7618a2b7d83d5ba0070",
+        "launcher": "68b4a7282d03fa1069e8765dbff4b104ccbec357a614962aa358ef46cbc8b712",
+        "orchestrator": "4c14302e7a598a7c43dedc1ffc9b19c65a48688a1ab36d27e7715105b84a56b4",
+        "preflight": "52731bc5df90985555af071af28909b870e068378ca6345011401a09bc69276e",
+        "runner": "e9237d301ac4f195a08f0016f2beb5fca5c82b33a3b379fdcb234879bd084071",
+        "storage_guard": "e076a437d4456bca4c6566767206c56290623eba4dd0c31624812ce3b6ba9e6a",
+        "terminal_verifier": "3c22afd3d2f60cf79a5458136e379da10646f348c52c026aafd13a8724854153"
+    }
+}

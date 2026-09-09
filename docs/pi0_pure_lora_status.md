@@ -1,6 +1,6 @@
 # pi0_base → LIBERO pure-LoRA 状态
 
-更新：2026-09-09（T1 工程恢复验证通过；FT0 正式训练冻结）
+更新：2026-09-09（T1 工程恢复验证通过；FT0 正式训练启动前静态准备完成）
 
 ## 固定实验定义
 
@@ -43,6 +43,7 @@
 - T1 前检/plan 封存：一次约 34.4 秒的 30 样本双卡+CPU/RAM 前检通过，最终选定 GPU 1（UUID `GPU-14900654-ea51-b7aa-28d3-b2885502d727`，最新样本空闲显存约 99.98%、利用率 0%；CPU 可用内存约 269.7 GB、load/CPU 约 0.0071）。它只用于封存 exact non-authorizing plan，preflight identity 为 `c7117fe7ded147e13c2e1a01af0835cb57c63607ff8588080a5b0bae95a34d4f`，plan SHA-256 为 `f0e876e4cc6649de8fda5198ab69e5fbc8e38c1e84399b375d9dfe7e1875fcf8`，identity 为 `f113b31048ad2406fad4820c5d3d1084223030c091908e4161ba83d85fd6b128`。plan 的 command 未执行，`execution_authorized=false`；前检有效窗为 120 秒，因此真实启动前必须重新采样，不能复用该 GPU 选择。
 - T1 `100→200` 工程恢复验证段：已从 S1d step 100 恢复并执行 100 个 step 至 step 200，`status/summary=pass`、`exit_code=0`、`next_stage_started=false`。100 组 metrics 均有限；20/20 Golden adapter 叶子变化、50/50 非 Golden 叶子不变；loader 精确 skip 100 且 RNG 重放 100 次一致。step 100/200 两份 full train-state 和两份 adapter 均保留，未自动 pruning 或删除。最终独立 terminal acceptance 为 `pass`，report identity `1fcade355ab5c56c454448e407dab30a1f46b1bb1ac92aa5495b07f660f9c6f4`。这是预注册的 `candidate=false` 工程恢复验证，不表示正式训练、收敛或性能提升。
 - FT0 正式训练冻结：CPU-only 非执行包已将新 `pi0_base` 轨迹、seed 42、batch size 1、workers 0、AdamW 与 30k cosine schedule、候选 step `1000/5000/10000/15000/20000/25000/30000`、adapter-only 发布及 full-state 安全轮换冻结。包 identity 为 `723ede183f745fc45e3709ad91fe8dd39e1e1b487fadb0257db4ddd92e402712`，最坏峰值为 `144,404,504,245 B`，仍低于 `225,000,000,000 B` review line。CPU-only formal-segment contract 已验证新 base `0→1000` 与后续已验证候选恢复边界，拒绝工程 step-200 根复用、多卡映射、未注册边界和缺失前一段制品。actual formal runner 已实现，并在进入 JAX/OpenPI 前执行该合同、身份和 collision-safe 输出门禁；其 GPU 训练路径尚未真实执行或验收。它保持 `execution_authorized=false` 与 `execution_ready=false`；immutable tool snapshot、fresh GPU preflight 和 FT1 授权仍是阻塞条件。
+- FT1 正式首段静态准备：已生成不可执行的 `0→1000` 模板，绑定 FT0 freeze、固定 OpenPI source、8 个工具 SHA-256、运行/adapter 根、存储政策和“不得自动进入下一段”规则；模板的 command、environment、GPU 均为 `null`，且 `execution_authorized=false`。独立终态验收器会拒绝身份漂移、非有限 metrics、任何非 Golden 叶子变化、错误 checkpoint 历史、未逐值恢复参数/optimizer、adapter 组合缺证或自动启动下一段；报告原子创建且拒绝覆盖。31 项 CPU-only fake 测试通过。当前只剩把同一已提交工具部署为不可变远端快照；实际启动时必须重新做约 30 秒双卡+CPU/RAM 前检（旧前检 120 秒后即失效）并由用户单独授权。
 
 ## 失败尝试、警告与偏差（均保留证据）
 
@@ -70,7 +71,7 @@
 
 ## 未开始 / 未授权
 
-- FT1 `0→1000` 正式首段：必须从 FT0 冻结的新 `pi0_base` run root 开始，不能从工程 step 200 继续；需先实现并 CPU 验收 formal-segment runner、绑定 committed immutable tool snapshot，再重新做约 30 秒双卡+CPU/RAM 前检和获取该单段明确授权。
+- FT1 `0→1000` 正式首段：必须从 FT0 冻结的新 `pi0_base` run root 开始，不能从工程 step 200 继续；在已提交工具的 immutable remote snapshot 上重新做约 30 秒双卡+CPU/RAM 前检，并获得该单段明确授权后才可启动。前检是时间敏感的运行门禁，不能在训练前很早预做或复用。
 - FT2 后续正式 segments：`1000→5000→10000→15000→20000→25000→30000` 每段均须单独授权，完成当前段后停止；不得自动进入下一段，也不得在新 full-state restore 通过前删除最后已知良好状态。
 - E1 40-episode dev、E2 200-episode main、E3 可选 2,000-episode 评测。
 

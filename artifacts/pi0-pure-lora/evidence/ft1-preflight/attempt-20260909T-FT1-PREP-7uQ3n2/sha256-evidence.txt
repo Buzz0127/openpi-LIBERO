@@ -1,0 +1,7 @@
+1b52b8aa0e24a53784a2ef851863399c6e92f47261d83f47303ec0f9ce02a97a  artifacts/pi0-pure-lora/evidence/ft1-preflight/attempt-20260909T-FT1-PREP-7uQ3n2/ft1-nonexecuting-template.json
+2274004f838ee6b85c524d637aac0eb82bba619bb69d7e441de9bdca750819a4  artifacts/pi0-pure-lora/evidence/ft1-preflight/attempt-20260909T-FT1-PREP-7uQ3n2/git-status-after.txt
+2274004f838ee6b85c524d637aac0eb82bba619bb69d7e441de9bdca750819a4  artifacts/pi0-pure-lora/evidence/ft1-preflight/attempt-20260909T-FT1-PREP-7uQ3n2/git-status-before.txt
+2c34ebbbc40986a547c33a569cb24961042d5c3feac6b341ab8b8cbfec38d1de  artifacts/pi0-pure-lora/evidence/ft1-preflight/attempt-20260909T-FT1-PREP-7uQ3n2/sha256.txt
+dac9cfff8707c2c0dc9ea8e5c3f62a7bdb45fc7bd7630e7edda5f331ebf02c96  artifacts/pi0-pure-lora/evidence/ft1-preflight/attempt-20260909T-FT1-PREP-7uQ3n2/template.pretty.json
+4310cff031a2dc0496fab4188448bd1f45a221d25a0e72f20f89f0c115975ba6  artifacts/pi0-pure-lora/evidence/ft1-preflight/attempt-20260909T-FT1-PREP-7uQ3n2/template.stdout.json
+e6217f820ab2e42d497f4d3b8d81532f47a36e8aee5f49aae86e6ed937a47c4a  artifacts/pi0-pure-lora/evidence/ft1-preflight/attempt-20260909T-FT1-PREP-7uQ3n2/validation.stdout.txt

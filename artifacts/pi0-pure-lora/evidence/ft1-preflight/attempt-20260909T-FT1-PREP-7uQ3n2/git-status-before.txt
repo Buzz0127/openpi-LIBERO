@@ -1,0 +1,6 @@
+ M artifacts/pi0-pure-lora/evidence/b1-pi0-base/tunnel/attempt-20260902T-B1-TUNNEL-screen1/supervisor/events.jsonl
+?? artifacts/pi0-pure-lora/evidence/ft1-preflight/
+?? tools/pi0_pure_lora/build_ft1_execution_template.py
+?? tools/pi0_pure_lora/test_build_ft1_execution_template.py
+?? tools/pi0_pure_lora/test_verify_ft1_result.py
+?? tools/pi0_pure_lora/verify_ft1_result.py
