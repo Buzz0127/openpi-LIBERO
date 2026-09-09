@@ -1,15 +1,15 @@
 # pi0_base → LIBERO pure-LoRA 对话查阅与下一阶段交接
 
-更新时间：2026-09-08
+更新时间：2026-09-09
 用途：作为新对话或恢复对话时的第一份入口文档。本文区分“已有证据”、“已实现但未真实执行”和“未开始”，不将工具完成误写为训练完成。
 
-> 2026-09-08 续做记录：T1 execution-control 源码已作为 `7be18dd` 推送；同一提交的 67 文件工具快照已部署至远端独立 `tool-snapshots` 命名空间并逐文件复核。一次 30 样本双卡+CPU/RAM 前检已通过并用于封存 exact non-authorizing plan；plan 仍为 `execution_authorized=false`，未启动命令。前检有效窗仅 120 秒，后续若要真实启动必须重新采样。本轮未读取真实 checkpoint/data、未加载模型、未创建训练 attempt；远端 OpenPI HEAD 仍为 `3619c35ffdcbfe97ae735de175d91c2fb67a899d` 且工作树干净。
+> 2026-09-09 续做记录：T1 `100→200` 工程恢复验证已完成并独立验收；它不是正式候选。FT0 已冻结新的正式 `pi0_base→0→1000` 轨迹和存储上界。提交 `42ec3e8` 的 FT1 非执行模板/终态验收器已部署为 1,025 文件的只读远端工具快照，本地与远端各 31 项 CPU-only fake 测试通过。模板仍为 `execution_authorized=false`；未开始正式训练。旧 GPU 前检的 120 秒有效窗已过，真实启动前必须重新采样。
 
 ## 1. 当前一句话停点
 
 pure-LoRA 的数据、normalization、精确冻结、checkpoint/adapter 保存恢复、真实 1/10/100-step smoke、远端自治基础设施和 **T1 execution-control CPU 收尾**均已有证据。
 
-当前停在 **T1 launcher 修复的独立 Git 保存与重新部署关口**：首次真实启动在创建 `tmux`、训练 attempt、模型或训练进程之前 fail-closed 停止，原因是 launcher 将嵌套 child command 的多个 `--attempt-dir` 误解析为顶层 orchestrator 参数。修正与回归测试已在本地完成但尚未提交；修复后的不可变快照部署后，任何真实启动前仍必须重新前检。未读取真实 5.5 GB checkpoint，未加载数据/模型，也未训练。
+当前停在 **FT1 正式 `0→1000` 启动授权关口**：持久化的 freeze、工具、只读快照、非执行模板、终态验收器和 CPU-only 测试均已完成。下一次真实启动前必须重新做约 30 秒双卡+CPU/RAM 前检并在有效窗内封存 execution plan；这属于时间敏感的启动门禁，不能提前完成或复用。未开始正式候选训练。
 
 ## 2. 固定实验定义
 
@@ -37,7 +37,8 @@ pure-LoRA 的数据、normalization、精确冻结、checkpoint/adapter 保存�
 | A2 | 通过 | 远端自治 orchestrator、immutable plan、心跳/状态、有界日志、有限重试、自有 PGID 回收和断连 smoke | 使长阶段不依赖 Codex 会话、Mac 或前台 SSH |
 | T1 freeze | 通过（不授权执行） | 冻结非候选工程段 `100→200`、正式候选 steps、seed、存储上界和禁止删除策略 | 将工程恢复验证与正式研究轨迹分开 |
 | T1 resume runner CPU | 通过（未真实执行） | 实现 loader 精确 skip 100、双 loader fingerprint、RNG split 重放 100 次、输入树重哈希与目标冲突门禁；本地/远端各 11 项测试通过 | 填补 OpenPI 通用 `--resume` 不保证 data-loader 位置连续的缺口 |
-| T1 execution-control CPU | 通过（未提交、未授权执行） | 实现静态模板、新鲜前检后封装、独立 terminal verifier 和三层异常回收；本地/远端各 110 项 fake 测试通过 | 在真实 `100→200` 前 fail closed 地绑定身份、资源、进程组、输出和终态验收 |
+| T1 execution-control CPU | 通过（已提交；T1 工程段已结束） | 实现静态模板、新鲜前检后封装、独立 terminal verifier 和三层异常回收；本地/远端 fake 测试通过 | 在工程恢复段中 fail closed 地绑定身份、资源、进程组、输出和终态验收 |
+| FT0 / FT1 静态准备 | 通过（不授权启动） | 冻结正式候选段，提交 FT1 非执行模板和终态验收器；本地/远端各 31 项 CPU-only fake 测试通过，并部署只读工具快照 | 使正式 `0→1000` 只差一次新鲜前检与用户明确启动授权 |
 
 ### S1d 关键实测结果
 
@@ -53,7 +54,7 @@ pure-LoRA 的数据、normalization、精确冻结、checkpoint/adapter 保存�
 
 - 本地工作树：`/Users/buzz/MyProjects/openpi-LIBERO-lora`
 - 本地分支：`feature/pi0-libero-pure-lora`
-- 本地与 GitHub 已同步 HEAD：`8a5695d284be5066495f6357c817295d02cc148e`
+- FT1 静态工具快照提交：`42ec3e8a7d59fa0a01192caf404f9cf76618a6d8`（已推送）
 - 远端 OpenPI 工作树：`/home/wengzr/projects/openpi-worktrees/pi0-libero-pure-lora`
 - 远端分支：`feature/pi0-libero-pure-lora`
 - 远端固定 HEAD：`3619c35ffdcbfe97ae735de175d91c2fb67a899d`
