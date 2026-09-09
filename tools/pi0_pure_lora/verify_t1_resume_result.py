@@ -136,6 +136,24 @@ def _terminal_process_audit(pids: list[int], tmux: str, session_name: str) -> di
     return {**receipt, "process_audit_identity_sha256": _canonical(receipt)}
 
 
+def _audit_confirms_owned_group_absent(audit: dict[str, Any], pid: int) -> bool:
+    """Return true only for an exact PID row whose process and PGID are absent.
+
+    This is deliberately independent from a guard's own event schema.  It is
+    used only when a normal guard ``child_exited`` event predates the addition
+    of explicit reaping fields; a successful child return code alone never
+    establishes this property.
+    """
+    rows = audit.get("owned_processes")
+    return isinstance(rows, list) and any(
+        isinstance(row, dict)
+        and row.get("pid") == pid
+        and row.get("pid_absent") is True
+        and row.get("pgid_absent") is True
+        for row in rows
+    )
+
+
 def _output_manifest(attempt: Path, required: set[Path]) -> dict[str, str]:
     values = {}
     for line in (attempt / "output-files.sha256").read_text().splitlines():
@@ -360,13 +378,16 @@ def verify(args: argparse.Namespace) -> dict[str, Any]:
     _require(all(deltas.get(path) == 0 for path in SHARED_CACHE_ROOTS), "shared caches changed")
     gpu = [json.loads(line) for line in evidence_paths["gpu_events"].read_text().splitlines() if line.strip()]
     _require(bool(gpu) and gpu[0].get("event") == "guard_started" and gpu[-1].get("event") == "child_exited" and gpu[-1].get("return_code") == 0, "GPU guard terminal failure")
-    _require(gpu[-1].get("wait_reaped") is True and gpu[-1].get("group_exit_confirmed") is True, "GPU guard owned group exit not confirmed")
     _require(not any(row.get("event") in {"monitor_error", "memory_emergency", "termination_requested", "termination_forced", "runtime_timeout"} for row in gpu), "GPU guard emergency/error")
     _require(any(row.get("event") == "gpu_sample" for row in gpu), "no GPU runtime samples")
     _verify_preflight(plan, run, result, gpu[0])
     gpu_children = [row["child_pid"] for row in gpu if row.get("event") == "child_started"]
     _require(len(gpu_children) == 1 and gpu[-1].get("child_pid") == gpu_children[0], "GPU guard child identity mismatch")
     process_audit = _terminal_process_audit([child["child_pid"], storage_run["child_pid"], gpu_children[0]], args.tmux, args.session_name)
+    event_confirms_gpu_exit = gpu[-1].get("wait_reaped") is True and gpu[-1].get("group_exit_confirmed") is True
+    audit_confirms_gpu_exit = _audit_confirms_owned_group_absent(process_audit, gpu_children[0])
+    _require(event_confirms_gpu_exit or audit_confirms_gpu_exit, "GPU guard owned group exit not confirmed")
+    gpu_guard_terminal_evidence = "guard_event" if event_confirms_gpu_exit else "independent_process_audit"
 
     report = {"schema_version": 1, "stage": "T1-resume-engineering", "status": "pass", "candidate": False,
               "segment_start": 100, "segment_end": 200, "training_completed": False, "next_stage_started": False,
@@ -377,6 +398,7 @@ def verify(args: argparse.Namespace) -> dict[str, Any]:
               "receipt_sha256": {name: _sha256(evidence_paths[name]) for name in ("loader_receipt", "rng_receipt", "composition_receipt")},
               "output_manifest_sha256": _sha256(attempt / "output-files.sha256"),
               "verified_output_files": output_files, "process_audit": process_audit,
+              "gpu_guard_terminal_evidence": gpu_guard_terminal_evidence,
               "verification_scope": "file integrity and emitted full-value restore/composition evidence; no model or arrays loaded"}
     report["report_identity_sha256"] = _canonical(report)
     return report

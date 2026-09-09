@@ -194,7 +194,18 @@ class VerifierTests(unittest.TestCase):
         self.temporary = tempfile.TemporaryDirectory(prefix="fake-t1-verifier-")
         self.addCleanup(self.temporary.cleanup)
         self.fixture = FakeAttempt(Path(self.temporary.name))
-        self.audit = mock.patch.object(verifier, "_terminal_process_audit", return_value={"mocked_fake_process_audit": True})
+        self.audit = mock.patch.object(
+            verifier,
+            "_terminal_process_audit",
+            return_value={
+                "owned_processes": [
+                    {"pid": 900001, "pid_absent": True, "pgid_absent": True},
+                    {"pid": 900002, "pid_absent": True, "pgid_absent": True},
+                    {"pid": 900003, "pid_absent": True, "pgid_absent": True},
+                ],
+                "tmux_absent": True,
+            },
+        )
         self.audit.start()
         self.addCleanup(self.audit.stop)
 
@@ -208,6 +219,7 @@ class VerifierTests(unittest.TestCase):
         self.assertEqual(report["unchanged_non_golden_leaf_count"], 50)
         self.assertEqual(report["checkpoint_artifact"]["file_count"], 16)
         self.assertFalse(report["training_completed"])
+        self.assertEqual(report["gpu_guard_terminal_evidence"], "guard_event")
         verifier._signed(report, "report_identity_sha256")
 
     def test_rejects_plan_identity_tampering(self):
@@ -322,6 +334,21 @@ class VerifierTests(unittest.TestCase):
         self.fixture.refresh()
         with self.assertRaisesRegex(RuntimeError, "GPU guard emergency"):
             self.verify()
+
+    def test_accepts_legacy_clean_gpu_exit_with_independent_terminal_audit(self):
+        self.fixture.gpu_events[-1].pop("wait_reaped")
+        self.fixture.gpu_events[-1].pop("group_exit_confirmed")
+        self.fixture.refresh()
+        report = self.verify()
+        self.assertEqual(report["gpu_guard_terminal_evidence"], "independent_process_audit")
+
+    def test_rejects_legacy_gpu_exit_without_independent_terminal_audit(self):
+        self.fixture.gpu_events[-1].pop("wait_reaped")
+        self.fixture.gpu_events[-1].pop("group_exit_confirmed")
+        self.fixture.refresh()
+        with mock.patch.object(verifier, "_terminal_process_audit", return_value={"owned_processes": [], "tmux_absent": True}):
+            with self.assertRaisesRegex(RuntimeError, "GPU guard owned group exit"):
+                self.verify()
 
     def test_rejects_storage_guard_failure(self):
         self.fixture.storage_exit["reason_code"] = "soft_limit"
