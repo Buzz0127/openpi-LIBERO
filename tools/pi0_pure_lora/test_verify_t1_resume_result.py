@@ -377,6 +377,24 @@ class VerifierTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "strict safety gate"):
             self.verify()
 
+    def test_accepts_additional_non_gpu_environment_bindings(self):
+        self.fixture.plan["environment"]["PYTHONPATH"] = "/immutable/tool-snapshot/tools"
+        self.fixture.plan["environment"]["HF_HOME"] = "/project/cache/huggingface"
+        self.fixture.refresh()
+        self.assertEqual(self.verify()["status"], "pass")
+
+    def test_rejects_conflicting_gpu_environment_binding(self):
+        self.fixture.plan["environment"]["CUDA_VISIBLE_DEVICES"] = "0"
+        self.fixture.refresh()
+        with self.assertRaisesRegex(RuntimeError, "single-GPU environment mismatch"):
+            self.verify()
+
+    def test_rejects_missing_preallocation_protection(self):
+        del self.fixture.plan["environment"]["XLA_PYTHON_CLIENT_PREALLOCATE"]
+        self.fixture.refresh()
+        with self.assertRaisesRegex(RuntimeError, "single-GPU environment mismatch"):
+            self.verify()
+
     def test_rejects_missing_a2_output_manifest_entry(self):
         path = self.fixture.attempt / "output-files.sha256"
         path.write_text("\n".join(line for line in path.read_text().splitlines() if not line.endswith("runner_result.json")) + "\n")

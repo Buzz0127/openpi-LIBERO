@@ -178,7 +178,14 @@ def _verify_preflight(plan: dict[str, Any], run: dict[str, Any], result: dict[st
     selected = plan["selected_physical_gpu"]
     uuid = plan["selected_gpu_uuid"]
     _require(type(selected) is int and selected >= 0 and preflight.get("selected_physical_gpu") == selected and preflight.get("selected_gpu_uuid") == uuid, "preflight GPU identity mismatch")
-    _require(plan.get("environment") == {"CUDA_VISIBLE_DEVICES": str(selected), "XLA_PYTHON_CLIENT_PREALLOCATE": "false"}, "single-GPU environment mismatch")
+    environment = plan.get("environment")
+    _require(
+        isinstance(environment, dict)
+        and all(isinstance(key, str) and isinstance(value, str) for key, value in environment.items())
+        and environment.get("CUDA_VISIBLE_DEVICES") == str(selected)
+        and environment.get("XLA_PYTHON_CLIENT_PREALLOCATE") == "false",
+        "single-GPU environment mismatch",
+    )
     _require(result.get("physical_gpu") == selected and result.get("jax_device_count") == 1 and guard.get("physical_gpu") == selected, "runner/guard GPU mapping mismatch")
     samples = preflight.get("samples", [])
     _require(type(preflight.get("sample_count")) is int and preflight["sample_count"] == len(samples) and 30 <= len(samples) <= 120, "preflight requires 30 dual-GPU samples")
