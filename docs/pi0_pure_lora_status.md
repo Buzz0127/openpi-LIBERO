@@ -1,6 +1,6 @@
 # pi0_base → LIBERO pure-LoRA 状态
 
-更新：2026-09-08（T1 execution-control CPU 收尾）
+更新：2026-09-09（T1 工程恢复验证通过；FT0 正式训练冻结）
 
 ## 固定实验定义
 
@@ -41,6 +41,8 @@
 - T1 execution-control CPU 收尾：已实现静态模板、新鲜前检后封装、独立 terminal verifier 及三层 orchestrator→storage guard→GPU guard 异常回收。本地与远端固定 OpenPI Python 各完成 `py_compile + 110` 项 CPU-only fake 测试，67 个源文件的本地/远端哈希映射完全一致，测试期间源码稳定。静态模板无 command/environment/GPU；即使绑定合格 fake preflight，plan 仍为 `execution_authorized=false` 且不自动启动下一阶段。
 - T1 execution-control 部署/静态模板：源码与证据已提交并推送为 `7be18dd407869ae34d521441d7403dbdca5573c5`。远端独立工具快照含 67 文件、占 516,160 B，逐项哈希与 archive `2798b59623fc19b16f4237c25585565c4b63834905d5b681691a1b24a0accc92` 一致；静态模板 SHA-256 为 `38b27c6cbd5863a5cef3f0211dea66c8478224a84e45a7bbf1fbec59104b5294`，identity 为 `1dca5bce43b0f28b27dd566d9f8acc638550ebacd9482334d7e02e850356e3cd`。模板仍无 command/environment/GPU 选择，保持 `execution_ready=false` 与 `execution_authorized=false`；未读取/重哈希真实 5.5 GB checkpoint，未解码真实 LIBERO 数据，未导入真实 Pi0，也未训练。
 - T1 前检/plan 封存：一次约 34.4 秒的 30 样本双卡+CPU/RAM 前检通过，最终选定 GPU 1（UUID `GPU-14900654-ea51-b7aa-28d3-b2885502d727`，最新样本空闲显存约 99.98%、利用率 0%；CPU 可用内存约 269.7 GB、load/CPU 约 0.0071）。它只用于封存 exact non-authorizing plan，preflight identity 为 `c7117fe7ded147e13c2e1a01af0835cb57c63607ff8588080a5b0bae95a34d4f`，plan SHA-256 为 `f0e876e4cc6649de8fda5198ab69e5fbc8e38c1e84399b375d9dfe7e1875fcf8`，identity 为 `f113b31048ad2406fad4820c5d3d1084223030c091908e4161ba83d85fd6b128`。plan 的 command 未执行，`execution_authorized=false`；前检有效窗为 120 秒，因此真实启动前必须重新采样，不能复用该 GPU 选择。
+- T1 `100→200` 工程恢复验证段：已从 S1d step 100 恢复并执行 100 个 step 至 step 200，`status/summary=pass`、`exit_code=0`、`next_stage_started=false`。100 组 metrics 均有限；20/20 Golden adapter 叶子变化、50/50 非 Golden 叶子不变；loader 精确 skip 100 且 RNG 重放 100 次一致。step 100/200 两份 full train-state 和两份 adapter 均保留，未自动 pruning 或删除。最终独立 terminal acceptance 为 `pass`，report identity `1fcade355ab5c56c454448e407dab30a1f46b1bb1ac92aa5495b07f660f9c6f4`。这是预注册的 `candidate=false` 工程恢复验证，不表示正式训练、收敛或性能提升。
+- FT0 正式训练冻结：CPU-only 非执行包已将新 `pi0_base` 轨迹、seed 42、batch size 1、workers 0、AdamW 与 30k cosine schedule、候选 step `1000/5000/10000/15000/20000/25000/30000`、adapter-only 发布及 full-state 安全轮换冻结。包 identity 为 `723ede183f745fc45e3709ad91fe8dd39e1e1b487fadb0257db4ddd92e402712`，最坏峰值为 `144,404,504,245 B`，仍低于 `225,000,000,000 B` review line。CPU-only formal-segment contract 已验证新 base `0→1000` 与后续已验证候选恢复边界，拒绝工程 step-200 根复用、多卡映射、未注册边界和缺失前一段制品。actual formal runner 已实现，并在进入 JAX/OpenPI 前执行该合同、身份和 collision-safe 输出门禁；其 GPU 训练路径尚未真实执行或验收。它保持 `execution_authorized=false` 与 `execution_ready=false`；immutable tool snapshot、fresh GPU preflight 和 FT1 授权仍是阻塞条件。
 
 ## 失败尝试、警告与偏差（均保留证据）
 
@@ -55,7 +57,7 @@
 - T1 冻结器首次本地测试使用包式模块路径，但 `tools/pi0_pure_lora` 不是 Python package，测试收集失败且没有执行 T1 逻辑；改用既有 `unittest discover -s tools/pi0_pure_lora` 后本地、远端各 4 项通过。
 - 远端源码确认：`restore_state()` 明确丢弃 `data_loader`，通用 `train.py` 在 restore 前重新创建 iterator 并先取首个 batch。因此 `--resume` 不能自动证明 batch 序列连续；在专用 runner 完成确定性 skip/position 校验前，冻结包保持 `execution_ready=false`。
 - T1 execution-control 远端 R1/R2 均保留为失败 attempt：R1 因 macOS AppleDouble `._*.py` 和缺少轻量 fixture；R2 已解决 AppleDouble 并通过 `py_compile`，但精简快照仍缺 `base_model_manifest_c0.json` 和 Golden manifest。R3 补齐后 110/110 通过；这些是打包 fixture 问题，不是真实训练或 execution-control 逻辑验收失败。
-- T1 首次真实启动 fail-closed：新鲜前检与 exact plan 均已封存，但 `launch_autonomous_stage.py` 在真正创建 `tmux` 前将嵌套 storage guard/runner 的多个 `--attempt-dir` 误视为顶层参数，拒绝启动。无 tmux、训练 attempt、模型加载或本任务 GPU 训练进程残留。已本地修正为仅在第一个 `--` 前解析顶层参数，并新增回归测试；修复尚未提交、部署或重新前检。
+- T1 首次真实启动 fail-closed：新鲜前检与 exact plan 均已封存，但 `launch_autonomous_stage.py` 曾在真正创建 `tmux` 前将嵌套 storage guard/runner 的多个 `--attempt-dir` 误视为顶层参数，拒绝启动。无 tmux、训练 attempt、模型加载或本任务 GPU 训练进程残留。该解析错误已修复、测试、提交并部署；后续同一工程段已在新 preflight/plan 下完成并通过独立验收。
 
 ## 已收敛现场
 
@@ -66,10 +68,10 @@
 - C0 runtime identity：`1c289cc470e064d6717513e149b5cae03ee71b56f7c9634df450e496ca46c958`。
 - C0 model identity：`d484ef5fa06bcb92b0dad92d1f221d4b65406f86dd928569362cb8a9106213ac`。
 
-## 未开始
+## 未开始 / 未授权
 
-- T1 `100→200` 工程验证段：已完成 committed tool snapshot 部署、重哈希、静态模板以及一次用于审查的 exact non-authorizing plan；真实执行仍需用户明确决定，并在获准后重新做约 30 秒双卡+CPU/RAM 前检、动态单卡绑定和有效窗内的新 plan。
-- T1 正式分段训练：工程验证通过后从 base 新轨迹开始；任何正式 segment、checkpoint 处理和 GPU 执行仍需单独决定。
+- FT1 `0→1000` 正式首段：必须从 FT0 冻结的新 `pi0_base` run root 开始，不能从工程 step 200 继续；需先实现并 CPU 验收 formal-segment runner、绑定 committed immutable tool snapshot，再重新做约 30 秒双卡+CPU/RAM 前检和获取该单段明确授权。
+- FT2 后续正式 segments：`1000→5000→10000→15000→20000→25000→30000` 每段均须单独授权，完成当前段后停止；不得自动进入下一段，也不得在新 full-state restore 通过前删除最后已知良好状态。
 - E1 40-episode dev、E2 200-episode main、E3 可选 2,000-episode 评测。
 
 ## 当前存储政策
