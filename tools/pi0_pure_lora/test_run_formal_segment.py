@@ -9,6 +9,7 @@ from unittest import mock
 
 import build_ft0_formal_training_freeze as builder
 import run_formal_segment as runner
+import autonomous_stage_orchestrator as orchestrator
 from test_build_ft0_formal_training_freeze import Ft0FormalTrainingFreezeTests
 
 
@@ -34,6 +35,9 @@ class FormalRunnerStaticTests(unittest.TestCase):
         args=self.args(); args.segment_start=1000; args.segment_end=5000; args.checkpoint_root.joinpath("1000").mkdir(parents=True); args.adapter_root.mkdir(parents=True); args.adapter_root.joinpath("step-00001000.verified.json").write_text("{}")
         with mock.patch.dict("os.environ", {"CUDA_VISIBLE_DEVICES":"1", "XLA_PYTHON_CLIENT_PREALLOCATE":"false"}, clear=False), self.assertRaisesRegex(ValueError, "requires its previous"):
             runner._validate_local_inputs(args)
+    def test_initial_progress_schema_is_orchestrator_compatible(self):
+        progress = {"current_step": 0, "last_committed_step": 0}
+        self.assertTrue(set(progress) <= orchestrator.PROGRESS_KEYS)
 
 
 if __name__ == "__main__": unittest.main()

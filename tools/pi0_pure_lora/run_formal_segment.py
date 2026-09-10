@@ -149,7 +149,9 @@ def main() -> int:
     parser.add_argument("--run-name", required=True); parser.add_argument("--segment-start", required=True, type=int); parser.add_argument("--segment-end", required=True, type=int)
     parser.add_argument("--previous-result", type=Path); parser.add_argument("--expected-previous-result-sha256")
     args = parser.parse_args(); receipt = _validate_local_inputs(args)
-    _new_json(args.progress, {"current_step": args.segment_start, "last_committed_step": args.segment_start, "formal_contract": receipt})
+    # The autonomous orchestrator accepts only scalar progress state.  The
+    # full FT0 contract remains independently bound in the final result.
+    _new_json(args.progress, {"current_step": args.segment_start, "last_committed_step": args.segment_start})
     result = _run_gpu(args, receipt); _new_json(args.output, result); print(json.dumps(result, sort_keys=True)); return 0
 
 
