@@ -19,7 +19,7 @@ class Ft1VerifierTests(unittest.TestCase):
         template = {
             "schema_version": 1,
             "stage": "FT1-formal-0-1000",
-            "execution_authorized": False,
+            "execution_authorized": False, "ft0_freeze": {"identity": "freeze"},
             "identities": {"model": "m", "dataset": "d", "norm": "n", "golden": "g", "config": "c", "split": "s"},
         }
         template["template_identity_sha256"] = verifier._canonical(template)
@@ -34,7 +34,8 @@ class Ft1VerifierTests(unittest.TestCase):
         }
         self.value = {
             "status": "pass", "stage": "formal-pure-lora-segment", "segment_start": 0, "segment_end": 1000,
-            "identities": template["identities"], "metrics_count": 1000, "all_metrics_finite": True,
+            "identities": {"config_patch_sha256": "c", "golden_manifest_sha256": "g", "norm_stats_sha256": "n"},
+            "ft0_contract": {"ft0_package_identity_sha256": "freeze"}, "metrics_count": 1000, "all_metrics_finite": True,
             "changed_golden_leaf_count": 20, "changed_non_golden_leaf_count": 0, "checkpoint_steps": [1000],
             "checkpoint_restore_receipt": receipt, "next_stage_started": False,
         }
@@ -54,6 +55,12 @@ class Ft1VerifierTests(unittest.TestCase):
         self.value["checkpoint_restore_receipt"]["adapter_values_equal_after_restore"] = False
         self.result.write_text(json.dumps(self.value))
         with self.assertRaisesRegex(RuntimeError, "adapter-composition"):
+            verifier.verify(self.template, self.result)
+
+    def test_rejects_frozen_package_identity_mismatch(self) -> None:
+        self.value["ft0_contract"]["ft0_package_identity_sha256"] = "other"
+        self.result.write_text(json.dumps(self.value))
+        with self.assertRaisesRegex(RuntimeError, "frozen package"):
             verifier.verify(self.template, self.result)
 
     def test_rejects_frozen_base_change(self) -> None:

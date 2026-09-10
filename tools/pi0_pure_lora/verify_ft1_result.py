@@ -49,8 +49,21 @@ def verify(template_path: Path, result_path: Path) -> dict:
         "pass", "formal-pure-lora-segment", 0, 1000,
     ):
         raise RuntimeError("FT1 result stage/status mismatch")
-    if result.get("identities") != template["identities"]:
-        raise RuntimeError("FT1 result identity mismatch")
+    # The runner reports runtime-manifest keys while the static template carries
+    # the six frozen experiment identities.  Bind model/dataset/split through
+    # the signed FT0 package identity, and compare the three runtime values
+    # that are emitted by the runner directly.
+    contract = result.get("ft0_contract", {})
+    if contract.get("ft0_package_identity_sha256") != template["ft0_freeze"]["identity"]:
+        raise RuntimeError("FT1 frozen package identity mismatch")
+    runtime = result.get("identities", {})
+    expected_runtime = {
+        "config_patch_sha256": template["identities"]["config"],
+        "golden_manifest_sha256": template["identities"]["golden"],
+        "norm_stats_sha256": template["identities"]["norm"],
+    }
+    if any(runtime.get(key) != value for key, value in expected_runtime.items()):
+        raise RuntimeError("FT1 runtime identity mismatch")
     if result.get("metrics_count") != 1000 or result.get("all_metrics_finite") is not True:
         raise RuntimeError("FT1 finite metric evidence missing")
     if result.get("changed_golden_leaf_count") != 20 or result.get("changed_non_golden_leaf_count") != 0:
