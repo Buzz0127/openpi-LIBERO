@@ -87,7 +87,7 @@ def compose_base_with_reference_lora(base_params, reference_params, golden):
 
 
 def build_policy(args: argparse.Namespace, input_hashes: dict[str, str]):
-    """Overlay exactly Golden adapter leaves onto the released base tree."""
+    """Build either the canonical Base or its identity-bound pure-LoRA overlay."""
     sys.path.insert(0, str(args.openpi_root / "src"))
     sys.path.insert(0, str(args.openpi_root))
     import flax.nnx as nnx
@@ -100,8 +100,6 @@ def build_policy(args: argparse.Namespace, input_hashes: dict[str, str]):
     import openpi.transforms as transforms
 
     manifest = json.loads(args.model_manifest.read_text(encoding="utf-8"))
-    if manifest.get("model_mode") != "base_plus_adapter":
-        raise ValueError("E1 server requires a base_plus_adapter model manifest")
     identities = {
         "base_manifest_sha256": base_identity_from_manifest(args.base_manifest),
         "config_patch_sha256": args.config_patch_sha256,

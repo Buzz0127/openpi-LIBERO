@@ -37,6 +37,8 @@ class ServePureLoraPolicyTest(unittest.TestCase):
     def test_server_source_has_no_simulator_import(self):
         source = Path(server.__file__).read_text(encoding="utf-8")
         self.assertIn("base_plus_adapter", source)
+        self.assertIn('mode not in {"base", "base_plus_adapter"}', source)
+        self.assertNotIn("E1 server requires a base_plus_adapter", source)
         self.assertNotIn("OffScreenRenderEnv", source)
 
     def test_base_identity_comes_from_c0_manifest_not_its_file_bytes(self):
