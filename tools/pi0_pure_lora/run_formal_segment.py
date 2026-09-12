@@ -33,6 +33,17 @@ def _new_json(path: Path, value: object) -> None:
         temporary.unlink(missing_ok=True)
 
 
+def _replace_json(path: Path, value: object) -> None:
+    """Atomically replace the runner-owned scalar progress record."""
+    if not path.is_file() or path.is_symlink():
+        raise FileNotFoundError(f"expected existing regular progress file: {path}")
+    temporary = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    with temporary.open("xb") as stream:
+        stream.write((json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n").encode())
+        stream.flush(); os.fsync(stream.fileno())
+    os.replace(temporary, path)
+
+
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -104,7 +115,15 @@ def _run_gpu(args: argparse.Namespace, receipt: dict[str, object]) -> dict[str, 
         for leaf in jax.tree.leaves(batch):
             array = np.ascontiguousarray(jax.device_get(leaf)); digest.update(str(array.shape).encode()); digest.update(str(array.dtype).encode()); digest.update(array.tobytes(order="C"))
         return digest.hexdigest()
-    data_iter, batch, loader = resume_sequence.verify_position(loader_factory, args.segment_start, fingerprint)
+    def publish_progress(phase: str, completed: int, total: int) -> None:
+        _replace_json(args.progress, {
+            "current_step": args.segment_start,
+            "last_committed_step": args.segment_start,
+            "recent_metrics": {"phase": phase, "completed": completed, "total": total},
+        })
+    data_iter, batch, loader = resume_sequence.verify_position(
+        loader_factory, args.segment_start, fingerprint, progress=publish_progress,
+    )
     _new_json(args.loader_receipt, loader)
     manager = None
     try:
@@ -131,9 +150,17 @@ def _run_gpu(args: argparse.Namespace, receipt: dict[str, object]) -> dict[str, 
             jax.block_until_ready((state, info)); row = {key: float(value) for key, value in jax.device_get(jax.tree.map(jnp.mean, info)).items()}
             if not all(math.isfinite(value) for value in row.values()) or int(jax.device_get(state.step)) != step: raise RuntimeError("formal segment produced non-finite metrics or wrong step")
             metrics.append(row)
+            if step % 100 == 0 or step == args.segment_end:
+                _replace_json(args.progress, {
+                    "current_step": step,
+                    "last_committed_step": args.segment_start,
+                    "recent_metrics": {"phase": "training", "completed": step - args.segment_start,
+                                       "total": args.segment_end - args.segment_start},
+                })
             if step < args.segment_end: batch = next(data_iter)
         after = s1d._flat(state.params); after_adapter = s1d._hash_paths(after, golden_paths, adapter_artifact.array_sha256); after_frozen = s1d._hash_paths(after, frozen, adapter_artifact.array_sha256)
         if any(before_adapter[p] == after_adapter[p] for p in golden_paths) or any(before_frozen[p] != after_frozen[p] for p in frozen): raise RuntimeError("formal pure-LoRA Golden/frozen invariant failed")
+        publish_progress("save_restore_export", args.segment_end - args.segment_start, args.segment_end - args.segment_start)
         saved = pure_lora_checkpointing.save_restore_and_export(manager, state, loader_factory(), save_step=args.segment_end, model_manifest_path=args.model_manifest, golden_manifest_path=args.golden_manifest, adapter_root=args.adapter_root, train_seed=42)
         if tuple(manager.all_steps()) != prior_steps + (args.segment_end,): raise RuntimeError("new full state did not coexist with preceding known-good state")
     finally:
@@ -152,7 +179,10 @@ def main() -> int:
     # The autonomous orchestrator accepts only scalar progress state.  The
     # full FT0 contract remains independently bound in the final result.
     _new_json(args.progress, {"current_step": args.segment_start, "last_committed_step": args.segment_start})
-    result = _run_gpu(args, receipt); _new_json(args.output, result); print(json.dumps(result, sort_keys=True)); return 0
+    result = _run_gpu(args, receipt)
+    _new_json(args.output, result)
+    _replace_json(args.progress, {"current_step": args.segment_end, "last_committed_step": args.segment_end})
+    print(json.dumps(result, sort_keys=True)); return 0
 
 
 if __name__ == "__main__": raise SystemExit(main())

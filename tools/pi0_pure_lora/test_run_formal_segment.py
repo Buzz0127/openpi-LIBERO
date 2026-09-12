@@ -39,5 +39,22 @@ class FormalRunnerStaticTests(unittest.TestCase):
         progress = {"current_step": 0, "last_committed_step": 0}
         self.assertTrue(set(progress) <= orchestrator.PROGRESS_KEYS)
 
+    def test_final_progress_atomically_replaces_initial_scalar_record(self):
+        args = self.args(); args.attempt_dir.mkdir()
+        args.progress.write_text(json.dumps({"current_step": 1000, "last_committed_step": 1000}))
+        runner._replace_json(args.progress, {"current_step": 5000, "last_committed_step": 5000})
+        observed, _ = orchestrator._read_progress(args.progress, {"current_step": 0, "last_committed_step": 0})
+        self.assertEqual(observed, {"current_step": 5000, "last_committed_step": 5000})
+
+    def test_inflight_progress_is_orchestrator_compatible_without_claiming_commit(self):
+        args = self.args(); args.attempt_dir.mkdir()
+        args.progress.write_text(json.dumps({"current_step": 10000, "last_committed_step": 10000}))
+        runner._replace_json(args.progress, {"current_step": 10100, "last_committed_step": 10000,
+                                            "recent_metrics": {"phase": "training", "completed": 100, "total": 5000}})
+        observed, _ = orchestrator._read_progress(args.progress, {"current_step": 10000, "last_committed_step": 10000,
+                                                                    "recent_metrics": {}, "pause_count": 0, "resume_count": 0, "resource_peaks": {}})
+        self.assertEqual(observed["current_step"], 10100)
+        self.assertEqual(observed["last_committed_step"], 10000)
+
 
 if __name__ == "__main__": unittest.main()

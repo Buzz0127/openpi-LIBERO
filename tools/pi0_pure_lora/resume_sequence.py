@@ -16,15 +16,26 @@ def canonical_fingerprint(value: object) -> str:
     return hashlib.sha256(payload).hexdigest()
 
 
-def positioned_batch(loader: Iterable[T], restored_step: int) -> tuple[Iterator[T], T, dict[str, object]]:
+ProgressCallback = Callable[[str, int, int], None]
+
+
+def positioned_batch(
+    loader: Iterable[T], restored_step: int, *, progress: ProgressCallback | None = None, progress_interval: int = 100,
+) -> tuple[Iterator[T], T, dict[str, object]]:
     if isinstance(restored_step, bool) or not isinstance(restored_step, int) or restored_step < 0:
         raise ValueError("restored_step must be a non-negative integer")
     iterator = iter(loader)
-    for _ in range(restored_step):
+    if progress_interval <= 0:
+        raise ValueError("progress_interval must be positive")
+    if progress is not None:
+        progress("positioned_loader", 0, restored_step)
+    for index in range(restored_step):
         try:
             next(iterator)
         except StopIteration as error:
             raise RuntimeError("loader ended before restored_step") from error
+        if progress is not None and ((index + 1) % progress_interval == 0 or index + 1 == restored_step):
+            progress("positioned_loader", index + 1, restored_step)
     try:
         batch = next(iterator)
     except StopIteration as error:
@@ -38,16 +49,26 @@ def positioned_batch(loader: Iterable[T], restored_step: int) -> tuple[Iterator[
 
 
 def verify_position(
-    loader_factory: Callable[[], Iterable[T]], restored_step: int, fingerprint: Callable[[T], str]
+    loader_factory: Callable[[], Iterable[T]], restored_step: int, fingerprint: Callable[[T], str],
+    *, progress: ProgressCallback | None = None, progress_interval: int = 100,
 ) -> tuple[Iterator[T], T, dict[str, object]]:
+    if progress_interval <= 0:
+        raise ValueError("progress_interval must be positive")
     reference = iter(loader_factory())
     expected = None
-    for _ in range(restored_step + 1):
+    total = restored_step + 1
+    if progress is not None:
+        progress("reference_loader", 0, total)
+    for index in range(total):
         try:
             expected = next(reference)
         except StopIteration as error:
             raise RuntimeError("reference loader ended before resumed batch") from error
-    iterator, actual, receipt = positioned_batch(loader_factory(), restored_step)
+        if progress is not None and ((index + 1) % progress_interval == 0 or index + 1 == total):
+            progress("reference_loader", index + 1, total)
+    iterator, actual, receipt = positioned_batch(
+        loader_factory(), restored_step, progress=progress, progress_interval=progress_interval,
+    )
     expected_hash = fingerprint(expected)
     actual_hash = fingerprint(actual)
     if expected_hash != actual_hash:

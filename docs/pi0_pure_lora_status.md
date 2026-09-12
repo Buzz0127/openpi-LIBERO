@@ -1,5 +1,38 @@
 # pi0_base → LIBERO pure-LoRA 状态
 
+> 2026-09-11 更新：FT3–FT7 已完成至 step 30000；E-PREP 的 CPU-only 候选登记、episode 记账、selection lock 与自有进程组 fake 回收已实现并测试。远端已发布不可变的 7-candidate index、E1 dev-40 non-executing plan 与 readiness index；E1 尚未启动，仍须重新 GPU 前检与单独授权。训练 result 只保存 `metrics_count/all_metrics_finite`，未持久化逐 step loss/grad-norm 序列；不得补造曲线。
+
+## 2026-09-11 E-PREP completion record (CPU-only)
+
+Remote evidence attempt: `/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/e-prep/attempt-20260911T-EPREP-A1`.
+
+- `registration.json` remains the first immutable seven-candidate registry: steps
+  `1000/5000/10000/15000/20000/25000/30000`; its internal identity is
+  `c8b07708443588416c5f163fe054256b1b65ff8362a8abdfe5e468028e23babf`.
+- `candidate_index.json` binds that registry to the base/norm/Golden/config/
+  split/freeze identities, the C-FT2 decision, the E0 manifest and the fixed
+  remote source/tool-snapshot identities.  Its identity is
+  `98adc74cb217c8bb18f66d4f8c9e6cb1834de1e967271b4021637bb010d7c895`.
+- `e1_dev40_plan.json` is an inert plan (`execution_authorized=false`) for
+  seven candidates times the same forty E0 development entries, therefore
+  exactly 280 future denominator keys.  It binds static Policy Server →
+  `127.0.0.1:{port}` WebSocket → evaluator wiring and task-owned PGID cleanup;
+  its identity is `88d8be07341ba04859596d739588c7acc05f86178b10adf5dbd732a1fc9ac9b4`
+  and file SHA-256 is `1e27a7d5e84429f4cc5899b3fc24154bae3699a5d49c101ec0878f68f6912cef`.
+- `readiness_index_repaired.json` is the valid cross-check artifact, with
+  status `prepared_not_authorized` and identity
+  `fee037677a9d1fb0ab04394ea6c9adf010f37f70b380b6244bd721bf14863384`.
+  It preserves the hash of the earlier malformed `readiness_index.json` rather
+  than replacing it; only the repaired file is an admissible readiness record.
+
+The local control tests use only temporary files and fake child processes.
+They prove registration/plan/ledger/selection-lock semantics and that cleanup
+targets only child PGIDs created by the test.  They do not prove a model can
+load, a server can listen, WebSocket inference can return finite actions, EGL
+can render, or any LIBERO episode can succeed.
+
+> 2026-09-10 当前入口更新：FT1/FT2 runner 与 terminal acceptance 已通过，但 outer summary 分别保留 `child_exit_nonzero` / `committed_step_mismatch` 失败。progress 修复已实现、CPU 测试通过，尚未提交；当前等待 C-FT2 处置决定，FT3 未启动。下文 2026-09-09 内容保留为历史快照，其中“FT1 未开始”等不再代表当前状态。最新事实见 [继承入口](pi0_pure_lora_gpt6_inheritance.md)，后续候选安排见 [项目完成路线](pi0_pure_lora_completion_route.md)。路线规划不构成执行授权；Git 操作仅在用户明确要求提交时进行，历史段落中的提交例外不自动授权。
+
 更新：2026-09-09（T1 工程恢复验证通过；FT0 正式训练启动前静态准备完成）
 
 ## 固定实验定义

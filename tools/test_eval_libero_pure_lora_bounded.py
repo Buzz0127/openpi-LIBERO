@@ -29,6 +29,16 @@ class PureLoraEvaluatorTest(unittest.TestCase):
     def test_action_contract_is_50_by_7_compatible(self) -> None:
         self.assertEqual(evaluator.LIBERO_DUMMY_ACTION, [0.0] * 6 + [-1.0])
 
+    def test_base_identity_uses_c0_field_not_manifest_file_hash(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            path = Path(raw) / "base.json"
+            expected = "c" * 64
+            path.write_text(json.dumps({"identities": {"base_manifest_sha256": expected}}))
+            self.assertEqual(evaluator.canonical_base_identity(path), expected)
+            path.write_text("{}")
+            with self.assertRaises(ValueError):
+                evaluator.canonical_base_identity(path)
+
 
 if __name__ == "__main__":
     unittest.main()

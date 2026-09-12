@@ -1,5 +1,11 @@
 # pi0_base → LIBERO pure-LoRA 对话查阅与下一阶段交接
 
+> 2026-09-11 更新：正式 pure-LoRA 轨迹已到 30000；E-PREP 的不可执行 E1 plan、七候选索引和 readiness index 已完成。真实 dev-40 仍未启动且需独立授权。
+
+> E-PREP evidence: `/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/e-prep/attempt-20260911T-EPREP-A1/`.  The immutable plan identity is `88d8be07341ba04859596d739588c7acc05f86178b10adf5dbd732a1fc9ac9b4`; the valid repaired readiness identity is `fee037677a9d1fb0ab04394ea6c9adf010f37f70b380b6244bd721bf14863384`, with `prepared_not_authorized`.  It explicitly supersedes (without replacing) an invalid single-JSON serialization. This is CPU-only control evidence, not a real E1 execution result.
+
+> 2026-09-10 接手提示：下文是旧阶段快照，不能据此认定 FT1 尚未开始。当前 FT1/FT2 runner/terminal 已通过、outer 历史失败保留，progress 修复尚未提交，FT3 未启动；C-FT2 仍待用户决定。请先读 [GPT-6 继承入口](pi0_pure_lora_gpt6_inheritance.md)，再读 [项目完成路线（候选 / 未授权）](pi0_pure_lora_completion_route.md)。冻结实验协议以 FT0/E0 为准，任何下一阶段说明均不替代用户授权。
+
 更新时间：2026-09-09
 用途：作为新对话或恢复对话时的第一份入口文档。本文区分“已有证据”、“已实现但未真实执行”和“未开始”，不将工具完成误写为训练完成。
 

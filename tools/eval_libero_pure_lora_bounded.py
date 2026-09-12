@@ -46,6 +46,15 @@ class ResourcePressureError(RuntimeError):
     """Raised when the selected GPU crosses the configured memory threshold."""
 
 
+def canonical_base_identity(path: pathlib.Path) -> str:
+    """Read the stable base-weight identity carried by the C0 manifest."""
+    value = json.loads(path.read_text(encoding="utf-8"))
+    identity = value.get("identities", {}).get("base_manifest_sha256")
+    if not isinstance(identity, str) or len(identity) != 64 or any(char not in "0123456789abcdef" for char in identity):
+        raise ValueError("base manifest lacks a canonical base_manifest_sha256")
+    return identity
+
+
 @dataclasses.dataclass
 class GpuSample:
     timestamp_utc: str
@@ -217,6 +226,16 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
         action="store_true",
         help="Append safely and skip initial-state indices already present in results.jsonl.",
     )
+    # BooleanOptionalAction was introduced in Python 3.9, while the fixed
+    # LIBERO evaluator environment is Python 3.8.
+    parser.add_argument(
+        "--save-video", dest="save_video", action="store_true", default=True,
+        help="Write MP4 episode videos (default).",
+    )
+    parser.add_argument(
+        "--no-save-video", dest="save_video", action="store_false",
+        help="Do not write MP4 episode videos; used by bounded E1 evaluation.",
+    )
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args(argv)
 
@@ -350,7 +369,8 @@ def collect_identity(args: argparse.Namespace) -> Dict[str, Any]:
     for required in (base_manifest, norm_stats, task_state_manifest):
         if not required.is_file():
             raise FileNotFoundError("identity input not found: {}".format(required))
-    if sha256_file(base_manifest) != model_manifest["identities"]["base_manifest_sha256"]:
+    base_identity = canonical_base_identity(base_manifest)
+    if base_identity != model_manifest["identities"]["base_manifest_sha256"]:
         raise RuntimeError("base manifest identity mismatch")
     if sha256_file(norm_stats) != model_manifest["identities"]["norm_stats_sha256"]:
         raise RuntimeError("normalization identity mismatch")
@@ -377,7 +397,8 @@ def collect_identity(args: argparse.Namespace) -> Dict[str, Any]:
         "checkpoint_file_count": len(checkpoint_files),
         "checkpoint_total_bytes": sum(path.stat().st_size for path in checkpoint_files),
         "norm_stats_sha256": sha256_file(norm_stats),
-        "base_manifest_sha256": sha256_file(base_manifest),
+        "base_manifest_sha256": base_identity,
+        "base_manifest_file_sha256": sha256_file(base_manifest),
         "model_manifest_sha256": sha256_file(model_manifest_path),
         "model_identity_sha256": model_manifest["model_identity_sha256"],
         "model_mode": model_manifest["model_mode"],
@@ -688,7 +709,7 @@ def run_episode(
     video_name = "task_{:02d}_init_{:02d}_{}.mp4".format(args.task_id, initial_state_index, status)
     video_path = output_dir / video_name
     video_error = None
-    if replay_images:
+    if args.save_video and replay_images:
         try:
             imageio.mimwrite(video_path, [np.asarray(x) for x in replay_images], fps=10)
         except Exception as exc:
@@ -741,6 +762,7 @@ def run_episode(
             "server_prev_total": timing_summary(server_prev_total_ms),
         },
         "video": {
+            "enabled": args.save_video,
             "filename": video_name if video_path.exists() else None,
             "bytes": video_path.stat().st_size if video_path.exists() else None,
             "sha256": sha256_file(video_path) if video_path.exists() else None,
