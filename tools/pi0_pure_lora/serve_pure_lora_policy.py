@@ -73,6 +73,8 @@ def base_identity_from_manifest(path: Path) -> str:
 
 def compose_base_with_reference_lora(base_params, reference_params, golden):
     """Complete a released base tree with its zero-effect reference LoRA leaves."""
+    import adapter_artifact
+
     flat_base = adapter_artifact.flax.traverse_util.flatten_dict(base_params, sep="/")
     flat_reference = adapter_artifact.flax.traverse_util.flatten_dict(reference_params, sep="/")
     golden_paths = set(adapter_artifact.golden_entries(golden))
