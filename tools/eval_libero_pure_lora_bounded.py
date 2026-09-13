@@ -211,7 +211,7 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--adapter-dir", type=pathlib.Path)
     parser.add_argument("--model-manifest", type=pathlib.Path, required=True)
     parser.add_argument("--task-state-manifest", type=pathlib.Path, required=True)
-    parser.add_argument("--evaluation-split", choices=["development", "main"], required=True)
+    parser.add_argument("--evaluation-split", choices=["development", "main", "full"], required=True)
     parser.add_argument("--expected-openpi-commit", required=True)
     parser.add_argument("--expected-libero-commit", required=True)
     parser.add_argument("--output-dir", type=pathlib.Path, required=True)

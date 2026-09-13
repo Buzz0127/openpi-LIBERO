@@ -72,17 +72,32 @@ def base_identity_from_manifest(path: Path) -> str:
 
 
 def compose_base_with_reference_lora(base_params, reference_params, golden):
-    """Complete a released base tree with its zero-effect reference LoRA leaves."""
+    """Complete a released base tree with concrete, zero-effect LoRA leaves.
+
+    ``reference_params`` comes from ``nnx.eval_shape`` and its adapter leaves
+    are therefore ``ShapeDtypeStruct`` instances, not model parameters.  They
+    are useful for checking the complete tree's shape, but must never be sent
+    to a compiled policy.  A pure Base evaluation uses zero tensors for every
+    Golden LoRA leaf: the resulting LoRA update is exactly zero while the
+    released Base leaves remain byte-for-byte those restored from Orbax.
+    """
     import adapter_artifact
+    import numpy as np
 
     flat_base = adapter_artifact.flax.traverse_util.flatten_dict(base_params, sep="/")
     flat_reference = adapter_artifact.flax.traverse_util.flatten_dict(reference_params, sep="/")
-    golden_paths = set(adapter_artifact.golden_entries(golden))
+    golden_map = adapter_artifact.golden_entries(golden)
+    golden_paths = set(golden_map)
     if set(flat_base) not in (set(flat_reference), set(flat_reference) - golden_paths):
         raise ValueError("Base parameter keys do not match the reference tree")
+    adapter_dtype = np.dtype(golden["review_invariants"]["dtype"])
     completed = dict(flat_base)
     for path in golden_paths:
-        completed[path] = flat_reference[path]
+        reference = flat_reference[path]
+        expected_shape = tuple(golden_map[path]["shape"])
+        if tuple(reference.shape) != expected_shape or np.dtype(reference.dtype) != adapter_dtype:
+            raise ValueError(f"Reference adapter shape/dtype mismatch: {path}")
+        completed[path] = np.zeros(expected_shape, dtype=adapter_dtype)
     if set(completed) != set(flat_reference):
         raise ValueError("Base completion did not produce the reference tree")
     return adapter_artifact.flax.traverse_util.unflatten_dict(completed, sep="/")

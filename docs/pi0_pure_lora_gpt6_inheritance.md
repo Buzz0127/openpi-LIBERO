@@ -4,6 +4,16 @@
 > 用途：供新的 GPT-6 对话直接继承本项目的目标、路线、已完成工作、当前现场、安全边界和下一步候选工作。
 > 本文件是交接快照，不是任何未完成阶段的执行授权。
 
+> 当前入口更新：2026-09-13（Asia/Shanghai）。FT3–FT7、E1、selection lock 与 E2
+> 已完成；E2 的有效 paired main 结果为 Base `0/200`、锁定 pure-LoRA `25/200`。
+> 初始 E2 Base 半边的 `ShapeDtypeStruct` 基础设施失败被保留，之后以同一冻结
+> main-200 完成了 Base-only recovery 并通过配对审计。当前 F1 文档已生成但尚未
+> Git 提交；E3 full-2000 已在独立远端 guard/tmux 中启动、尚未完成，不能把 F1
+> 的 main-200 结论替换为 full-2000 结论。最新结论与复现入口分别见
+> [最终报告](pi0_pure_lora_final_report.md) 和
+> [复现说明](pi0_pure_lora_reproduction.md)。下文“未开始/未授权”等历史快照不应
+> 覆盖本更新。
+
 > 2026-09-10 路线补充：读完本入口后，继续阅读 [项目完成路线](pi0_pure_lora_completion_route.md)。它在保留 FT0/E0 冻结协议和本文件授权边界的基础上，细化训练控制、评测接线和最终报告交付，仍为候选路线。第 13 节的 C-FT2 决策尚未由用户作出，不因该补充而跳过。
 
 ## 0. 接手时先做什么

@@ -22,6 +22,15 @@ class PureLoraEvaluatorTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "not preregistered"):
                 evaluator.validate_task_state_selection(args)
 
+    def test_preregistered_full_state_gate(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            path = Path(raw) / "states.json"
+            path.write_text(json.dumps({"schema_version": 1, "entries": [
+                {"split": "full", "suite": "libero_goal", "task_id": 2, "initial_state_index": 49}
+            ]}))
+            args = argparse.Namespace(task_state_manifest=path, evaluation_split="full", suite="libero_goal", task_id=2, initial_states=[49])
+            evaluator.validate_task_state_selection(args)
+
     def test_gpu_baseline_limits_must_be_explicit(self) -> None:
         with self.assertRaises(SystemExit):
             evaluator.parse_args(["--task-id", "0", "--initial-states", "0"])

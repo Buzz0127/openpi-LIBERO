@@ -2,9 +2,13 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+import sys
 import tempfile
+import types
 import unittest
 import json
+
+import numpy as np
 
 import serve_pure_lora_policy as server
 
@@ -50,6 +54,50 @@ class ServePureLoraPolicyTest(unittest.TestCase):
             manifest.write_text("{}", encoding="utf-8")
             with self.assertRaises(ValueError):
                 server.base_identity_from_manifest(manifest)
+
+    def test_base_composition_materializes_zero_adapter_arrays(self):
+        """The Base path must not retain eval_shape placeholders in the tree."""
+        class FakeShapeDtype:
+            def __init__(self, shape, dtype):
+                self.shape = shape
+                self.dtype = dtype
+
+        traverse = types.SimpleNamespace(
+            flatten_dict=lambda params, sep: dict(params),
+            unflatten_dict=lambda params, sep: dict(params),
+        )
+        fake_adapter = types.SimpleNamespace(
+            flax=types.SimpleNamespace(traverse_util=traverse),
+            golden_entries=lambda golden: {entry["path"]: entry for entry in golden["entries"]},
+        )
+        golden = {
+            "entries": [
+                {"path": "lora_a", "shape": [2, 3]},
+                {"path": "lora_b", "shape": [3, 4]},
+            ],
+            "review_invariants": {"dtype": "float32", "adapter_leaf_count": 2},
+        }
+        base = {"kernel": np.array([7.0], dtype=np.float32)}
+        reference = {
+            **base,
+            "lora_a": FakeShapeDtype((2, 3), np.float32),
+            "lora_b": FakeShapeDtype((3, 4), np.float32),
+        }
+        prior = sys.modules.get("adapter_artifact")
+        sys.modules["adapter_artifact"] = fake_adapter
+        try:
+            composed = server.compose_base_with_reference_lora(base, reference, golden)
+        finally:
+            if prior is None:
+                del sys.modules["adapter_artifact"]
+            else:
+                sys.modules["adapter_artifact"] = prior
+        np.testing.assert_array_equal(composed["kernel"], base["kernel"])
+        for path, shape in (("lora_a", (2, 3)), ("lora_b", (3, 4))):
+            self.assertIsInstance(composed[path], np.ndarray)
+            self.assertEqual(composed[path].shape, shape)
+            self.assertEqual(composed[path].dtype, np.dtype("float32"))
+            self.assertTrue(np.array_equal(composed[path], np.zeros(shape, dtype=np.float32)))
 
 
 if __name__ == "__main__":
