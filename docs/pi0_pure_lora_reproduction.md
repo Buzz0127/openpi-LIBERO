@@ -1,7 +1,7 @@
 # pi0 pure-LoRA 主实验复现说明
 
 本说明复现的是已经锁定的 E2 main-200 协议，不允许以此重新选择 adapter 或自动
-扩展到 E3。
+扩展到 E3。历史 E3 已作为 partial closeout 保存，不能续写或与这 200 个结果拼接。
 
 ## 固定输入
 
@@ -21,13 +21,14 @@
 
 ## 安全执行顺序
 
-1. 用固定 OpenPI Python 做 CPU-only `py_compile`、fake-tree/控制器测试与输入路径检查。
+1. 先用 `tools/pi0_pure_lora/audit_final_report_evidence.py` 对既有 E2/E3 JSON 做只读 F2
+   审计；随后才用固定 OpenPI Python 做 CPU-only `py_compile`、fake-tree/控制器测试与输入路径检查。
 2. 重新采样双卡与 CPU/RAM 至少 30 秒；选择空闲显存严格大于 15% 的物理卡，关闭
    JAX 预分配。
 3. 创建 collision-safe control 与 run 目录；检查端口、tmux 名称和输出目录均未存在。
 4. 仅通过 verified GPU guard 启动 Base 或 locked-LoRA；guard 只操作自己创建的进程组：
-   利用率 >=95% 或空闲显存 <=15% 时暂停，连续五次安全样本才恢复，<=10%/OOM/ECC/Xid
-   时终止本任务。
+   利用率只记录、不参与控制；空闲显存 <=15% 时暂停，>=20% 连续五次安全样本才恢复，
+   <=10%/OOM/ECC/Xid 时终止本任务。
 5. 每个 main state 写一条结构化 result；任何 `exception`、零策略请求、重复或缺失 key
    都使配对审计失败关闭。
 6. 使用 `tools/pi0_pure_lora/audit_e2_main.py` 对两组 main-200 生成新的审计目录；
@@ -46,5 +47,6 @@
 ## 复现实验的解释边界
 
 成功完成 200/200 只证明协议、服务和 evaluator 走通；成功率由 paired audit 的
-`comparison_summary.json` 决定。E3 full-2000、重新训练、改变 normalization、修改
-E0 states 或以 main 结果换 checkpoint 都是新的授权范围。
+`comparison_summary.json` 决定。重新训练、改变 normalization、修改 E0 states 或以 main
+结果换 checkpoint 都是新的授权范围；不得把本复现用于产生 merged-dense 或 device-residency
+性能结论。

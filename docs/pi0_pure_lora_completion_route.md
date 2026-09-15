@@ -33,9 +33,15 @@
 > 合并到 ordinary `Pi0Config` 的 10 个 dense kernels，随后采用官方 BF16/JAX/Policy/transform/
 > WebSocket 链，同时继续使用项目 canonical norm。固定官方 LoRA 小张量 oracle、零 adapter、
 > 坏映射拒绝、RNG 兼容注入与 ordinary dense abstract tree（50 leaves / 3,238,048,528 参数）
-> 已通过；没有 checkpoint/model/GPU 操作。O2 的真实数值与性能验收控制包已生成但明确
-> `not-authorized-not-runnable`，必须先预注册并批准数值阈值、输入/noise 集和单卡 guard 运行。
-> 完整矩阵与证据路径见 [O1 官方 dense runtime 说明](pi0_pure_lora_official_dense_runtime.md)。
+> 已通过；没有 checkpoint/model/GPU 操作。这里的 `not-authorized-not-runnable` 是当时 O2
+> 控制包的历史状态；后续 R23/R25 closeout 不改写该记录。完整矩阵与当前结论见
+> [O1 官方 dense runtime 说明](pi0_pure_lora_official_dense_runtime.md)。
+
+> 2026-09-15 strict-equivalence closeout：O2 的 R23 受保护 GPU 诊断显示 merged-dense
+> 同实例重复精确，但 unmerged-versus-merged 的 physical action max-abs 为
+> `1.644405388134629`；R25 的固定 OpenPI CPU bf16 oracle 也不逐字节相同。用户选择保持
+> strict exact equivalence，故 O2 fused-dense 性能路线已关闭，不重试、不设置事后容差、
+> 不产生性能结论。详见 [strict-exact 候选登记](pi0_pure_lora_strict_equivalence_performance_register.md)。
 
 ## 0A. P1：参数驻留修复与性能因果验收（已执行，未通过动作等价验收）
 

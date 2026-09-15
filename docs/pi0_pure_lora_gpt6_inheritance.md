@@ -588,3 +588,24 @@ FT3: 未启动
 ---
 
 GPT-6 应以真实 evidence 和最新实现对话为准；如果它们与本快照冲突，先只读查明时间顺序和身份，再向用户报告，不得静默选择其一。
+
+## 15. O2 strict exact-equivalence decision
+
+用户已选择 strict exact equivalence：用于速度比较的 unmerged LoRA 与
+merged-dense 必须在固定输入、噪声和 RNG 下同时产生 byte-identical 的
+`(50,32)` model-latent 与 `(50,7)` physical actions。不得为已经观察到的
+差异事后设置容差。
+
+R23 证明 merged-dense 同实例重复是精确的，但 unmerged-vs-merged 的
+physical max-abs 为 `1.644405388134629`，因此该 attempt 在 WebSocket
+计时开始后已由其自有 guard 终止并完整回收；它不是性能结果。R24 修复
+协调器，使此比较成为计时前的硬门禁。R25 的固定 OpenPI、JAX CPU 小型
+bf16 oracle 也观测到 `xW + (xA)B` 与 `x(W + AB)` 并非 byte-identical
+（max-abs `0.03125`）。这支持将问题归因为 bf16 舍入顺序，而非 GPU 空闲
+或服务生命周期。
+
+严格模式下不得再启动 merged-dense 的 GPU 重试，也不得宣称 fused-dense
+加速。后续若研究性能，只能选择能保持该计算顺序的优化目标；任何放宽为
+近似等价的协议变更都需要用户单独决定并另建实验身份。
+
+所有已筛选候选及关闭理由见 [strict-exact 推理性能候选登记](pi0_pure_lora_strict_equivalence_performance_register.md)。

@@ -61,6 +61,8 @@ Base 产生 13,200 次策略请求、LoRA 产生 12,419 次策略请求，均无
 - Paired audit：`/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/e2-audit/attempt-20260913T-E2A-AUDIT-R1`。
 - Base recovery：`/home/wengzr/projects/openpi-lora-runs/evaluations/attempt-20260913T-E2-BASE-RECOVERY-200-Q2r5Lm`。
 - 锁定 LoRA：`/home/wengzr/projects/openpi-lora-runs/evaluations/attempt-20260912T-E2-MAIN-400-E4z8Pr/pure_lora_step_00025000`。
+- E3 partial closeout：`/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/e3/g2/attempt-20260914T-E3-PARTIAL-CLOSEOUT-R1/closeout.json`。
+- F2 evidence audit：`/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/f2/attempt-20260915T-F2-REPORT-AUDIT-R1/report-evidence-audit.json`；它逐字段与 SHA-256 复核上述 E2/E3 制品。
 
 官方 `pi0_libero` 的既有 E0 投影为 main `190/200`，但它使用 checkpoint-owned
 normalization，不能与本报告的 Base/pure-LoRA 受控比较合并或写作非劣结论。
@@ -68,8 +70,11 @@ normalization，不能与本报告的 Base/pure-LoRA 受控比较合并或写作
 ## 局限与未执行项
 
 - 只有一个训练 seed 与固定评测 seed；task 内五个 state 也不是五次独立训练。
-- E3 full-2000 已在本报告生成后单独启动，但尚未完成；本报告仍只陈述已审计的
-  main-200 结果。没有用 main 结果重选 checkpoint 或调参。
+- E3 full-2000 已在本报告生成后单独启动，后经用户授权停止并以 `382` 个有效唯一
+  episode、`19` success、`0` evaluator exception 保留为 partial；它不与 main-200
+  合并，也不构成完整 2000-episode 结果。没有用 main 结果重选 checkpoint 或调参。
+- 参数 device-residency 与 bf16 dense-fusion 的速度诊断都未通过 strict exact-equivalence；
+  本报告不包含任何推理加速结论。
 - 本报告不把训练 loss、参数比例、采样显存峰值等同于泛化性能、完整训练成本或
   显存节约比例。
 - F1 文档没有覆盖、删除或重写历史 FT1/FT2 的 outer orchestration 偏差；其受控

@@ -53,6 +53,22 @@ def _run(command: list[str], stdout: Path, stderr: Path, timeout: int) -> None:
         subprocess.run(command, stdout=out, stderr=err, check=True, timeout=timeout)
 
 
+def _is_exact_action_equivalence(report: dict[str, Any]) -> bool:
+    """Return true only when both model-latent and physical actions match."""
+    return bool(
+        report["normalized_action_difference"]["exact_sha256_equal"]
+        and report["physical_action_difference"]["exact_sha256_equal"]
+    )
+
+
+def require_exact_direct_equivalence(comparisons: dict[str, dict[str, Any]]) -> None:
+    """Fail before timing unless both pre-registered direct checks are exact."""
+    if not _is_exact_action_equivalence(comparisons["merged-repeat"]):
+        raise RuntimeError("merged-dense exact repeatability gate failed")
+    if not _is_exact_action_equivalence(comparisons["unmerged-vs-merged"]):
+        raise RuntimeError("unmerged-versus-merged exact action-equivalence gate failed")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--python", required=True, type=Path)
@@ -90,8 +106,7 @@ def main() -> int:
         output = args.output_dir / f"{label}.json"
         _run([str(args.python), str(compare), "--left", str(direct_roots[left]), "--right", str(direct_roots[right]), "--output", str(output)], args.output_dir / f"{label}.stdout.log", args.output_dir / f"{label}.stderr.log", 60)
         comparisons[label] = json.loads(output.read_text(encoding="utf-8"))
-    if not (comparisons["merged-repeat"]["normalized_action_difference"]["exact_sha256_equal"] and comparisons["merged-repeat"]["physical_action_difference"]["exact_sha256_equal"]):
-        raise RuntimeError("merged-dense exact repeatability gate failed")
+    require_exact_direct_equivalence(comparisons)
     _run([str(args.python), str(timing), "--attempt-dir", str(args.output_dir / "websocket"), "--input-bundle", str(args.input_bundle), "--arm-spec", str(args.arm_spec), "--warmups", "10", "--samples", "50"], args.output_dir / "websocket.stdout.log", args.output_dir / "websocket.stderr.log", 1080)
     experiment_identity.atomic_write_new(args.output_dir / "result.json", {"schema_version": 1, "stage": "O2-execution", "direct_comparisons": comparisons, "websocket_timing": "websocket/timing.json", "status": "pass"})
     print(json.dumps({"status": "pass", "output": str(args.output_dir)}, sort_keys=True))

@@ -1,6 +1,6 @@
 # O1：官方 π0-LIBERO dense 推理链适配
 
-状态：O1 CPU 实现与小张量验收完成；O2 的控制包、固定输入和 CPU fake 验收已完成。O2 的真实数值/性能执行仍未启动：GPU 前检、单卡固定与受保护的单一自有进程组是其不可跳过的前置条件。
+状态：O1 CPU 实现与小张量验收完成。O2 的一次受保护 GPU 诊断（R23）已完成，但不能作为性能结果：strict exact-equivalence 门禁拒绝 unmerged-BF16 与 merged-dense-BF16 的动作差异，随后停止并回收了自有进程组。O2 fused-dense 性能路线已关闭。
 
 本版本只改变项目锁定的 `pi0_base + step-25000 pure-LoRA adapter` 的运行时派生方式。它不
 替换 base、adapter、canonical LIBERO normalization、训练冻结真值、E1/E2 结论或 E3 的
@@ -60,14 +60,21 @@ merge、cast placement 与实际 Policy RNG 注入，不是可保存或可恢复
   且全部 10 个显式 merge targets 均存在。
 - O2-0 控制包与 fixed input/noise bundle 已写出；R4 在 `CUDA_VISIBLE_DEVICES=`、`JAX_PLATFORMS=cpu` 下完成 13 项 fake/静态测试（2 项需要完整 official source 的算子测试按设计跳过）。固定噪声诊断会同时保存模型归一化动作和反归一化物理动作；比较器先复核每个 `.npy` 的 manifest hash，才分别报告两种空间的分量误差。R5 额外通过三臂命令封存器的 fake 验收：它绑定 step‑25000 artifact 的正确 config hash，且不接受重复端口或不完整路径。
 
-## 下一阶段：O2（已获启动授权；GPU 前检尚未运行）
+## O2 strict-equivalence closeout
 
-O2 必须重新进行 30 秒双卡、CPU/RAM 前检，使用既有 memory-only guard 和单一自有 PGID。它将
-顺序比较官方 checkpoint 参考、项目 unmerged-BF16 参考和项目 merged-dense-BF16，固定 10 warmups
-+ 50 timed requests；冷加载/编译、RPC、设备时间、峰值显存、H2D 痕迹和保护等待单列。
+R23 使用了 30 个样本的双卡、CPU/RAM 前检并固定 GPU 0；运行期由 memory-only guard 管理。
+同一 merged Policy 的固定输入、noise、RNG 重复是 byte-identical，但 unmerged-versus-merged
+不是：模型 latent 与物理 `(50,7)` action 均不同，physical max-abs 为
+`1.644405388134629`。计时首臂开始后发现协调器错误地仅检查了 repeatability，因此由已验证的
+guard TERM 并回收自己的子进程组、端口和服务；没有影响其他 GPU 进程。
 
-O2-0 已固定 synthetic preprocessed observation 与 internal `(50, 32)` noise bundle，identity 为
-`bb48db06f160107286395202aa3cf288804f3a9748d9724365ee6b5241895c90`。同 backend 重复性和
-相同 dense-BF16 tree 的直接 Policy/适配入口须严格 action hash 一致；unmerged/merged 是新数值
-版本的有限、shape 与分量误差报告，不以事后阈值冒充逐位等价。O2 不含 E1/E2/E3、dev/main/
-full-2000 或 checkpoint 下载/保存授权。
+R24 将 unmerged-versus-merged 加入计时前硬门禁。R25 强制 `JAX_PLATFORMS=cpu` 的固定 OpenPI
+小型 bf16 oracle 也复现 `xW + (xA)B*(alpha/r)` 与 `x(W + A*B*(alpha/r))` 的非精确相等（max-abs
+`0.03125`）。这说明当前差异不能归因于 GPU 空闲、guard 或 WebSocket 生命周期，而是低精度下
+不同计算顺序的数值语义。
+
+用户已选择 strict exact equivalence，不允许基于这些已观测数据事后设置容差。因此：
+
+- 不再启动任何 merged-dense GPU 重试，也不报告 O2 的速度、显存或官方对照结果；
+- 保留 R23/R24/R25 为失败/修复证据；
+- 只允许探索保留原始 unmerged 计算顺序的独立候选，并且每个候选需重新建立动作等价门禁。
