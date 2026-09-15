@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Run one task under a fail-safe NVIDIA GPU utilization pause guard.
+"""Run one task under a fail-safe NVIDIA GPU memory-pressure guard.
 
 The guard creates a new process group for the command it launches and signals
-only that group. It never discovers or signals unrelated processes. When total
-utilization on the selected physical GPU reaches the pause threshold, the guard
-sends SIGSTOP to its child group. It resumes with SIGCONT only after utilization
-has stayed below the lower resume threshold for a configured number of samples.
+only that group. It never discovers or signals unrelated processes. Legacy
+utilization gating remains the default for compatibility; pure-LoRA launchers
+must opt into ``--disable-utilization-gate`` so utilization is telemetry only.
 """
 
 import argparse
@@ -46,6 +45,7 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--physical-gpu", type=int, required=True)
     parser.add_argument("--pause-at", type=float, default=95.0)
     parser.add_argument("--resume-at", type=float, default=85.0)
+    parser.add_argument("--disable-utilization-gate", action="store_true")
     parser.add_argument("--min-free-memory-percent", type=float, default=15.0)
     parser.add_argument("--resume-free-memory-percent", type=float, default=20.0)
     parser.add_argument("--terminate-free-memory-percent", type=float, default=10.0)
@@ -66,7 +66,7 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
         parser.error("a command is required after --")
     if args.physical_gpu < 0:
         parser.error("--physical-gpu must be non-negative")
-    if not 0.0 < args.resume_at < args.pause_at <= 100.0:
+    if not args.disable_utilization_gate and not 0.0 < args.resume_at < args.pause_at <= 100.0:
         parser.error("thresholds must satisfy 0 < resume-at < pause-at <= 100")
     if not (
         0.0
@@ -190,8 +190,8 @@ def wait_until_launch_safe(args: argparse.Namespace, logger: EventLogger,
             status = query_gpu_status(args.physical_gpu)
             errors = 0
             launch_allowed = (
-                status.utilization_percent < args.pause_at
-                and status.free_memory_percent > args.min_free_memory_percent
+                status.free_memory_percent > args.min_free_memory_percent
+                and (args.disable_utilization_gate or status.utilization_percent < args.pause_at)
             )
             logger.emit(
                 "prelaunch_sample",
@@ -200,6 +200,7 @@ def wait_until_launch_safe(args: argparse.Namespace, logger: EventLogger,
                 free_memory_percent=status.free_memory_percent,
                 memory_used_mib=status.memory_used_mib,
                 memory_total_mib=status.memory_total_mib,
+                utilization_gate_enabled=not args.disable_utilization_gate,
                 launch_allowed=launch_allowed,
             )
             if launch_allowed:
@@ -224,6 +225,8 @@ def run_guarded(args: argparse.Namespace) -> int:
         physical_gpu=args.physical_gpu,
         pause_at=args.pause_at,
         resume_at=args.resume_at,
+        utilization_gate_enabled=not args.disable_utilization_gate,
+        policy_version=("pure-lora-memory-only-v1" if args.disable_utilization_gate else "legacy-utilization-v1"),
         min_free_memory_percent=args.min_free_memory_percent,
         resume_free_memory_percent=args.resume_free_memory_percent,
         terminate_free_memory_percent=args.terminate_free_memory_percent,
@@ -285,10 +288,9 @@ def run_guarded(args: argparse.Namespace) -> int:
                     )
                     cleanup()
                     return 125
-                pressure = (
-                    status.utilization_percent >= args.pause_at
-                    or status.free_memory_percent <= args.min_free_memory_percent
-                )
+                high_utilization = (not args.disable_utilization_gate and status.utilization_percent >= args.pause_at)
+                low_free_memory = status.free_memory_percent <= args.min_free_memory_percent
+                pressure = high_utilization or low_free_memory
                 if not paused and pressure:
                     if signal_child_group(child, signal.SIGSTOP):
                         paused = True
@@ -296,8 +298,8 @@ def run_guarded(args: argparse.Namespace) -> int:
                         action = "paused"
                 elif paused:
                     safe = (
-                        status.utilization_percent <= args.resume_at
-                        and status.free_memory_percent >= args.resume_free_memory_percent
+                        status.free_memory_percent >= args.resume_free_memory_percent
+                        and (args.disable_utilization_gate or status.utilization_percent <= args.resume_at)
                     )
                     safe_samples = safe_samples + 1 if safe else 0
                     if safe_samples >= args.resume_samples:
@@ -316,6 +318,8 @@ def run_guarded(args: argparse.Namespace) -> int:
                     paused=paused,
                     safe_samples=safe_samples,
                     action=action,
+                    utilization_gate_enabled=not args.disable_utilization_gate,
+                    trigger_reason=("low_free_memory" if low_free_memory else "high_utilization" if high_utilization else None),
                 )
             except Exception as exc:
                 if cleaned:

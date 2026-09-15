@@ -33,6 +33,21 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--adapter", type=Path)
     parser.add_argument("--model-manifest", required=True, type=Path)
     parser.add_argument("--port", required=True, type=int)
+    parser.add_argument(
+        "--rng-seed",
+        type=int,
+        default=0,
+        help="Explicit JAX policy RNG root; default preserves the historical key(0) behavior.",
+    )
+    parser.add_argument(
+        "--parameter-residency",
+        choices=("device", "host"),
+        default="device",
+        help=(
+            "Keep the composed parameter tree on the selected JAX GPU before model construction. "
+            "The host setting exists only for the bounded P1 old/new diagnostic."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -47,6 +62,14 @@ def validate_paths(args: argparse.Namespace) -> dict[str, str]:
         raise FileNotFoundError(args.adapter)
     if args.port < 1 or args.port > 65535:
         raise ValueError("port outside valid range")
+    # The pinned OpenPI Policy constructor uses ``rng or jax.random.key(0)``.
+    # JAX typed keys deliberately reject Python truth testing, so passing a key
+    # is invalid in that pinned dependency.  Its no-argument behavior is
+    # exactly key(0), which is the only reproducible root this entry point
+    # currently supports.  Reject a misleading nonzero request before model
+    # construction rather than silently running it with key(0).
+    if args.rng_seed != 0:
+        raise ValueError("the pinned Policy constructor only supports rng seed 0")
     if os.environ.get("XLA_PYTHON_CLIENT_PREALLOCATE", "").lower() != "false":
         raise RuntimeError("XLA_PYTHON_CLIENT_PREALLOCATE must be false")
     visible = os.environ.get("CUDA_VISIBLE_DEVICES", "")
@@ -103,6 +126,57 @@ def compose_base_with_reference_lora(base_params, reference_params, golden):
     return adapter_artifact.flax.traverse_util.unflatten_dict(completed, sep="/")
 
 
+def parameter_inventory(tree, *, jax, expected_device=None):
+    """Fail closed unless every leaf has one representation and placement.
+
+    ``expected_device=None`` describes the legacy host tree only.  The device
+    branch is deliberately checked before model construction so that a partial
+    adapter-only transfer cannot masquerade as full parameter residency.
+    """
+    import numpy as np
+
+    leaves = tuple(jax.tree.leaves(tree))
+    if not leaves:
+        raise ValueError("composed parameter tree has no leaves")
+    dtype_bytes = {}
+    total_bytes = 0
+    for leaf in leaves:
+        if expected_device is None:
+            if not isinstance(leaf, np.ndarray):
+                raise TypeError("host parameter tree contains a non-NumPy leaf")
+        else:
+            array_type = getattr(jax, "Array", None)
+            if array_type is None or not isinstance(leaf, array_type):
+                raise TypeError("device parameter tree contains a non-JAX leaf")
+            leaf_device = getattr(leaf, "device", None)
+            leaf_device = leaf_device() if callable(leaf_device) else leaf_device
+            if leaf_device != expected_device:
+                raise ValueError("device parameter tree has a leaf on the wrong device")
+        dtype = np.dtype(leaf.dtype)
+        leaf_bytes = int(np.prod(tuple(leaf.shape), dtype=np.int64)) * dtype.itemsize
+        dtype_bytes[str(dtype)] = dtype_bytes.get(str(dtype), 0) + leaf_bytes
+        total_bytes += leaf_bytes
+    placement = "host" if expected_device is None else str(expected_device)
+    return {
+        "leaf_count": len(leaves),
+        "parameter_bytes": total_bytes,
+        "bytes_by_dtype": dict(sorted(dtype_bytes.items())),
+        "placement": placement,
+    }
+
+
+def place_composed_tree_on_single_gpu(composed, jax):
+    """Transfer the *complete* validated composed tree once to one GPU."""
+    devices = tuple(jax.devices())
+    if len(devices) != 1:
+        raise RuntimeError("JAX must expose exactly one device after CUDA_VISIBLE_DEVICES pinning")
+    target = devices[0]
+    if getattr(target, "platform", None) != "gpu":
+        raise RuntimeError("selected JAX device is not a GPU")
+    resident = jax.device_put(composed, target)
+    return resident, parameter_inventory(resident, jax=jax, expected_device=target)
+
+
 def build_policy(args: argparse.Namespace, input_hashes: dict[str, str]):
     """Build either the canonical Base or its identity-bound pure-LoRA overlay."""
     sys.path.insert(0, str(args.openpi_root / "src"))
@@ -147,6 +221,10 @@ def build_policy(args: argparse.Namespace, input_hashes: dict[str, str]):
         if mode == "base_plus_adapter"
         else compose_base_with_reference_lora(base, reference, golden)
     )
+    if args.parameter_residency == "device":
+        composed, runtime_parameters = place_composed_tree_on_single_gpu(composed, jax)
+    else:
+        runtime_parameters = parameter_inventory(composed, jax=jax)
     model = config.model.load(composed)
     data_config = config.data.create(config.assets_dirs, config.model)
     if data_config.norm_stats is None:
@@ -166,13 +244,13 @@ def build_policy(args: argparse.Namespace, input_hashes: dict[str, str]):
         ],
         metadata=config.policy_metadata,
     )
-    return policy, manifest
+    return policy, manifest, runtime_parameters
 
 
 def main() -> int:
     args = parse_args()
     input_hashes = validate_paths(args)
-    policy, manifest = build_policy(args, input_hashes)
+    policy, manifest, runtime_parameters = build_policy(args, input_hashes)
     from openpi.serving import websocket_policy_server
 
     print(json.dumps({
@@ -180,6 +258,9 @@ def main() -> int:
         "cuda_visible_devices": os.environ["CUDA_VISIBLE_DEVICES"],
         "model_identity_sha256": manifest["model_identity_sha256"],
         "adapter_identity_sha256": manifest["adapter_identity_sha256"],
+        "parameter_residency": args.parameter_residency,
+        "rng_seed": args.rng_seed,
+        "runtime_parameters": runtime_parameters,
         **input_hashes,
     }, sort_keys=True), flush=True)
     websocket_policy_server.WebsocketPolicyServer(

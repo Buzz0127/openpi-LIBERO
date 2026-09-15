@@ -3,6 +3,100 @@
 更新：2026-09-10（Asia/Shanghai）
 状态：候选路线 / 未授权执行。本文是本轮路线规划产物，不是 C-FT2 例外接受书，也不是 FT3、评测、部署、删除或 Git 提交授权。
 
+> 2026-09-13 评测性能路线修订：本节之前的 FT3→E2→F1 历史路线不改写；FT3–FT7、E1、
+> selection lock、E2 和 F1 已有的证据及历史失败也不因性能问题失效。E3 的唯一锁定
+> step-25000 full-2000 attempt 正在独立 guard/tmux 中运行，严禁热替换、擅停、重选
+> checkpoint 或用新协议拼接旧结果。本文件新增 P1→P2→P3，是对“当前 E3 推理远慢于
+> 历史官方参考”的因果审计与受控处置路线；不是执行授权。
+
+> 2026-09-14 安全策略修订：未来 pure-LoRA 启动入口使用 memory-only guard policy：GPU
+> utilization 是遥测而非硬门禁，启动/选卡只由 CPU/RAM 与空闲显存 >15% 决定；运行期仅
+> <=15% pause、>=20% 连续五样本 resume、<=10% terminate，连同 OOM/ECC/Xid/监控失败、
+> 墙钟、存储与自有 PGID 故障处理。历史 v1/已有证据不重写。当前 E3 使用的 immutable
+> guard 不支持 reload，维持旧 95/85 规则直至自然结束或另行获准的、不可拼接的迁移。
+> 其 2026-09-14 审计为 3,697 次 util-only pause/resume、20,940.137 秒暂停（24.261%）；
+> 这是实证的速度开销，和 P1 的参数驻留假设分开。
+
+> E3 G2 已执行：用户授权停止旧 attempt 后，382 个完整唯一结果作为 partial 保存（19
+> success、0 evaluator exception），不与任何未来 attempt 拼接为 2000。旧 runner 保留
+> `status=running` 的历史记录；独立 closeout 记录自有 guard 的 TERM→reap、端口 18001
+> 释放及未计入的在途 episode。下一技术候选是 G3 的受控 P1 A/B，但需按路线授权单独启动。
+
+> G3/P1 已执行并停止：host/device 参数驻留 A/B 的模型身份和 70-leaf 参数树一致，但固定
+> 60 个请求的 action hash 60/60 不一致（max absolute difference=0.4323568782）。所以观察到的
+> host 1384.907 ms 与 device 92.965 ms 稳态 RPC 不能作为速度提升结论，也不能进入 E3/P2。
+> 该不通过的有界证据与关闭决定见
+> `/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/g3/attempt-20260914T-G3-AB-R4/closeout.json`；
+> 后续仅可在新的、明确授权的“解释动作差异”调查包中继续。
+
+> O1 官方 dense 推理适配已完成 CPU 工作包：新入口将已验证的 20 个 adapter leaves 在内存中
+> 合并到 ordinary `Pi0Config` 的 10 个 dense kernels，随后采用官方 BF16/JAX/Policy/transform/
+> WebSocket 链，同时继续使用项目 canonical norm。固定官方 LoRA 小张量 oracle、零 adapter、
+> 坏映射拒绝、RNG 兼容注入与 ordinary dense abstract tree（50 leaves / 3,238,048,528 参数）
+> 已通过；没有 checkpoint/model/GPU 操作。O2 的真实数值与性能验收控制包已生成但明确
+> `not-authorized-not-runnable`，必须先预注册并批准数值阈值、输入/noise 集和单卡 guard 运行。
+> 完整矩阵与证据路径见 [O1 官方 dense runtime 说明](pi0_pure_lora_official_dense_runtime.md)。
+
+## 0A. P1：参数驻留修复与性能因果验收（已执行，未通过动作等价验收）
+
+### 已知事实与严格表述
+
+- E3 服务快照 `serve_pure_lora_policy.py` 的 SHA-256 为
+  `7f233d93df1c6589ea535bfe1af2b123aac20f83598a6371e3aeff74b353cc23`。其 base
+  以 `restore_type=np.ndarray` 恢复，composed base + adapter 保持 NumPy tree 并直接
+  `config.model.load`；当前 `module_jit` 的 state 仍是动态实参。官方路径则以
+  `jax.Array`、bf16 和 device sharding 恢复。故“参数未一次性驻留 GPU、重复 host→device
+  传输”是首要源码嫌疑，尚不是已测量因果结论。
+- 已有 129 集的排除首请求计时快照：`server_infer` mean 1925.279 ms、median
+  1422.954 ms、p95 7071.221 ms；同步 `client_request_wall` mean 1930.597 ms、median
+  1427.354 ms、p95 7077.601 ms。每集平均 232.231 s、101.465 requests。历史官方校准的
+  随后请求约 0.10–0.13 s 只能说明异常量级：输入、任务组合、负载和实现并未形成受控
+  A/B，不能公布固定加速倍率。`policy_infer` 在 NumPy 同步前结束，正式验收以同步
+  wall/server/client 时间为准。
+- 现有 JIT 与 prefix KV cache 均存在，`sample_actions` 默认 10 steps，E3 的
+  `replan_steps=5` 与原协议一致。不得把问题误写成“未 JIT”或“flow steps 过多”。当前
+  dtype 策略也应先保持原值；Pi0 计算 dtype 为 bf16，但尚无逐叶 dtype 清单，禁止把当前
+  模型笼统称为全量 FP32。
+- 多环境并发/动态 batch 移出主线：上游 server 在单一 event loop 中同步调用
+  `policy.infer`，没有 batch queue；而 Policy 每请求推进全局 RNG。直接并发既不能保证
+  真正 batch，也会改变随机 key 到 episode 的映射。
+
+### P1 的受控实现与真实验收
+
+1. 从活动快照复现加载路径。在完成 Golden、identity、shape、dtype 和内容校验后，仅对
+   整棵 composed tree 一次性 `jax.device_put` 到选定单 GPU，再构建 model/Policy。必须
+   断言全部运行时参数叶为该 device 上的 `jax.Array`；不得只搬 adapter，且不得重写
+   adapter hash。
+2. 保持参数值/dtype、模型配置、canonical norm、flow sampling、`replan_steps`、RNG 和
+   WebSocket 接口不变；记录逐叶 dtype、bytes、placement 与 runtime identity，并审计是否
+   仍有后续转回 NumPy 的路径。
+3. CPU 静态检查、最小 diff、单测、证据及文档为一个连续闭环。真实性能结论仅来自另行
+   授权的有界单卡 OLD-host vs NEW-device A/B：顺序加载避免双模型显存峰值，同一固定观察、
+   相同显式 noise/PRNG keys、10 次 warmup + 50 次同步计时、总墙钟不超过 45 分钟。
+   记录冷加载/编译与稳定推理/RPC mean、median、p95、样本数、显存和资源采样；禁止视频、
+   大张量落盘、下载、dev/main 消耗和自动扩样。
+4. 使用 JAX transfer guard 或有界 profiler 区分正常输入传输与参数规模重复 H2D。若收益
+   有限，按“重复编译→主机分页/CPU 压力→共享 GPU 干扰→dtype/LoRA 算子”逐项单变量检查，
+   不直接跳到 batch。任一身份漂移、动作非有限/不一致、资源 guard 停止、显存或墙钟越界
+   均停止并保留证据。
+
+P1 完成标准：因果诊断报告、修复 diff、runtime/参数身份清单、动作一致性回执和受控前后
+timing 表齐全。真实 A/B 前只能标“源码问题已定位、收益待验证”，不得承诺恢复官方绝对速度。
+
+## 0B. P2：E3 衔接与完成（候选 / 未授权）
+
+P1 后才按实测吞吐、已用墙钟和剩余 2000-entry 数量重算 E3 方案。暂停/结束旧 attempt、
+启动新 runtime、恢复或重跑均需单独明确授权。旧 E3 attempt 与所有结果必须保留；当前全局
+RNG 不允许假定重启后可透明续跑，必须核验准确的请求游标/随机状态。若无法证明续跑等价，
+旧结果仅作为 partial evidence，新的协议必须单列新 attempt，不能拼成“完整 2000”。
+
+## 0C. P3：最终报告更新（候选 / 未授权）
+
+保留现有 Base `0/200`、锁定 pure-LoRA `25/200`（+12.5 pp）、E1 lock 和历史失败记录；
+报告新增加载实现问题、P1 受控测速与 E3 的最终完成或有界停止结论。官方 checkpoint 继续是
+历史端到端参考。若仅设备驻留不足，再另列官方式 bf16 验证候选；不得在 P1 顺手 cast、替换
+E1/E2 协议或开展 batch 研究。
+
 ## 0. 入口、事实来源和当前停点
 
 先读 [GPT-6 继承入口](pi0_pure_lora_gpt6_inheritance.md) 恢复固定身份与安全边界，再读本文安排后续工作。本文更新执行组织和交付要求；不修改已经冻结的 FT0/E0 manifest。旧 status/handoff 的历史段落不再代表最新进度。

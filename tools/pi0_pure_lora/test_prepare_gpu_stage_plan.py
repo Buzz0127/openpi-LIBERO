@@ -25,12 +25,16 @@ class GpuStagePlanTest(unittest.TestCase):
             guard = root / "guard.py"
             guard.write_text("pass\n")
             output = root / "gpu.json"
-            result = subprocess.run([sys.executable, str(SCRIPT), "--preflight-report", str(root / "preflight.json"), "--stage-plan", str(root / "stage.json"), "--guard", str(guard), "--expected-guard-sha256", experiment_identity.sha256_file(guard), "--python", sys.executable, "--max-runtime-seconds", "60", "--output", str(output), "--", "echo", "ok"], text=True, capture_output=True, check=False)
+            guard_log = root / "guard.jsonl"
+            result = subprocess.run([sys.executable, str(SCRIPT), "--preflight-report", str(root / "preflight.json"), "--stage-plan", str(root / "stage.json"), "--guard", str(guard), "--expected-guard-sha256", experiment_identity.sha256_file(guard), "--python", sys.executable, "--max-runtime-seconds", "60", "--guard-log", str(guard_log), "--output", str(output), "--", "echo", "ok"], text=True, capture_output=True, check=False)
             self.assertEqual(result.returncode, 0, result.stderr)
             value = json.loads(output.read_text())
             self.assertEqual(value["environment"]["CUDA_VISIBLE_DEVICES"], "1")
             self.assertFalse(value["execution_authorized"])
             self.assertTrue(value["external_monitor_outside_child_process_group"])
+            self.assertIn("--disable-utilization-gate", value["guard_command"])
+            self.assertNotIn("--pause-at", value["guard_command"])
+            self.assertEqual(value["guard_log"], str(guard_log))
 
 
 if __name__ == "__main__":

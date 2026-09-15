@@ -207,5 +207,21 @@ class GpuUtilizationGuardTest(unittest.TestCase):
         ]
         self.assertEqual(actions, ["paused", "resumed"])
 
+    def test_disabled_utilization_gate_never_pauses_at_0_95_or_100_percent(self) -> None:
+        samples = [guard.GpuStatus(value, 50.0, 100.0) for value in (0.0, 95.0, 100.0, 100.0, 0.0)]
+        original_query = guard.query_gpu_status
+        guard.query_gpu_status = lambda _gpu: samples.pop(0) if samples else guard.GpuStatus(100.0, 50.0, 100.0)
+        try:
+            with tempfile.TemporaryDirectory() as directory:
+                log_path = pathlib.Path(directory) / "guard.jsonl"
+                args = guard.parse_args(["--physical-gpu", "0", "--disable-utilization-gate", "--interval-seconds", "0.01", "--log", str(log_path), "--", sys.executable, "-c", "import time; time.sleep(0.08)"])
+                with contextlib.redirect_stdout(io.StringIO()):
+                    self.assertEqual(guard.run_guarded(args), 0)
+                records = [json.loads(line) for line in log_path.read_text().splitlines()]
+        finally:
+            guard.query_gpu_status = original_query
+        self.assertTrue(all(record.get("utilization_gate_enabled") is False for record in records if record["event"] in ("guard_started", "gpu_sample")))
+        self.assertFalse(any(record.get("action") in ("paused", "resumed") for record in records))
+
 if __name__ == "__main__":
     unittest.main()

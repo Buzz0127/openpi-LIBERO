@@ -14,6 +14,68 @@
 > [复现说明](pi0_pure_lora_reproduction.md)。下文“未开始/未授权”等历史快照不应
 > 覆盖本更新。
 
+> 性能路线更新：2026-09-13（Asia/Shanghai）。E3 full-2000 的活动 attempt
+> `/home/wengzr/projects/openpi-lora-runs/evaluations/attempt-20260913T-E3-FULL-2000-H3q7Ln`
+> 不热替换、不重启，也不改变 `replan_steps=5`、flow steps、RNG 或评测协议。一次
+> 只读快照显示其为 `running`、`130/2000`，并由自身 GPU guard 暂停；这是瞬时状态，
+> 接手时必须重新读取 `status.json` 与 guard 日志，不能把该数字当作最终结果。
+>
+> 本轮静态审计发现活动服务快照
+> `/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/e3/attempt-20260913T-E3-RUN-R1/serve_pure_lora_policy.py`
+> 的 SHA-256 为 `7f233d93df1c6589ea535bfe1af2b123aac20f83598a6371e3aeff74b353cc23`。
+> 它以 `restore_type=np.ndarray` 恢复 base，组合 NumPy base/adapter 后直接交给
+> `config.model.load`；现有 JIT wrapper 又把 state 作为动态实参调用。与官方
+> `restore_type=jax.Array`、bf16 和显式 device sharding 的加载路径相比，这构成“参数
+> 没有一次性驻留选定 GPU、可能在每次推理重复 H2D”的首要源码嫌疑。它尚未经过
+> transfer guard 或同输入 A/B 性能实验，不能写成已证明的全部慢速原因，也不能声称
+> 整个模型为 FP32。JIT、prefix KV cache、10 个 flow steps 和 `replan_steps=5` 均已存在；
+> 多环境/动态 batch 不是当前首选修复，因为当前 server 无批处理队列且 `Policy` 每次
+> infer 都推进全局 RNG，直接并发会改变 episode 的动作序列。
+
+> 后续唯一待决定工作包为 P1「参数驻留修复与性能因果验收」：在完整 Golden/identity/
+> shape/dtype/content 校验后，对整棵 composed tree 一次性 `jax.device_put` 到已选单 GPU，
+> 再构建 model/Policy；保持参数值和 dtype、模型/normalization、sampling、replan、RNG
+> 与接口不变。CPU 静态检查、最小修复、针对性测试、证据与文档可在该包内闭环；真实
+> OLD-host vs NEW-device 单卡 A/B 必须另有明确 GPU 授权，建议 10 次 warmup + 50 次计时、
+> 同一观察/显式 noise 或 PRNG keys、总墙钟不超过 45 分钟。P2 只在 P1 实测后决定 E3
+> 是否能以可证明的随机语义续跑；P3 才更新最终报告。以上是路线登记，不授权 P1/P2/P3
+> 实现、GPU、E3 操作或 Git 提交。
+
+> GPU 安全策略更新：2026-09-14（Asia/Shanghai）。本 pure-LoRA 项目后续启动中，GPU
+> 利用率仅记录，不再作为选卡准入、guard pause/resume 或终止条件；仍要求约 30 秒双卡与
+> CPU/RAM 采样、单卡绑定、`XLA_PYTHON_CLIENT_PREALLOCATE=false`、启动时空闲显存严格
+> 大于 15%、运行时 <=15% pause、>=20% 连续五样本 resume、<=10% terminate，以及
+> OOM/ECC/Xid/监控、墙钟、存储和自有 PGID 清理保护。旧 E3 guard 是不可热加载的 immutable
+> snapshot；只读确认它仍以 95/85 利用率规则运行，不能通过修改磁盘脚本切换，也不得为了
+> 迁移杀 guard、SIGCONT 绕过或拼接重启结果。
+>
+> 性能归因修正：2026-09-14 只读统计的 E3 guard 显示运行 86,311.661 秒，util>=95% 导致
+> 3,697 次 pause/resume、累计暂停 20,940.137 秒（5.817 小时、24.261%）；前 129 集窗口
+> 也有 8,080 秒暂停/30,804 秒 wall。此前“无 pause”的表述错误，原因是只看 event 而忽略
+> `gpu_sample.action`。取消利用率暂停可能减少该类等待，但其收益必须与 P1 参数驻留 A/B
+> 分开报告；不得把任何吞吐改善全部归因于 `jax.device_put`。
+
+> E3 终态更新：2026-09-14 用户选择停止旧 full-2000 扩展。旧 attempt 保留为 partial：
+> 382 个完整、唯一结果（19 success、0 evaluator exception）；在途 episode 未计入分母。
+> 已验证的旧 guard 仅清理其自有 controller PGID，TERM sent、无需 KILL、wait/group exit
+> 均通过，18001 已释放。旧 runner `status.json=running` 原样保留，不得误写为 full-2000
+> 完成。外层 closeout：
+> `/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/e3/g2/attempt-20260914T-E3-PARTIAL-CLOSEOUT-R1/closeout.json`。
+
+> G3/P1 终态更新：2026-09-14 已在单张 physical GPU 1 上完成 host-residency 对 device-residency
+> 的顺序 A/B（每臂 10 warmup + 50 timed requests，固定观察、fresh process、Policy RNG root 0、
+> `XLA_PYTHON_CLIENT_PREALLOCATE=false`，memory-only guard）。两个臂的 base/adapter/norm/golden
+> identity 与 70 个、13,152,144,448 B 的参数树均一致；但 60/60 action hash 不同，最大绝对差
+> 0.4323568782。因此 device 92.965 ms 与 host 1384.907 ms 的 observed RPC 数仅为无效诊断数据，
+> 不构成速度提升或可比较的推理结果。G3 停止，不进入 G4 或新的 E3；证据为
+> `/home/wengzr/projects/openpi-eval-tools/pi0-pure-lora/evidence/g3/attempt-20260914T-G3-AB-R4/closeout.json`。
+
+> O1 更新：2026-09-14 已完成官方 commit `15a9616…` 流程的 CPU-only dense runtime 适配。它
+> 保留 G3 失败为历史，转而将验证过的 pure-LoRA adapter 合并到 ordinary dense Pi0 tree，并为
+> BF16/单设备/官方 Policy 提供新的 O2-only server。固定官方算子 oracle 和 ordinary abstract
+> tree 均通过；O2 仍没有 GPU 授权，且控制包的数值阈值有意未填写。详见
+> [O1 官方 dense runtime 说明](pi0_pure_lora_official_dense_runtime.md)。
+
 > 2026-09-10 路线补充：读完本入口后，继续阅读 [项目完成路线](pi0_pure_lora_completion_route.md)。它在保留 FT0/E0 冻结协议和本文件授权边界的基础上，细化训练控制、评测接线和最终报告交付，仍为候选路线。第 13 节的 C-FT2 决策尚未由用户作出，不因该补充而跳过。
 
 ## 0. 接手时先做什么

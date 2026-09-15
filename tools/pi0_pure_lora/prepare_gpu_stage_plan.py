@@ -18,6 +18,7 @@ def main() -> int:
     parser.add_argument("--expected-guard-sha256", required=True)
     parser.add_argument("--python", required=True, type=Path)
     parser.add_argument("--max-runtime-seconds", required=True, type=int)
+    parser.add_argument("--guard-log", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
@@ -32,17 +33,19 @@ def main() -> int:
         raise ValueError("preflight identity mismatch")
     if experiment_identity.sha256_file(args.guard) != args.expected_guard_sha256:
         raise ValueError("GPU guard SHA-256 mismatch")
+    if not args.guard_log.is_absolute() or args.guard_log.exists():
+        raise ValueError("guard log must be a new absolute path")
     stage = json.loads(args.stage_plan.read_text())
     if stage.get("execution_authorized") is not False:
         raise ValueError("stage plan must remain explicitly non-authorizing")
     selected = int(preflight["selected_physical_gpu"])
     guard_command = [
         str(args.python), str(args.guard), "--physical-gpu", str(selected),
-        "--pause-at", "95", "--resume-at", "85", "--min-free-memory-percent", "15",
+        "--disable-utilization-gate", "--min-free-memory-percent", "15",
         "--resume-free-memory-percent", "20", "--terminate-free-memory-percent", "10",
         "--resume-samples", "5", "--interval-seconds", "1", "--monitor-error-limit", "3",
         "--max-prelaunch-wait-seconds", "300", "--max-runtime-seconds", str(args.max_runtime_seconds),
-        "--terminate-grace-seconds", "15", "--", *command,
+        "--terminate-grace-seconds", "15", "--log", str(args.guard_log), "--", *command,
     ]
     result = {
         "schema_version": 1,
@@ -53,6 +56,7 @@ def main() -> int:
         "environment": {"CUDA_VISIBLE_DEVICES": str(selected), "XLA_PYTHON_CLIENT_PREALLOCATE": "false"},
         "guard_command": guard_command,
         "guard_controls_only_child_process_group": True,
+        "guard_log": str(args.guard_log),
         "external_monitor_outside_child_process_group": True,
         "mapping_verification_required_before_workload": True,
         "execution_authorized": False,

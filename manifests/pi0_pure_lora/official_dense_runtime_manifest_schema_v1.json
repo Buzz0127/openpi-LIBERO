@@ -1,0 +1,34 @@
+{
+  "additionalProperties": false,
+  "description": "Runtime-only manifest emitted by serve_pure_lora_official_dense.py after a future authorized O2 build. It describes an in-memory derived tree and is not a checkpoint manifest.",
+  "properties": {
+    "adapter_identity_sha256": {"type": "string"},
+    "cast_audit": {"type": "array"},
+    "dense_contract": {
+      "properties": {
+        "leaf_count": {"const": 50},
+        "parameter_count": {"const": 3238048528}
+      },
+      "required": ["leaf_count", "parameter_count"],
+      "type": "object"
+    },
+    "input_hashes": {"type": "object"},
+    "merge_audit": {
+      "properties": {
+        "adapter_leaf_count": {"const": 20},
+        "merge_before_cast": {"const": true},
+        "official_openpi_commit": {"const": "15a9616a00943ada6c20a0f158e3adb39df2ccac"},
+        "target_count": {"const": 10}
+      },
+      "required": ["adapter_leaf_count", "merge_before_cast", "official_openpi_commit", "target_count"],
+      "type": "object"
+    },
+    "rng_audit": {"type": "object"},
+    "runtime_kind": {"const": "pi0_pure_lora_official_dense_bf16"},
+    "runtime_parameters": {"type": "object"},
+    "schema_version": {"const": 1},
+    "source_identities": {"type": "object"}
+  },
+  "required": ["adapter_identity_sha256", "cast_audit", "dense_contract", "input_hashes", "merge_audit", "rng_audit", "runtime_kind", "runtime_parameters", "schema_version", "source_identities"],
+  "type": "object"
+}

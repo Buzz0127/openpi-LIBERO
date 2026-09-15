@@ -51,7 +51,6 @@ def main() -> int:
     parser.add_argument("--samples", type=int, default=30)
     parser.add_argument("--interval-seconds", type=float, default=1.0)
     parser.add_argument("--min-free-memory-percent", type=float, default=15.0)
-    parser.add_argument("--max-utilization-percent", type=float, default=95.0)
     parser.add_argument("--min-mem-available-bytes", type=int, default=64_000_000_000)
     parser.add_argument("--max-load1-per-cpu", type=float, default=0.90)
     parser.add_argument("--output", required=True, type=Path)
@@ -79,9 +78,9 @@ def main() -> int:
     latest = samples[-1]
     if latest["host"]["mem_available_bytes"] <= args.min_mem_available_bytes or latest["host"]["load1_per_cpu"] >= args.max_load1_per_cpu:
         raise RuntimeError("CPU/RAM launch gate failed")
-    candidates = [gpu for gpu in latest["gpus"] if gpu["free_memory_percent"] > args.min_free_memory_percent and gpu["utilization_percent"] < args.max_utilization_percent]
+    candidates = [gpu for gpu in latest["gpus"] if gpu["free_memory_percent"] > args.min_free_memory_percent]
     if not candidates:
-        raise RuntimeError("no GPU satisfies >15% free VRAM and <95% utilization")
+        raise RuntimeError("no GPU satisfies >15% free VRAM")
     # Once every candidate has cleared the strict free-memory threshold,
     # prefer the least busy shared GPU. Use free memory only as a tie-breaker.
     selected = min(candidates, key=lambda gpu: (gpu["utilization_percent"], -gpu["free_memory_percent"], gpu["index"]))
@@ -91,9 +90,9 @@ def main() -> int:
         "collection_finished_epoch_seconds": time.time(),
         "host_identity": host_identity,
         "selected_physical_gpu": selected["index"], "selected_gpu_uuid": selected["uuid"],
-        "launch_gate": {"free_memory_percent_strictly_greater_than": args.min_free_memory_percent, "utilization_percent_strictly_less_than": args.max_utilization_percent, "min_mem_available_bytes": args.min_mem_available_bytes, "max_load1_per_cpu": args.max_load1_per_cpu},
+        "launch_gate": {"free_memory_percent_strictly_greater_than": args.min_free_memory_percent, "min_mem_available_bytes": args.min_mem_available_bytes, "max_load1_per_cpu": args.max_load1_per_cpu, "utilization_gate_enabled": False},
         "jax_preallocation_required": False,
-        "guard_thresholds": {"pause_utilization_percent": 95, "resume_utilization_percent": 85, "pause_free_memory_percent": 15, "resume_free_memory_percent": 20, "resume_consecutive_samples": 5, "terminate_free_memory_percent": 10},
+        "guard_thresholds": {"utilization_gate_enabled": False, "pause_free_memory_percent": 15, "resume_free_memory_percent": 20, "resume_consecutive_samples": 5, "terminate_free_memory_percent": 10},
     }
     report["preflight_identity_sha256"] = experiment_identity.canonical_sha256(report)
     experiment_identity.atomic_write_new(args.output, report)

@@ -1,0 +1,23 @@
+{
+  "official_openpi_commit": "15a9616a00943ada6c20a0f158e3adb39df2ccac",
+  "official_references": {
+    "libero_example": "examples/libero/main.py",
+    "lora_math": "src/openpi/models/lora.py",
+    "policy_factory": "src/openpi/policies/policy_config.py"
+  },
+  "parameter_derivation": {
+    "adapter_leaf_count": 20,
+    "dense_target_leaf_count": 50,
+    "dense_target_parameter_count": 3238048528,
+    "merge_before_cast": true,
+    "persistent_derived_checkpoint": false,
+    "runtime_dtype": "bfloat16"
+  },
+  "runtime_kind": "pi0_pure_lora_official_dense_bf16",
+  "schema_version": 1,
+  "transform_contract": {
+    "canonical_project_norm_stats": true,
+    "external_libero_rotation_resize_replan": "official-libero-client path; rotate once, resize 224, replan 5",
+    "model_chain": "ordinary Pi0Config + official Policy.module_jit + official transforms + WebSocketPolicyServer"
+  }
+}

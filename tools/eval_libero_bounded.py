@@ -191,6 +191,7 @@ def parse_args(argv: Optional[Sequence[str]] = None) -> argparse.Namespace:
     parser.add_argument("--gpu-sample-interval", type=float, default=1.0)
     parser.add_argument("--max-gpu-memory-fraction", type=float, default=0.90)
     parser.add_argument("--max-baseline-gpu-utilization", type=float, default=10.0)
+    parser.add_argument("--disable-baseline-gpu-utilization-gate", action="store_true")
     parser.add_argument("--max-baseline-gpu-memory-fraction", type=float, default=0.25)
     parser.add_argument("--policy-config", choices=["pi0_libero"], default="pi0_libero")
     parser.add_argument("--openpi-root", type=pathlib.Path, required=True)
@@ -766,6 +767,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         "mujoco_egl_device_id": args.mujoco_egl_device_id,
         "output_dir": str(output_dir),
         "max_output_bytes": args.max_output_bytes,
+        "baseline_utilization_gate_enabled": not args.disable_baseline_gpu_utilization_gate,
         "identity": identity,
     }
     print(json.dumps(plan, indent=2, sort_keys=True), flush=True)
@@ -776,7 +778,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     runtime_mapping = validate_runtime_mapping(args)
     dependencies.update(load_runtime_dependencies())
     baseline_gpu = query_gpu(args.physical_gpu)
-    if baseline_gpu.utilization_percent > args.max_baseline_gpu_utilization:
+    if (not args.disable_baseline_gpu_utilization_gate and baseline_gpu.utilization_percent > args.max_baseline_gpu_utilization):
         raise ResourcePressureError(
             "selected GPU baseline utilization {:.1f}% exceeds {:.1f}%".format(
                 baseline_gpu.utilization_percent, args.max_baseline_gpu_utilization
@@ -806,6 +808,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "already_completed_indices": sorted(completed),
             "pending_initial_states": pending_indices,
             "max_gpu_memory_fraction": args.max_gpu_memory_fraction,
+            "baseline_utilization_gate_enabled": not args.disable_baseline_gpu_utilization_gate,
         }
     )
     atomic_write_json(output_dir / "run_config.json", run_config)

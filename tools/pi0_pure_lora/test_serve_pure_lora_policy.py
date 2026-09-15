@@ -22,6 +22,7 @@ class ServePureLoraPolicyTest(unittest.TestCase):
                 "base_manifest": root / "base.json", "golden": root / "golden.json",
                 "norm_stats": root / "norm.json", "adapter": root / "adapter",
                 "model_manifest": root / "model.json", "port": 8000,
+                "rng_seed": 0,
             })()
             old_preallocate = os.environ.get("XLA_PYTHON_CLIENT_PREALLOCATE")
             old_visible = os.environ.get("CUDA_VISIBLE_DEVICES")
@@ -37,6 +38,36 @@ class ServePureLoraPolicyTest(unittest.TestCase):
                 os.environ.pop("CUDA_VISIBLE_DEVICES", None)
             else:
                 os.environ["CUDA_VISIBLE_DEVICES"] = old_visible
+
+    def test_validate_paths_rejects_nonzero_rng_before_model_import(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for name in ("openpi", "params", "adapter"):
+                (root / name).mkdir()
+            for name in ("base.json", "golden.json", "norm.json", "model.json"):
+                (root / name).write_text("{}", encoding="utf-8")
+            args = type("Args", (), {
+                "openpi_root": root / "openpi", "base_params": root / "params",
+                "base_manifest": root / "base.json", "golden": root / "golden.json",
+                "norm_stats": root / "norm.json", "adapter": root / "adapter",
+                "model_manifest": root / "model.json", "port": 8000, "rng_seed": 1,
+            })()
+            old_preallocate = os.environ.get("XLA_PYTHON_CLIENT_PREALLOCATE")
+            old_visible = os.environ.get("CUDA_VISIBLE_DEVICES")
+            os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = "false"
+            os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+            try:
+                with self.assertRaisesRegex(ValueError, "rng seed 0"):
+                    server.validate_paths(args)
+            finally:
+                if old_preallocate is None:
+                    os.environ.pop("XLA_PYTHON_CLIENT_PREALLOCATE", None)
+                else:
+                    os.environ["XLA_PYTHON_CLIENT_PREALLOCATE"] = old_preallocate
+                if old_visible is None:
+                    os.environ.pop("CUDA_VISIBLE_DEVICES", None)
+                else:
+                    os.environ["CUDA_VISIBLE_DEVICES"] = old_visible
 
     def test_server_source_has_no_simulator_import(self):
         source = Path(server.__file__).read_text(encoding="utf-8")
@@ -98,6 +129,76 @@ class ServePureLoraPolicyTest(unittest.TestCase):
             self.assertEqual(composed[path].shape, shape)
             self.assertEqual(composed[path].dtype, np.dtype("float32"))
             self.assertTrue(np.array_equal(composed[path], np.zeros(shape, dtype=np.float32)))
+
+    def test_complete_composed_tree_moves_to_one_gpu_and_preserves_dtypes(self):
+        class FakeDevice:
+            platform = "gpu"
+
+            def __str__(self):
+                return "cuda:0"
+
+        class FakeArray:
+            def __init__(self, value, device):
+                self.shape = value.shape
+                self.dtype = value.dtype
+                self.device = device
+
+        class FakeJax:
+            Array = FakeArray
+            tree = types.SimpleNamespace(leaves=lambda value: list(value.values()))
+
+            def __init__(self):
+                self.target = FakeDevice()
+
+            def devices(self):
+                return (self.target,)
+
+            def device_put(self, value, device):
+                self.assertIs(device, self.target)
+                return {key: FakeArray(item, device) for key, item in value.items()}
+
+            def assertIs(self, first, second):
+                if first is not second:
+                    raise AssertionError("unexpected target device")
+
+        jax = FakeJax()
+        composed = {
+            "base": np.ones((2, 3), dtype=np.float32),
+            "lora_a": np.ones((3, 4), dtype=np.float16),
+        }
+        resident, inventory = server.place_composed_tree_on_single_gpu(composed, jax)
+        self.assertEqual(inventory["leaf_count"], 2)
+        self.assertEqual(inventory["parameter_bytes"], 48)
+        self.assertEqual(inventory["bytes_by_dtype"], {"float16": 24, "float32": 24})
+        self.assertEqual(inventory["placement"], "cuda:0")
+        self.assertTrue(all(isinstance(leaf, FakeArray) for leaf in resident.values()))
+
+    def test_residency_rejects_partial_or_wrong_device_tree(self):
+        class FakeDevice:
+            platform = "gpu"
+
+            def __init__(self, name):
+                self.name = name
+
+            def __str__(self):
+                return self.name
+
+        class FakeArray:
+            def __init__(self, device):
+                self.shape = (1,)
+                self.dtype = np.dtype("float32")
+                self.device = device
+
+        class FakeJax:
+            Array = FakeArray
+            tree = types.SimpleNamespace(leaves=lambda value: list(value.values()))
+
+        target = FakeDevice("cuda:0")
+        wrong = FakeDevice("cuda:1")
+        with self.assertRaisesRegex(ValueError, "wrong device"):
+            server.parameter_inventory({"base": FakeArray(target), "lora": FakeArray(wrong)}, jax=FakeJax(), expected_device=target)
+        with self.assertRaisesRegex(TypeError, "non-JAX"):
+            server.parameter_inventory({"base": FakeArray(target), "lora": np.ones((1,), dtype=np.float32)}, jax=FakeJax(), expected_device=target)
 
 
 if __name__ == "__main__":
